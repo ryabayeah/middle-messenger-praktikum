@@ -1,6 +1,5 @@
-{{#> ProfileLayout}}
-    {{#> UserProfileForm user=user isEditable=true }}
-    {{/UserProfileForm}}
+{{#> ProfileLayout backPath='/profile'}}
+    {{#> UserProfileForm user=user isEditable=true }}{{/UserProfileForm}}
     {{#> Modal title='Загрузите файл' textSubmit='Поменять'}}
     <div class="change-password__content">
         {{> Link text='Выбрать файл на компьютере' class='underline'}}
