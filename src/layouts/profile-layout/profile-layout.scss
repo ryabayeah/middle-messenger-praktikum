@@ -4,11 +4,13 @@
   display: flex;
   box-sizing: border-box;
   padding: 40px;
+  // TODO: Сейчас это отступ для более центрированного блока контента,
+  // TODO: Возможно стоит подумать над макетом (либо что то сделать с кнопкой Назад) 
+  padding-left: 140px; 
   &__section {
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 20px;
   }
-  // }
 }
