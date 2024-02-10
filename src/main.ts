@@ -11,15 +11,18 @@ import "./main.scss";
 import Handlebars from "handlebars";
 
 const pagesMap = {
-  "sign-in": {
+  login: {
     template: Pages.SignIn,
     props: AuthProps.SignInProps,
   },
-  "sign-up": { template: Pages.SignUp, props: AuthProps.SignUpProps },
-  "not-found": { template: Pages.NotFound, props: {} },
-  "server-error": { template: Pages.ServerError, props: {} },
+  register: { template: Pages.SignUp, props: AuthProps.SignUpProps },
+  "404": { template: Pages.NotFound, props: {} },
+  "500": { template: Pages.ServerError, props: {} },
   profile: { template: Pages.Profile, props: UserProps.ProfileProps },
-  "profile-edit": { template: Pages.ProfileEdit, props: UserProps.ProfileProps },
+  "profile-edit": {
+    template: Pages.ProfileEdit,
+    props: UserProps.ProfileProps,
+  },
   "profile-change-password": {
     template: Pages.ProfileChangePassword,
     props: {},
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pages = Object.keys(pagesMap);
   const pageData = pages.includes(currentPath)
     ? pagesMap[currentPath as keyof typeof pagesMap]
-    : pagesMap["not-found"];
+    : pagesMap["404"];
   const result = Handlebars.compile(pageData.template)(pageData.props);
 
   document.getElementById("root")!.innerHTML = result;
