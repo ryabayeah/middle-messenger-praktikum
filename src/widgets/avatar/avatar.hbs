@@ -1,0 +1,10 @@
+<div class="avatar">
+    {{#if src}}
+    <img class="avatar__img" src="{{src}}" alt="{{alt}}" />
+    {{else}}
+    {{#if isEditable}}
+    <div class="avatar__mask"><span class="text">Поменять аватар</span></div>
+    {{/if}}
+    <img class="avatar__img" src="../../assets/pictures/default-user-avatar.svg.png" alt="empty" />
+    {{/if}}
+</div>

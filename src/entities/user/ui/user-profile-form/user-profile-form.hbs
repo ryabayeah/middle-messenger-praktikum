@@ -1,0 +1,74 @@
+<form class="form-profile">
+    <div class="form-profile__content">
+        <section class="avatar-section">
+            <div class="avatar-section__wrapper">
+                {{> Avatar isEditable=isEditable }}
+                <span class="bold">{{user.display_name}}</span>
+            </div>
+        </section>
+        <section class="fields-section">
+            <div class="form-profile__fields">
+                {{> Input
+                id='last_name'
+                label='Имя'
+                name='last_name'
+                value=user.last_name
+                type='text'
+                value='Иван'
+                IsDisabled=IsDisabled
+                }}
+
+                {{> Input
+                id='first_name'
+                label='Фамилия'
+                name='first_name'
+                value=user.first_name
+                type='text'
+                IsDisabled=IsDisabled}}
+
+                {{> Input
+                id='display_name'
+                label='Имя в чате'
+                name='display_name'
+                value=user.display_name
+                type='text'
+                IsDisabled=IsDisabled}}
+
+                {{> Input
+                id='email'
+                label='E-mail'
+                name='email'
+                value=user.email
+                type='email'
+                IsDisabled=IsDisabled}}
+
+                {{> Input
+                id='name'
+                label='Логин'
+                name='name'
+                value=user.name
+                type='text'
+                IsDisabled=IsDisabled}}
+
+                {{> Input
+                id='phone'
+                label='Телефон'
+                name='phone'
+                value=user.phone
+                type='phone'
+                IsDisabled=IsDisabled}}
+            </div>
+            {{#if isEditable}}
+            <div class="form-profile__buttons">
+                {{> Button type='submit' text='Сохранить' variant="primary" onClick=onClickSubmit }}
+                {{> Button type='reset' text='Отмена' variant="secondary" onClick=onClickAlt}}
+            </div>
+            {{else}}
+            <div class="form-profile__buttons">
+                {{>@partial-block}}
+            </div>
+            {{/if}}
+        </section>
+    </div>
+
+</form>

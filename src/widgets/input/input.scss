@@ -19,6 +19,11 @@
       color: transparent;
     }
 
+    &:disabled{
+      border-bottom: 1px solid var(--gray);
+      background-color: var(--light-gray);
+    }
+
     &:placeholder-shown ~ .form__label {
       font-size: 14px;
       cursor: text;

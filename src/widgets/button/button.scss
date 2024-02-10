@@ -5,14 +5,30 @@
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  &__text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
+    &.left {
+      justify-content: start;
+    }
+    &.center {
+      justify-content: center;
+    }
+    &.right {
+      justify-content: end;
+    }
+  }
   &.primary {
     color: var(--white);
     background-color: var(--blue);
   }
-
   &.secondary {
     color: var(--blue);
     background-color: transparent;
+  }
+  &.error {
+    color: var(--red);
   }
 }
