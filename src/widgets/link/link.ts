@@ -1,13 +1,13 @@
 import Handlebars from "handlebars";
-import linkTemplate from "./link.hbs?raw";
+import template from "./link.hbs?raw";
 import "./link.scss";
 
-interface LinkProps {
-  href?: string
+interface ILinkProps {
+  href?: string;
   value?: string;
-  class?: string
+  class?: string;
 }
 
-export const Link = (props: LinkProps) => {
-  return Handlebars.compile(linkTemplate)(props);
+export const Link = (props: ILinkProps) => {
+  return Handlebars.compile(template)(props);
 };

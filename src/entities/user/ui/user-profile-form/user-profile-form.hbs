@@ -3,26 +3,26 @@
         <section class="avatar-section">
             <div class="avatar-section__wrapper">
                 {{> Avatar isEditable=isEditable }}
-                <span class="bold">{{user.display_name}}</span>
+                <span class="bold">{{display_name}}</span>
             </div>
         </section>
         <section class="fields-section">
             <div class="form-profile__fields">
                 {{> Input
-                id='last_name'
+                id='first_name'
                 label='Имя'
-                name='last_name'
-                value=user.last_name
+                name='first_name'
+                value=first_name
                 type='text'
                 value='Иван'
                 IsDisabled=IsDisabled
                 }}
 
                 {{> Input
-                id='first_name'
+                id='second_name'
                 label='Фамилия'
-                name='first_name'
-                value=user.first_name
+                name='second_name'
+                value=second_name
                 type='text'
                 IsDisabled=IsDisabled}}
 
@@ -30,7 +30,7 @@
                 id='display_name'
                 label='Имя в чате'
                 name='display_name'
-                value=user.display_name
+                value=display_name
                 type='text'
                 IsDisabled=IsDisabled}}
 
@@ -38,15 +38,15 @@
                 id='email'
                 label='E-mail'
                 name='email'
-                value=user.email
+                value=email
                 type='email'
                 IsDisabled=IsDisabled}}
 
                 {{> Input
-                id='name'
+                id='login'
                 label='Логин'
                 name='name'
-                value=user.name
+                value=name
                 type='text'
                 IsDisabled=IsDisabled}}
 
@@ -54,7 +54,7 @@
                 id='phone'
                 label='Телефон'
                 name='phone'
-                value=user.phone
+                value=phone
                 type='phone'
                 IsDisabled=IsDisabled}}
             </div>

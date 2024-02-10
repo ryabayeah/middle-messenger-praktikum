@@ -9,43 +9,43 @@
         id='email'
         label='E-mail'
         name='email'
-        value='pochta@yandex.ru'
+        value=email
         type='email'}}
 
         {{> Input
-        id='name'
+        id='login'
         label='Логин'
         name='name'
-        value='ivanivanov'
+        value=login
         type='text'}}
 
-
-        {{> Input
-        id='last_name'
-        label='Имя'
-        name='last_name'
-        value='Иван'
-        type='text'}}
 
         {{> Input
         id='first_name'
-        label='Фамилия'
+        label='Имя'
         name='first_name'
-        value='Иванов'
+        value=first_name
+        type='text'}}
+
+        {{> Input
+        id='second_name'
+        label='Фамилия'
+        name='second_name'
+        value=second_name
         type='text'}}
 
         {{> Input
         id='phone'
         label='Телефон'
         name='phone'
-        value='+ 7 (909) 967 30 30'
+        value=phone
         type='phone'}}
 
         {{> Input
         id='password'
         label='Пароль'
         name='password'
-        value=''
+        value=password
         type='password'
         isInvalid=true
         }}
@@ -54,7 +54,7 @@
         id='repeatPassword'
         label='Пароль'
         name='repeatPassword'
-        value=''
+        value=repeatPassword
         type='password'
         isInvalid=true
         feedback='Пароли не совпадают'

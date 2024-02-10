@@ -1,5 +1,5 @@
 import Handlebars from "handlebars";
-import buttonTemplate from "./input.hbs?raw";
+import template from "./input.hbs?raw";
 import "./input.scss";
 
 interface IInputProps {
@@ -17,5 +17,5 @@ export const Input = ({
   type = "text",
   ...props
 }: IInputProps) => {
-  return Handlebars.compile(buttonTemplate)({ type, ...props });
+  return Handlebars.compile(template)({ type, ...props });
 };

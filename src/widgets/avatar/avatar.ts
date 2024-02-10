@@ -3,9 +3,10 @@ import template from "./avatar.hbs?raw";
 import "./avatar.scss";
 
 interface IAvatarProps {
-  src?: string
+  src?: string;
+  isEditable?: boolean;
 }
 
-export const Avatar = ({ ...props }: IAvatarProps) => {
-  return Handlebars.compile(template)({ ...props });
+export const Avatar = ({ isEditable = false, ...props }: IAvatarProps) => {
+  return Handlebars.compile(template)({ isEditable, ...props });
 };

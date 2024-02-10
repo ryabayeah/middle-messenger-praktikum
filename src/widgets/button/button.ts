@@ -1,5 +1,5 @@
 import Handlebars from "handlebars";
-import buttonTemplate from "./button.hbs?raw";
+import template from "./button.hbs?raw";
 import "./button.scss";
 
 interface IButtonProps {
@@ -19,5 +19,5 @@ export const Button = ({
   textPosition = "center",
   ...props
 }: IButtonProps) => {
-  return Handlebars.compile(buttonTemplate)({ type, variant, textPosition, ...props });
+  return Handlebars.compile(template)({ type, variant, textPosition, ...props });
 };
