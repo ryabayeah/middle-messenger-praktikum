@@ -1,14 +1,14 @@
 @import "./assets/styles/colors";
 @import "./assets/styles/base";
 
-@import "./widgets/form-auth/form-auth.scss";
+@import "./entities/auth/ui/form-auth/form-auth.scss";
 @import "./entities/user/ui/user-profile-form/user-profile-form.scss";
 
 @import "./layouts/auth-layout/auth-layout.scss";
 @import "./layouts/error-layout/error-layout.scss";
 @import "./layouts/profile-layout/profile-layout.scss";
-:root {
 
+:root {
   @include colors;
   @include text;
   @include font-weight;

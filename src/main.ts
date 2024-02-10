@@ -3,6 +3,7 @@ import * as Pages from "./pages";
 import * as Layouts from "./layouts";
 
 import * as UserUI from "./entities/user/ui";
+import * as AuthUI from "./entities/auth/ui";
 
 import "./main.scss";
 import Handlebars from "handlebars";
@@ -25,8 +26,11 @@ Object.entries(Layouts).forEach(([name, component]) => {
 Object.entries(UserUI).forEach(([name, component]) => {
   Handlebars.registerPartial(name, component);
 });
+Object.entries(AuthUI).forEach(([name, component]) => {
+  Handlebars.registerPartial(name, component);
+});
 
 document.addEventListener("DOMContentLoaded", () => {
-  const result = Handlebars.compile(pagesMap['profile-edit'])({})
+  const result = Handlebars.compile(pagesMap['sign-in'])({})
   document.getElementById("root")!.innerHTML = result;
 });
