@@ -1,4 +1,4 @@
-<div class="signin-page__container">
+{{#> AuthLayout}}
     {{#> FormAuth
     caption="Вход"
     textSubmit="Вход"
@@ -7,19 +7,19 @@
     hrefAlt="/sign-up"
     }}
 
-    {{> Input
-    id='name'
-    label='Логин'
-    name='name'
-    value=''
-    type='text'}}
+        {{> Input
+        id='name'
+        label='Логин'
+        name='name'
+        value=''
+        type='text'}}
 
-    {{> Input
-    id='password'
-    label='Пароль'
-    name='password'
-    value=''
-    type='password'}}
+        {{> Input
+        id='password'
+        label='Пароль'
+        name='password'
+        value=''
+        type='password'}}
 
     {{/FormAuth}}
-</div>
+{{/AuthLayout}}

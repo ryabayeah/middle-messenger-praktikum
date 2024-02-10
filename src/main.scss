@@ -3,6 +3,10 @@
 
 @import "./widgets/form-auth/form-auth.scss";
 
+
+@import "./layouts/auth-layout/auth-layout.scss";
+@import "./layouts/error-layout/error-layout.scss";
+
 :root {
   @include colors;
   @include text;

@@ -1,5 +1,3 @@
-import mainLayout from "./layouts/main-layout";
-
 import * as Widgets from "./widgets";
 import * as Pages from "./pages";
 import * as Layouts from "./layouts";
@@ -22,8 +20,6 @@ Object.entries(Layouts).forEach(([name, component]) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const result = mainLayout({
-    page: pagesMap["server-error"],
-  });
+  const result = Handlebars.compile(pagesMap['sign-in'])({})
   document.getElementById("root")!.innerHTML = result;
 });
