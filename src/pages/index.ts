@@ -9,3 +9,6 @@ export { Chats } from "./chats";
 export { ProfileEdit } from "./profile-edit";
 export { ProfileChangePassword } from "./profile-change-password";
 export { ProfileChangeAvatar } from "./profile-change-avatar";
+
+// Временная страница для показа
+export { default as TempNav } from "./temp-nav/temp-nav.hbs?raw";

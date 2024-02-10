@@ -11,45 +11,52 @@ import "./main.scss";
 import Handlebars from "handlebars";
 
 const pagesMap = {
-  "sign-in": {
+  "login": {
     template: Pages.SignIn,
     props: AuthProps.SignInProps,
   },
-  "sign-up": { template: Pages.SignUp, props: AuthProps.SignUpProps },
-  "not-found": { template: Pages.NotFound, props: {} },
-  "server-error": { template: Pages.ServerError, props: {} },
-  profile: { template: Pages.Profile, props: UserProps.ProfileProps },
-  "profile-edit": { template: Pages.ProfileEdit, props: UserProps.ProfileProps },
-  "profile-change-password": {
+  "register": { 
+    template: Pages.SignUp, 
+    props: AuthProps.SignUpProps
+  },
+  "404": { 
+    template: Pages.NotFound, 
+    props: {} 
+  },
+  "500": { 
+    template: Pages.ServerError, 
+    props: {} 
+  },
+  "profile": { 
+    template: Pages.Profile, 
+    props: UserProps.ProfileProps 
+  },
+  "profile-edit": { 
+    template: Pages.ProfileEdit, 
+    props: UserProps.ProfileProps },
+  "change-password": {
     template: Pages.ProfileChangePassword,
     props: {},
   },
-  "profile-change-avatar": {
+  "change-avatar": {
     template: Pages.ProfileChangeAvatar,
     props: {},
   },
-  chats: { template: Pages.Chats, props: {} },
+  "chats": { template: Pages.Chats, props: {} },
+  "nav": {template: Pages.TempNav, props: {}}
 };
 
-Object.entries(Widgets).forEach(([name, component]) => {
-  Handlebars.registerPartial(name, component);
-});
-Object.entries(Layouts).forEach(([name, component]) => {
-  Handlebars.registerPartial(name, component);
-});
-Object.entries(UserUI).forEach(([name, component]) => {
-  Handlebars.registerPartial(name, component);
-});
-Object.entries(AuthUI).forEach(([name, component]) => {
+Object.entries({...Layouts,...Widgets, ...UserUI, ...AuthUI}).forEach(([name, component]) => {
   Handlebars.registerPartial(name, component);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const currentPath = document.location.pathname.replace("/", "") || "profile";
   const pages = Object.keys(pagesMap);
+  const currentPath = document.location.pathname.replace("/", "") || "profile";
+  
   const pageData = pages.includes(currentPath)
     ? pagesMap[currentPath as keyof typeof pagesMap]
-    : pagesMap["not-found"];
+    : pagesMap["nav"];
   const result = Handlebars.compile(pageData.template)(pageData.props);
 
   document.getElementById("root")!.innerHTML = result;
