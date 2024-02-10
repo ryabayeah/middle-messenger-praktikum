@@ -1,3 +1,6 @@
+/.idea
+sprint_1/package-lock.json
+node_modules/
 # Logs
 logs
 *.log
@@ -8,6 +11,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+
+sprint_1/node_modules
 dist
 dist-ssr
 *.local
@@ -22,3 +27,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+package-lock.json
