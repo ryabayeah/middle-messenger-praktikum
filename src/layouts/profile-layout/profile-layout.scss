@@ -4,11 +4,11 @@
   display: flex;
   box-sizing: border-box;
   padding: 40px;
+  padding-left: 140px; // TODO: Сейчас это отступ под размер nav, но возможно стоит переделать верстку (nav как шапка)
   &__section {
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 20px;
   }
-  // }
 }
