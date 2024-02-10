@@ -1,0 +1,18 @@
+<section class="modal {{#if hide}} hidden {{/if}} {{#if isInvalid}} invalid {{/if}}">
+    <div class="modal__header">
+        <h3>{{title}}</h3>
+    </div>
+    <div class="modal__content">
+        {{> @partial-block }}
+    </div>
+    <div class="modal__buttons">
+        {{#if textSubmit}}
+        {{> Button text=textSubmit variant='primary' class='w-full'}}
+        {{/if}}
+        {{#if textCancel}}
+        {{> Button text=textCancel variant='secondary' class='w-full'}}
+        {{/if}}
+    </div>
+</section>
+
+<div class="overlay {{#if hide}} hidden {{/if}}"></div>

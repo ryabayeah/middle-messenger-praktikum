@@ -1,4 +1,8 @@
 .link {
   text-decoration: none;
   color: var(--blue);
+
+  &.underline{
+    text-decoration: underline;
+  }
 }

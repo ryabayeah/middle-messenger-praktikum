@@ -2,7 +2,10 @@
 @import "./assets/styles/base";
 
 @import "./pages/profile-change-password/profile-change-password.scss";
+@import "./pages/profile-change-avatar/profile-change-avatar.scss";
 
+
+@import "./widgets/modal/modal.scss";
 
 @import "./entities/auth/ui/form-auth/form-auth.scss";
 @import "./entities/user/ui/user-profile-form/user-profile-form.scss";

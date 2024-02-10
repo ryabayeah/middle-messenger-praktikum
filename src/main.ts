@@ -13,12 +13,17 @@ const pagesMap = {
   "sign-up": { template: Pages.SignUp, props: {} },
   "not-found": { template: Pages.NotFound, props: {} },
   "server-error": { template: Pages.ServerError, props: {} },
-  profile: { template: Pages.Profile, props: {} },
+  "profile": { template: Pages.Profile, props: {} },
   "profile-edit": { template: Pages.ProfileEdit, props: {} },
   "profile-change-password": {
     template: Pages.ProfileChangePassword,
     props: {},
   },
+  "profile-change-avatar": {
+    template: Pages.ProfileChangeAvatar,
+    props: {},
+  },
+  "chats": { template: '', props: {} },
 };
 
 Object.entries(Widgets).forEach(([name, component]) => {
@@ -35,7 +40,11 @@ Object.entries(AuthUI).forEach(([name, component]) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const pageData = pagesMap["profile-change-password"];
+  const currentPath = document.location.pathname.replace("/", "");
+  const pages = Object.keys(pagesMap);
+  const pageData = pages.includes(currentPath)
+    ? pagesMap[currentPath as keyof typeof pagesMap]
+    : pagesMap["not-found"];
   const result = Handlebars.compile(pageData.template)(pageData.props);
   document.getElementById("root")!.innerHTML = result;
 });

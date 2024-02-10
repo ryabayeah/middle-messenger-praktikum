@@ -5,3 +5,5 @@ export { ServerError } from "./server-error";
 export { Profile } from "./profile";
 export { ProfileEdit } from "./profile-edit";
 export { ProfileChangePassword } from "./profile-change-password";
+export { ProfileChangeAvatar } from "./profile-change-avatar";
+
