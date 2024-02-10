@@ -52,11 +52,11 @@ Object.entries({...Layouts,...Widgets, ...UserUI, ...AuthUI}).forEach(([name, co
 
 document.addEventListener("DOMContentLoaded", () => {
   const pages = Object.keys(pagesMap);
-  const currentPath = document.location.pathname.replace("/", "") || "profile";
+  const currentPath = document.location.pathname.replace("/", "") || "nav";
   
   const pageData = pages.includes(currentPath)
     ? pagesMap[currentPath as keyof typeof pagesMap]
-    : pagesMap["nav"];
+    : pagesMap["404"];
   const result = Handlebars.compile(pageData.template)(pageData.props);
 
   document.getElementById("root")!.innerHTML = result;
