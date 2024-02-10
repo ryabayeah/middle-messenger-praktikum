@@ -1,6 +1,9 @@
 @import "./assets/styles/colors";
 @import "./assets/styles/base";
 
+@import "./pages/profile-change-password/profile-change-password.scss";
+
+
 @import "./entities/auth/ui/form-auth/form-auth.scss";
 @import "./entities/user/ui/user-profile-form/user-profile-form.scss";
 

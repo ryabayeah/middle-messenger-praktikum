@@ -4,3 +4,4 @@ export { NotFound } from "./not-found";
 export { ServerError } from "./server-error";
 export { Profile } from "./profile";
 export { ProfileEdit } from "./profile-edit";
+export { ProfileChangePassword } from "./profile-change-password";

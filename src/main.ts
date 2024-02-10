@@ -9,12 +9,16 @@ import "./main.scss";
 import Handlebars from "handlebars";
 
 const pagesMap = {
-  "sign-in": Pages.SignIn,
-  "sign-up": Pages.SignUp,
-  "not-found": Pages.NotFound,
-  "server-error": Pages.ServerError,
-  "profile": Pages.Profile,
-  'profile-edit': Pages.ProfileEdit
+  "sign-in": { template: Pages.SignIn, props: {} },
+  "sign-up": { template: Pages.SignUp, props: {} },
+  "not-found": { template: Pages.NotFound, props: {} },
+  "server-error": { template: Pages.ServerError, props: {} },
+  profile: { template: Pages.Profile, props: {} },
+  "profile-edit": { template: Pages.ProfileEdit, props: {} },
+  "profile-change-password": {
+    template: Pages.ProfileChangePassword,
+    props: {},
+  },
 };
 
 Object.entries(Widgets).forEach(([name, component]) => {
@@ -31,6 +35,7 @@ Object.entries(AuthUI).forEach(([name, component]) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const result = Handlebars.compile(pagesMap['sign-in'])({})
+  const pageData = pagesMap["profile-change-password"];
+  const result = Handlebars.compile(pageData.template)(pageData.props);
   document.getElementById("root")!.innerHTML = result;
 });
