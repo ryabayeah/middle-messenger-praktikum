@@ -1,0 +1,16 @@
+@import "./assets/styles/colors";
+@import "./assets/styles/base";
+
+@import "./widgets/form-auth/form-auth.scss";
+
+:root {
+  @include colors;
+  @include text;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+}

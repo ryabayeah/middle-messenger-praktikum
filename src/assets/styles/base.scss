@@ -1,0 +1,11 @@
+@mixin text {
+  .text-error {
+    color: var(--red);
+  }
+  .text-action {
+    color: var(--blue);
+  }
+  .text-success {
+    color: var(--black);
+  }
+}

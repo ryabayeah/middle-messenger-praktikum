@@ -1,0 +1,12 @@
+<form class="form-auth">
+    <h2 class="form-auth__header">
+        {{caption}}
+    </h2>
+    <div class="form-auth__content">
+        {{> @partial-block }}
+    </div>
+    <div class="form-auth__buttons">
+        {{> Button type='submit' label=textSubmit variant="primary" onClick=onClickSubmit }}
+        {{> Button type='reset' label=textAlt variant="secondary" onClick=onClickAlt}}
+    </div>
+</form>

@@ -1,0 +1,6 @@
+<div class="form__group {{#if isInvalid}}invalid{{/if}}">
+    <input autocomplete="off" type={{type}} class="form__input" placeholder={{placeholder}} name={{name}} id={{id}}
+        {{required}} />
+    <label for={{name}} class="form__label">{{label}}</label>
+    {{> Feedback isInvalid=isInvalid value=feedback class='form__feedback'}}
+</div>

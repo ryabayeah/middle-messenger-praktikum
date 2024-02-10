@@ -1,0 +1,11 @@
+.signin-page__container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  min-width: 340px;
+  padding: 30px;
+  background-color: var(--white);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 8px;
+}

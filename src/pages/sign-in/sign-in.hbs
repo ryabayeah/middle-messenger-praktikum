@@ -1,0 +1,25 @@
+<div class="signin-page__container">
+    {{#> FormAuth
+    caption="Вход"
+    textSubmit="Вход"
+    textAlt="Нет аккаунта?"
+    onClickAlt='onClickAlt'
+    hrefAlt="/sign-up"
+    }}
+
+    {{> Input
+    id='name'
+    label='Логин'
+    name='name'
+    value=''
+    type='text'}}
+
+    {{> Input
+    id='password'
+    label='Пароль'
+    name='password'
+    value=''
+    type='password'}}
+
+    {{/FormAuth}}
+</div>

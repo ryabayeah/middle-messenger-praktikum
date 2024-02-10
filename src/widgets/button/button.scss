@@ -1,0 +1,17 @@
+.button {
+  padding: 14px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  font-size: 16px;
+
+  &.primary {
+    color: var(--white);
+    background-color: var(--blue);
+  }
+
+  &.secondary {
+    color: var(--blue);
+    background-color: transparent;
+  }
+}
