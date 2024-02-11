@@ -9,5 +9,5 @@ interface ILinkProps {
 }
 
 export const Link = (props: ILinkProps) => {
-  return Handlebars.compile(template)(props);
+	return Handlebars.compile(template)(props);
 };

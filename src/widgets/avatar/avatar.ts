@@ -8,5 +8,5 @@ interface IAvatarProps {
 }
 
 export const Avatar = ({ isEditable = false, ...props }: IAvatarProps) => {
-  return Handlebars.compile(template)({ isEditable, ...props });
+	return Handlebars.compile(template)({ isEditable, ...props });
 };

@@ -14,10 +14,10 @@ interface IButtonProps {
 }
 
 export const Button = ({
-  type = "button",
-  variant = "primary",
-  textPosition = "center",
-  ...props
+	type = "button",
+	variant = "primary",
+	textPosition = "center",
+	...props
 }: IButtonProps) => {
-  return Handlebars.compile(template)({ type, variant, textPosition, ...props });
+	return Handlebars.compile(template)({ type, variant, textPosition, ...props });
 };
