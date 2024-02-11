@@ -14,8 +14,8 @@ interface IInputProps {
 }
 
 export const Input = ({
-  type = "text",
-  ...props
+	type = "text",
+	...props
 }: IInputProps) => {
-  return Handlebars.compile(template)({ type, ...props });
+	return Handlebars.compile(template)({ type, ...props });
 };
