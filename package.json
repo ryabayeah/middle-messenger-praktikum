@@ -10,7 +10,7 @@
     "start": "npm run build && npm run server",
     "preview": "vite preview",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .ts ."
+    "lint:fix": "eslint --fix --ext .ts .scss ."
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -23,5 +23,9 @@
   "dependencies": {
     "express": "^4.18.2",
     "vite-plugin-handlebars": "^2.0.0"
+  },
+  "engines": {
+    "npm": ">=10.0.0",
+    "node": ">=20.0.0"
   }
 }
