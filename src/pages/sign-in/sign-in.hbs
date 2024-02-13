@@ -1,0 +1,23 @@
+{{#> AuthLayout}}
+    {{#> FormAuth
+    caption="Вход"
+    textSubmit="Вход"
+    textAlt="Нет аккаунта?"
+    }}
+
+        {{> Input
+        id='login'
+        label='Логин'
+        name='login'
+        value=login
+        type='text'}}
+
+        {{> Input
+        id='password'
+        label='Пароль'
+        name='password'
+        value=password
+        type='password'}}
+
+    {{/FormAuth}}
+{{/AuthLayout}}

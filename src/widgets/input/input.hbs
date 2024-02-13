@@ -1,0 +1,21 @@
+<div class="form__group {{#if isInvalid}}invalid{{/if}}">
+    <input 
+        autocomplete="off"
+        type={{type}}
+        class="form__input"
+        name={{name}}
+        id={{id}}
+        {{#if value}} value="{{value}}" {{/if}}
+        {{#if isDisabled}} disabled {{/if}}
+        {{#if isRequired}} required {{/if}}
+        />
+    <label 
+        for={{name}} 
+        class="form__label"
+    >{{label}}</label>
+    {{> Feedback 
+        isInvalid=isInvalid 
+        value=feedback 
+        class='form__feedback'
+    }}
+</div>

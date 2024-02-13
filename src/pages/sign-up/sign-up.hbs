@@ -1,0 +1,64 @@
+{{#> AuthLayout}}
+    {{#> FormAuth
+    caption="Регистрация"
+    textSubmit="Зарегестрироваться"
+    textAlt="Войти"
+    }}
+
+        {{> Input
+        id='email'
+        label='E-mail'
+        name='email'
+        value=email
+        type='email'}}
+
+        {{> Input
+        id='login'
+        label='Логин'
+        name='name'
+        value=login
+        type='text'}}
+
+
+        {{> Input
+        id='first_name'
+        label='Имя'
+        name='first_name'
+        value=first_name
+        type='text'}}
+
+        {{> Input
+        id='second_name'
+        label='Фамилия'
+        name='second_name'
+        value=second_name
+        type='text'}}
+
+        {{> Input
+        id='phone'
+        label='Телефон'
+        name='phone'
+        value=phone
+        type='phone'}}
+
+        {{> Input
+        id='password'
+        label='Пароль'
+        name='password'
+        value=password
+        type='password'
+        isInvalid=true
+        }}
+
+        {{> Input
+        id='repeatPassword'
+        label='Пароль'
+        name='repeatPassword'
+        value=repeatPassword
+        type='password'
+        isInvalid=true
+        feedback='Пароли не совпадают'
+        }}
+
+    {{/FormAuth}}
+{{/AuthLayout}}

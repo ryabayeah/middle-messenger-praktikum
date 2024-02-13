@@ -1,0 +1,30 @@
+@import "./app/assets/styles/colors";
+@import "./app/assets/styles/base";
+
+@import "./pages/profile-change-password/profile-change-password.scss";
+@import "./pages/profile-change-avatar/profile-change-avatar.scss";
+@import "./pages/chats/chats.scss";
+@import "./pages/temp-nav/temp-nav.scss";
+
+@import "./widgets/modal/modal.scss";
+
+@import "./entities/auth/ui/form-auth/form-auth.scss";
+@import "./entities/user/ui/user-profile-form/user-profile-form.scss";
+
+@import "./layouts/auth-layout/auth-layout.scss";
+@import "./layouts/error-layout/error-layout.scss";
+@import "./layouts/profile-layout/profile-layout.scss";
+
+:root {
+  @include colors;
+  @include text;
+  @include font-weight;
+  @include base;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+}

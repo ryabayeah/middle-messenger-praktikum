@@ -1,0 +1,42 @@
+@mixin text {
+  .text-error {
+    color: var(--red);
+  }
+  .text-action {
+    color: var(--blue);
+  }
+  .text-success {
+    color: var(--black);
+  }
+}
+
+@mixin font-weight {
+  .bold {
+    font-weight: bold;
+  }
+  .normal {
+    font-weight: medium;
+  }
+}
+
+@mixin base {
+  .p-0 {
+    padding: 0;
+  }
+  .m-0 {
+    margin: 0;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  .h-full {
+    height: 100%;
+  }
+
+  .hidden {
+    display: none;
+  }
+}
+
