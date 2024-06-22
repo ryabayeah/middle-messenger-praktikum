@@ -1,4 +1,4 @@
-import * as Widgets from "./widgets";
+import * as Widgets from "./shared/ui";
 import * as Pages from "./pages";
 import * as Layouts from "./layouts";
 import * as AuthProps from "./entities/auth/lib/constants/data";
