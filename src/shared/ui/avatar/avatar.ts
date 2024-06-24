@@ -4,6 +4,7 @@ import "./avatar.scss";
 
 interface IAvatarProps {
   src?: string;
+  class?: string
   isEditable?: boolean;
 }
 

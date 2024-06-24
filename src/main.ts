@@ -4,6 +4,7 @@ import * as Layouts from "./layouts";
 import * as AuthProps from "./entities/auth/lib/constants/data";
 import * as UserProps from "./entities/user/lib/constants/data";
 
+import * as ChatUI from "./entities/chat/ui";
 import * as UserUI from "./entities/user/ui";
 import * as AuthUI from "./entities/auth/ui";
 
@@ -47,7 +48,7 @@ const pagesMap = {
   nav: { template: Pages.TempNav, props: {} },
 };
 
-Object.entries({ ...Layouts, ...Widgets, ...UserUI, ...AuthUI }).forEach(
+Object.entries({ ...Layouts, ...Widgets, ...UserUI, ...AuthUI, ...ChatUI }).forEach(
   ([name, component]) => {
     Handlebars.registerPartial(name, component);
   }
