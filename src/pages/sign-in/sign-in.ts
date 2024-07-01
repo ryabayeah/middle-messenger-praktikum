@@ -1,36 +1,26 @@
 import { FormAuth } from "../../entities/auth/ui/form-auth/form-auth";
-import { Block } from "../../shared/lib/block";
+import { AuthLayout } from "../../layouts";
 import { Buttonn } from "../../shared/ui/button";
 import { Inputt } from "../../shared/ui/input/input";
-import template from "./sign-in.hbs?raw";
 
-interface SignInPageBaseComponentProps extends CompileOptions {
-  signInForm: FormAuth;
-}
-
-class SignInPageBaseComponent extends Block {
-  constructor(props: SignInPageBaseComponentProps) {
-    super({
-      ...props,
-    });
-  }
-
-  render() {
-    return this.compile(template, { ...this.props });
-  }
+enum FORM_FIELDS_NAME {
+  LOGIN = "login",
+  PASSWORD = "password",
 }
 
 export const SignInPage = () => {
-  const values = {LOGIN: 'login', PASSWORD: 'password'}
   const handleSubmit = (e: any) => {
     const data = new FormData(e.target as HTMLFormElement);
-  
-    console.log(data.get(values.LOGIN), data.get(values.PASSWORD),"---")
-  }
+    const result: Record<string, FormDataEntryValue | null> = {};
+    Object.values(FORM_FIELDS_NAME).forEach((fieldName) => {
+      result[fieldName] = data.get(fieldName);
+    });
+    console.log(result);
+  };
 
   const handleAltClick = () => {
     // TODO: Редиркет на sign-up
-  }
+  };
 
   const inputLogin = new Inputt({
     id: "login",
@@ -47,27 +37,25 @@ export const SignInPage = () => {
     label: "Пароль",
   });
 
-  const buttonSubmit = new Buttonn({ text: "Вход", type: 'submit', variant: "primary" });
+  const buttonSubmit = new Buttonn({
+    text: "Вход",
+    type: "submit",
+    variant: "primary",
+  });
   const buttonAlt = new Buttonn({
-    type: 'reset',
+    type: "reset",
     text: "Нет аккаунта?",
     variant: "secondary",
-    onClick: handleAltClick
+    onClick: handleAltClick,
   });
-  const authForm = new FormAuth({
+
+  const signInForm = new FormAuth({
     caption: "Вход",
-    children: [
-      inputLogin,
-      inputPassword,
-    ],
+    children: [inputLogin, inputPassword],
     buttonSubmit: buttonSubmit,
     buttonAlt: buttonAlt,
-    onSubmit: handleSubmit
+    onSubmit: handleSubmit,
   });
 
-
-
-  return new SignInPageBaseComponent({
-    signInForm: authForm,
-  });
+  return new AuthLayout({ children: signInForm });
 };
