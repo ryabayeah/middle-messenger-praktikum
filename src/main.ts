@@ -1,59 +1,71 @@
 import * as Widgets from "./shared/ui";
 import * as Pages from "./pages";
-import * as Layouts from "./layouts";
 import * as AuthProps from "./entities/auth/lib/constants/data";
 import * as UserProps from "./entities/user/lib/constants/data";
 
 import * as ChatUI from "./entities/chat/ui";
 import * as UserUI from "./entities/user/ui";
-import * as AuthUI from "./entities/auth/ui";
 
 import "./main.scss";
 import Handlebars from "handlebars";
 import { render } from "./shared/lib/dom/renderDom";
 import { HTTPTransport } from "./shared/lib/http-transport";
 import { Inputt } from "./shared/ui/input/input";
-import { signInPage } from "./pages/sign-in";
+import { SignInPage } from "./pages/sign-in";
 import { Block } from "./shared/lib/block";
+import { NotFoundPage } from "./pages/not-found";
+import { ServerErrorPage, SignUpPage } from "./pages";
 
 
+enum ROUTE {
+  LOGIN= 'login',
+  REGISTER= 'register',
+  NOT_FOUND= '404',
+  ERROR= '500',
+  PROFILE= 'profile',
+  PROFILE_EDIT= 'profile-edit',
+  CHANGE_PASSWORD ='change-password',
+  CHANGE_AVATAR= 'change-avatar',
+  CHATS= 'chats',
+  NAV= 'nav'
 
+}
 
 const pagesMap = {
-  login: {
-    template: Pages.NotFound,
+  [ROUTE.LOGIN]: {
+    template: Pages.Chats,
     props: AuthProps.SignInProps,
   },
-  register: {
+  [ROUTE.REGISTER]: {
     template: Pages.SignUp,
     props: AuthProps.SignUpProps,
   },
-  "404": {
-    template: Pages.NotFound,
+  [ROUTE.NOT_FOUND]: {
+    template: Pages.Chats,
     props: {},
   },
-  "500": {
-    template: Pages.ServerError,
+  [ROUTE.ERROR]: {
+    template: Pages.Chats,
     props: {},
   },
-  profile: {
+  [ROUTE.PROFILE]: {
     template: Pages.Profile,
     props: UserProps.ProfileProps,
   },
-  "profile-edit": {
+  [ROUTE.PROFILE_EDIT]: {
     template: Pages.ProfileEdit,
     props: UserProps.ProfileProps,
   },
-  "change-password": {
+  [ROUTE.CHANGE_PASSWORD]: {
     template: Pages.ProfileChangePassword,
     props: {},
   },
-  "change-avatar": {
+  [ROUTE.CHANGE_AVATAR]: {
     template: Pages.ProfileChangeAvatar,
     props: {},
   },
-  chats: { template: Pages.Chats, props: {} },
-  nav: { template: Pages.TempNav, props: {} },
+  [ROUTE.CHATS]: { template: Pages.Chats, props: {} },
+  [ROUTE.NAV]: { template: Pages.TempNav, props: {} },
 };
 
 const oldPagination  = () => {
@@ -70,10 +82,15 @@ const oldPagination  = () => {
 
 const pagination  = () => {
   const newPages: Record<string, Block> = {
-    login: signInPage()
+    [ROUTE.LOGIN]: SignInPage(),
+    [ROUTE.REGISTER]: SignUpPage(),
+
+    [ROUTE.NOT_FOUND]: NotFoundPage(),
+    [ROUTE.ERROR]: ServerErrorPage(),
+
   }
 
-  const mock =   new Inputt({
+  const mock = new Inputt({
     id: "login",
     name: "login",
     type: "text",
@@ -85,17 +102,17 @@ const pagination  = () => {
   const currentPath = document.location.pathname.replace("/", "") || "nav";
   const pageData = pages.includes(currentPath)
     ? newPages[currentPath as keyof typeof newPages]
-    : mock;
+    : newPages[ROUTE.NOT_FOUND];
 
 
   render('#root', pageData);
 }
 
 Object.entries({
-  ...Layouts,
+  // ...Layouts,
   ...Widgets,
   ...UserUI,
-  ...AuthUI,
+  // ...AuthUI,
   ...ChatUI,
 }).forEach(([name, component]) => {
   Handlebars.registerPartial(name, component);

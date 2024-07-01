@@ -2,27 +2,36 @@ import { FormAuth } from "../../entities/auth/ui/form-auth/form-auth";
 import { Block } from "../../shared/lib/block";
 import { Buttonn } from "../../shared/ui/button";
 import { Inputt } from "../../shared/ui/input/input";
-import { signInTemplate } from "./sign-in.template";
+import template from "./sign-in.hbs?raw";
 
-interface SignInPageProps extends CompileOptions {
-  // loginInput: Inputt;
-  // passwordInput: Inputt;
+interface SignInPageBaseComponentProps extends CompileOptions {
   signInForm: FormAuth;
 }
 
-class SignInPage extends Block {
-  constructor(props: SignInPageProps) {
+class SignInPageBaseComponent extends Block {
+  constructor(props: SignInPageBaseComponentProps) {
     super({
       ...props,
     });
   }
 
   render() {
-    return this.compile(signInTemplate, { ...this.props });
+    return this.compile(template, { ...this.props });
   }
 }
 
-export const signInPage = () => {
+export const SignInPage = () => {
+  const values = {LOGIN: 'login', PASSWORD: 'password'}
+  const handleSubmit = (e: any) => {
+    const data = new FormData(e.target as HTMLFormElement);
+  
+    console.log(data.get(values.LOGIN), data.get(values.PASSWORD),"---")
+  }
+
+  const handleAltClick = () => {
+    // TODO: Редиркет на sign-up
+  }
+
   const inputLogin = new Inputt({
     id: "login",
     name: "login",
@@ -31,11 +40,11 @@ export const signInPage = () => {
     label: "Логин",
   });
   const inputPassword = new Inputt({
-    id: "logfin",
-    name: "lofgin",
-    type: "tefxt",
-    value: "lofgin",
-    label: "Логfин",
+    id: "password",
+    name: "password",
+    type: "password",
+    value: "password",
+    label: "Пароль",
   });
 
   const buttonSubmit = new Buttonn({ text: "Вход", type: 'submit', variant: "primary" });
@@ -43,16 +52,22 @@ export const signInPage = () => {
     type: 'reset',
     text: "Нет аккаунта?",
     variant: "secondary",
+    onClick: handleAltClick
   });
   const authForm = new FormAuth({
     caption: "Вход",
-    inputLogin,
-    inputPassword,
+    children: [
+      inputLogin,
+      inputPassword,
+    ],
     buttonSubmit: buttonSubmit,
     buttonAlt: buttonAlt,
+    onSubmit: handleSubmit
   });
 
-  return new SignInPage({
+
+
+  return new SignInPageBaseComponent({
     signInForm: authForm,
   });
 };

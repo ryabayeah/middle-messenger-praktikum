@@ -15,14 +15,20 @@ interface IButtonProps {
 }
 
 export const Button = ({
-	type = "button",
-	variant = "primary",
-	textPosition = "center",
-	...props
+  type = "button",
+  variant = "primary",
+  textPosition = "center",
+  ...props
 }: IButtonProps) => {
-	return Handlebars.compile(template)({ type, variant, textPosition, ...props });
+  return Handlebars.compile(template)({
+    type,
+    variant,
+    textPosition,
+    ...props,
+  });
 };
 
+// NEW CLASS METHOD
 interface ButtonProps extends CompileOptions {
   text: string;
   class?: string;
@@ -35,12 +41,15 @@ interface ButtonProps extends CompileOptions {
 }
 
 export class Buttonn extends Block {
-  constructor(props: ButtonProps) {
+  constructor({ onClick, ...props }: ButtonProps) {
     super({
       ...props,
+      events: {
+        click: onClick,
+      },
     });
   }
   render() {
-    return this.compile(template, {...this.props});
+    return this.compile(template, { ...this.props });
   }
 }

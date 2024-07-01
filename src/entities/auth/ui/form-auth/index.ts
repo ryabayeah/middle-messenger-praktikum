@@ -1,1 +1,1 @@
-export { default as FormAuth } from "./form-auth.hbs?raw";
+export { FormAuth } from "./form-auth";

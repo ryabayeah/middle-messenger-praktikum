@@ -14,7 +14,7 @@ export type Meta = {
 // };
 
 export type Children = {
-  [key: string]: Block;
+  [key: string]: Block | Block[];
 };
 
 export class Block<Props extends Record<string, any> = PropsAndChildren> {
@@ -81,12 +81,21 @@ export class Block<Props extends Record<string, any> = PropsAndChildren> {
 
   private _componentDidMount() {
     this.componentDidMount();
-
-    if (this.children) {
-      Object.values(this.children).forEach((child) => {
+    Object.values(this.children).forEach(child => {
+      if (Array.isArray(child)) {
+        child.forEach(ch => ch.dispatchComponentDidMount());
+      } else {
         child.dispatchComponentDidMount();
-      });
-    }
+      }
+    });
+
+
+    // if (this.children) {
+    //   Object.values(this.children).forEach((child) => {
+    //     child.dispatchComponentDidMount();
+    //   });
+    // }
+  
     // this._render();
   }
 
@@ -171,13 +180,32 @@ export class Block<Props extends Record<string, any> = PropsAndChildren> {
     const children: Children = {};
     const props: Record<string, unknown> = {};
 
+
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
+      } else if (value instanceof Array) {
+        children[key] = value
       } else {
         props[key] = value;
       }
     });
+    
+    // Object.entries(propsAndChildren).forEach(([key, value]) => {
+    //   // if (value instanceof Array){
+    //   //   value.forEach((v)=> {
+    //   //     if (v instanceof Block){
+    //   //       console.log(v.props?.name, v)
+    //   //       children[v._id as string] = v
+    //   //     }
+    //   //   })
+    //   // }
+    //   if (value instanceof Block) {
+    //     children[key] = value;
+    //   } else {
+    //     props[key] = value;
+    //   }
+    // });
 
     return { children, props };
   }
@@ -221,8 +249,21 @@ export class Block<Props extends Record<string, any> = PropsAndChildren> {
     const propsAndStubs: Record<string, unknown> = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
-      propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+      if (child instanceof Array) {
+        propsAndStubs[key] = ``
+        child.forEach((c) => {
+          const data = `<div data-id="${c._id}"></div>`;
+          propsAndStubs[key] += data
+        })
+      } else {
+        propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+
+      }
     });
+
+    // Object.entries(this.children).forEach(([key, child]) => {
+    //   propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+    // });
 
     const fragment = this._createDocumentElement(
       "template"
@@ -231,16 +272,50 @@ export class Block<Props extends Record<string, any> = PropsAndChildren> {
     fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
 
     
+    // Object.values(this.children).forEach((child) => {
+      
+    // const stub = fragment.content.querySelector<HTMLElement>(
+    //     `[data-id="${child._id}"]`
+    // );
+    // const content = child.getContent();
+    // if (stub !== null && content !== null) {
+    //     stub.replaceWith(content);
+    // }
+    // });
+
     Object.values(this.children).forEach((child) => {
-    const stub = fragment.content.querySelector<HTMLElement>(
-        `[data-id="${child._id}"]`
-    );
-    const content = child.getContent();
-    if (stub !== null && content !== null) {
-        stub.replaceWith(content);
-    }
-    });
+      if (child instanceof Array){
+        const tmp = this._createDocumentElement('template') as HTMLTemplateElement;
+
+        child.forEach((c)=>{
+          if (c instanceof Block){
+            const content = c.getContent();
+            if (content) {
+              tmp.content.append(content);
+            }
+          } else {
+            tmp.content.append(`${c}`);
+          }
+          const stub = fragment.content.querySelector(`[data-id="${c._id}"]`);
+          if (stub) {
+            stub.replaceWith(tmp.content);
+          }
+        })
+      }
+      else {
+        const stub = fragment.content.querySelector<HTMLElement>(
+            `[data-id="${child._id}"]`
+        );
+        const content = child.getContent();
+        if (stub !== null && content !== null) {
+            stub.replaceWith(content);
+        }
+      }
+      
+      });
 
     return fragment.content;
   }
+
+
 }

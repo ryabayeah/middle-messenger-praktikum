@@ -18,6 +18,8 @@ export const Input = ({ type = "text", ...props }: IInputProps) => {
   return Handlebars.compile(template)({ type, ...props });
 };
 
+
+// NEW CLASS METHOD
 interface InputProps extends CompileOptions {
   id: string;
   name: string;
@@ -27,14 +29,18 @@ interface InputProps extends CompileOptions {
   isRequired?: boolean;
   isDisabled?: boolean;
   isInvalid?: boolean;
-  onChange?: (e: string) => void;
-  onBlur?: (e: string) => void;
+  onChange?: (e: Event) => void
+  onBlur?: (e: Event) => void
 }
 
 export class Inputt extends Block {
-  constructor(props: InputProps) {
+  constructor({onChange, onBlur, ...props}: InputProps) {
     super({
       ...props,
+      events: {
+        change: onChange,
+        blur: onBlur,
+      },
     });
   }
   render() {

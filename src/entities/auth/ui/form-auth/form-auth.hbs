@@ -3,10 +3,11 @@
         {{caption}}
     </h2>
     <div class="form-auth__content">
-        {{> @partial-block }}
+   
+        {{{children}}}
     </div>
     <div class="form-auth__buttons">
-        {{> Button type='submit' text=textSubmit variant="primary" onClick=onClickSubmit }}
-        {{> Button type='reset' text=textAlt variant="secondary" onClick=onClickAlt}}
+        {{{buttonSubmit}}}
+        {{{buttonAlt}}}
     </div>
 </form>

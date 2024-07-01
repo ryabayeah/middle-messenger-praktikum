@@ -1,1 +1,1 @@
-export { default as ErrorLayout } from "./error-layout.hbs?raw";
+export { ErrorLayout } from "./error-layout";
