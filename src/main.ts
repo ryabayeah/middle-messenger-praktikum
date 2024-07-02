@@ -18,22 +18,6 @@ import { getUrlPathName } from "./shared/utils";
 
 
 const pagesMap = {
-  [APP_PATH.LOGIN]: {
-    template: Pages.Chats,
-    props: AuthProps.SignInProps,
-  },
-  [APP_PATH.REGISTER]: {
-    template: Pages.SignUp,
-    props: AuthProps.SignUpProps,
-  },
-  [APP_PATH.NOT_FOUND]: {
-    template: Pages.Chats,
-    props: {},
-  },
-  [APP_PATH.ERROR]: {
-    template: Pages.Chats,
-    props: {},
-  },
   [APP_PATH.PROFILE]: {
     template: Pages.Profile,
     props: UserProps.ProfileProps,

@@ -7,8 +7,8 @@ interface FormAuthProps extends CompileOptions {
   caption: string
   inputLogin?: Inputt;
   inputPassword?: Inputt;
-  // children?: Record<string, Block>[]; // TODO: Продумать как это сделать
-  children?: Block | Block[]; // TODO: Продумать как это сделать
+  children?: Block | Block[];
+  isInvalid?: boolean
   buttonSubmit: Buttonn
   buttonAlt: Buttonn
   onSubmit?: (e: Event) => void

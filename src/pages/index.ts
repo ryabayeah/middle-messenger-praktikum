@@ -1,4 +1,3 @@
-export { SignUp } from "./sign-up";
 export { ServerErrorPage } from "./server-error";
 export { NotFoundPage } from "./not-found";
 export { SignInPage } from "./sign-in";
