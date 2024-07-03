@@ -1,4 +1,4 @@
-import { Block } from "../../../../shared/lib/block/block";
+import { Block } from "../../../../shared/lib/block";
 import { Buttonn } from "../../../../shared/ui/button";
 import { Inputt } from "../../../../shared/ui/input";
 import template from "./form-auth.hbs?raw"

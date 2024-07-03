@@ -1,4 +1,4 @@
-import { Block } from "../../shared/lib/block";
+import { Block } from "../../shared/lib";
 import template from "./error-layout.hbs?raw";
 
 interface ErrorLayoutProps extends CompileOptions {

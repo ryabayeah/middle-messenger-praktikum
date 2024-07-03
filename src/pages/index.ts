@@ -2,8 +2,7 @@ export { ServerErrorPage } from "./server-error";
 export { NotFoundPage } from "./not-found";
 export { SignInPage } from "./sign-in";
 export { SignUpPage } from "./sign-up";
-
-export { Profile } from "./profile";
+export { ProfilePage } from "./profile";
 export { Chats } from "./chats";
 
 // Примеры макетов изменения профиля/пароля/аватара

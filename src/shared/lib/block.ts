@@ -1,6 +1,6 @@
 import Handlebars from "handlebars";
 import { v4 as makeUUID } from "uuid";
-import { EventBus } from "../event-bus";
+import { EventBus } from "./event-bus";
 
 export type PropsAndChildren = Record<string, unknown>;
 export type Props = {
@@ -125,6 +125,7 @@ export class Block {
     }
 
     Object.assign(this.props, newProps);
+    // this.eventBus().emit(Block.EVENTS.FLOW_CDU);
   };
 
   _addEvents() {
@@ -193,8 +194,7 @@ export class Block {
   }
 
   private _makePropsProxy(props: Props) {
-    const self = this;
-
+    const self = this
     return new Proxy(props, {
       get(target, prop: string) {
         const value = target[prop];
@@ -203,9 +203,9 @@ export class Block {
       },
 
       set(target: Record<any, unknown>, prop: string, value: string) {
+        const oldTarget = { ...target };
         target[prop] = value;
-
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
 
@@ -229,10 +229,6 @@ export class Block {
         propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
       }
     });
-
-    // Object.entries(this.children).forEach(([key, child]) => {
-    //   propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
-    // });
 
     const fragment = this._createDocumentElement(
       "template"

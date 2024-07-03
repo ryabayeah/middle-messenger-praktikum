@@ -1,7 +1,8 @@
 import Handlebars from "handlebars";
 import template from "./button.hbs?raw";
 import "./button.scss";
-import { Block } from "../../lib/block";
+import { Block } from "../../lib";
+
 
 interface IButtonProps {
   text: string;
@@ -29,7 +30,7 @@ export const Button = ({
 };
 
 // NEW CLASS METHOD
-interface ButtonProps extends CompileOptions {
+export interface ButtonProps extends CompileOptions {
   text: string;
   class?: string;
   type?: "submit" | "reset" | "button" | "menu";
@@ -37,7 +38,7 @@ interface ButtonProps extends CompileOptions {
   textPosition?: "left" | "center" | "right";
   icon?: string;
   href?: string;
-  onClick?: VoidFunction;
+  onClick?: (e: Event) => void;
 }
 
 export class Buttonn extends Block {
@@ -45,7 +46,7 @@ export class Buttonn extends Block {
     super({
       ...props,
       events: {
-        click: onClick,
+        click: (e:Event) => onClick && onClick(e),
       },
     });
   }

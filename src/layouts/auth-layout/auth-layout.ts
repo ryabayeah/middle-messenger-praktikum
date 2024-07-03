@@ -1,4 +1,4 @@
-import { Block } from "../../shared/lib/block";
+import { Block } from "../../shared/lib";
 import template from "./auth-layout.hbs?raw";
 
 interface AuthLayoutProps extends CompileOptions {

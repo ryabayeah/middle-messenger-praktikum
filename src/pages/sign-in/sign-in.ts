@@ -1,41 +1,39 @@
 import { FormAuth } from "../../entities/auth/ui/form-auth/form-auth";
+import {
+  SIGN_IN_FORM_FIELDS,
+  SIGN_IN_FORM_FIELDS_NAME,
+} from "../../entities/user/lib/constants";
 import { AuthLayout } from "../../layouts";
 import { Buttonn } from "../../shared/ui/button";
-import { Inputt } from "../../shared/ui/input/input";
-
-enum FORM_FIELDS_NAME {
-  LOGIN = "login",
-  PASSWORD = "password",
-}
+import { FormInput } from "../../shared/ui/form-input/form-input";
 
 export const SignInPage = () => {
   const handleSubmit = (e: any) => {
     const data = new FormData(e.target as HTMLFormElement);
     const result: Record<string, FormDataEntryValue | null> = {};
-    Object.values(FORM_FIELDS_NAME).forEach((fieldName) => {
+    Object.values(SIGN_IN_FORM_FIELDS_NAME).forEach((fieldName) => {
       result[fieldName] = data.get(fieldName);
     });
     console.log(result);
   };
 
+  const renderFormFields = () => {
+    return Object.entries(SIGN_IN_FORM_FIELDS).map(([key, value]) => {
+      return new FormInput({
+        ...value,
+        isInvalid: false,
+        onChange(e) {
+          SIGN_IN_FORM_FIELDS[key as SIGN_IN_FORM_FIELDS_NAME].value = (
+            e.target as HTMLInputElement
+          ).value;
+        },
+      });
+    });
+  };
+
   const handleAltClick = () => {
     // TODO: Редиркет на sign-up
   };
-
-  const inputLogin = new Inputt({
-    id: "login",
-    name: "login",
-    type: "text",
-    value: "login",
-    label: "Логин",
-  });
-  const inputPassword = new Inputt({
-    id: "password",
-    name: "password",
-    type: "password",
-    value: "password",
-    label: "Пароль",
-  });
 
   const buttonSubmit = new Buttonn({
     text: "Вход",
@@ -51,7 +49,7 @@ export const SignInPage = () => {
 
   const signInForm = new FormAuth({
     caption: "Вход",
-    children: [inputLogin, inputPassword],
+    children: renderFormFields(),
     buttonSubmit: buttonSubmit,
     buttonAlt: buttonAlt,
     onSubmit: handleSubmit,

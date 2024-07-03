@@ -8,18 +8,18 @@ import * as UserUI from "./entities/user/ui";
 
 import "./main.scss";
 import Handlebars from "handlebars";
-import { render } from "./shared/lib/dom/renderDom";
+import { render } from "./shared/utils/renderDom";
 import { SignInPage } from "./pages/sign-in";
 import { Block } from "./shared/lib/block";
 import { NotFoundPage } from "./pages/not-found";
-import { ServerErrorPage, SignUpPage } from "./pages";
+import { ProfilePage, ServerErrorPage, SignUpPage } from "./pages";
 import { APP_PATH } from "./shared/constants";
 import { getUrlPathName } from "./shared/utils";
 
 
 const pagesMap = {
   [APP_PATH.PROFILE]: {
-    template: Pages.Profile,
+    template: Pages.Chats,
     props: UserProps.ProfileProps,
   },
   [APP_PATH.PROFILE_EDIT]: {
@@ -44,7 +44,7 @@ const route  = () => {
     [APP_PATH.REGISTER]: SignUpPage(),
     [APP_PATH.NOT_FOUND]: NotFoundPage(),
     [APP_PATH.ERROR]: ServerErrorPage(),
-
+    [APP_PATH.PROFILE]: ProfilePage(),
   }
 
   const pages = Object.keys(newPages);

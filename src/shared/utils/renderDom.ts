@@ -1,6 +1,6 @@
 // utils/renderDOM.js
 
-import { Block } from "../block/block";
+import { Block } from "../lib/block";
 
 export const render = (query: string, block: Block) => {
   const root = document.querySelector(query);

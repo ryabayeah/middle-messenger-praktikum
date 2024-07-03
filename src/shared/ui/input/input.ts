@@ -2,7 +2,7 @@ import Handlebars from "handlebars";
 import template from "./input.hbs?raw";
 import template1 from "./input.new.hbs?raw";
 import "./input.scss";
-import { Block } from "../../lib/block";
+import { Block } from "../../lib";
 
 interface IInputProps {
   id: string;
@@ -74,11 +74,8 @@ export class Inputt extends Block {
     return isValid;
   }
 
-  componentDidUpdate(_oldProps: unknown, _newProps: unknown): boolean {
-    return true;
-  }
-
   render() {
+    console.log("-----p")
     return this.compile(template1, { ...this.props });
   }
 }

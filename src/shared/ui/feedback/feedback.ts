@@ -1,4 +1,4 @@
-import { Block } from "../../lib/block";
+import { Block } from "../../lib";
 import "./feedback.scss";
 import template from './feedback.hbs?raw'
 // NEW CLASS METHOD
