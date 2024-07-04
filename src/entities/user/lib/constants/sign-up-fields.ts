@@ -8,7 +8,7 @@ import {
   passwordRepeatedValidator,
 } from "../../../../shared/utils";
 
-// TODO: Вынести в users
+
 export enum SIGN_UP_FORM_FIELDS_NAME {
   EMAIL = "email",
   LOGIN = "login",
@@ -19,7 +19,7 @@ export enum SIGN_UP_FORM_FIELDS_NAME {
   REPEAT_PASSWORD = "repeatPassword",
 }
 
-// TODO: Вынести в users
+
 export const SIGN_UP_FORM_FIELDS: Record<SIGN_UP_FORM_FIELDS_NAME, FormInputProps> = {
   [SIGN_UP_FORM_FIELDS_NAME.EMAIL]: {
     id: SIGN_UP_FORM_FIELDS_NAME.EMAIL,

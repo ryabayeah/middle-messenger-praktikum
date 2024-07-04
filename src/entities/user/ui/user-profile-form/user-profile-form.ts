@@ -1,4 +1,5 @@
 import { Block } from "../../../../shared/lib";
+import { Ref } from "../../../../shared/model/components";
 import { Avatarr } from "../../../../shared/ui/avatar/avatar";
 import { Buttonn } from "../../../../shared/ui/button";
 import { FormInput } from "../../../../shared/ui/form-input/form-input";
@@ -7,6 +8,7 @@ import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from "../../lib/constants";
 import { UserProfileData } from "../../model/base";
 import { UserAvatarModal } from "../user-avatar-modal";
 import template from "./user-profile-form.new.hbs?raw";
+// TODO: Проверить импорты
 
 interface UserProfileFormProps extends CompileOptions {
   isEditable: boolean;
@@ -23,7 +25,6 @@ interface InternalUserProfileFormProps extends UserProfileFormProps {
   profileButtons: Buttonn[];
 }
 
-type Ref = Record<string, Block | null>;
 export class UserProfileForm extends Block {
   constructor({
     isEditable,
@@ -47,11 +48,6 @@ export class UserProfileForm extends Block {
         ...fieldValues,
         value: userProfileData[key as keyof typeof PROFILE_FIELDS],
         isDisabled: true,
-        onChange(e) {
-          PROFILE_FIELDS[key as PROFILE_FIELDS_NAME].value = (
-            e.target as HTMLInputElement
-          ).value;
-        },
       });
       refs[key as PROFILE_FIELDS_NAME] = field;
       formFields.push(field);

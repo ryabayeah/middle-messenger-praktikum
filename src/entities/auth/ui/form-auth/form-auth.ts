@@ -1,13 +1,10 @@
 import { Block } from "../../../../shared/lib/block";
 import { Buttonn } from "../../../../shared/ui/button";
-import { Inputt } from "../../../../shared/ui/input";
 import template from "./form-auth.hbs?raw"
 
 interface FormAuthProps extends CompileOptions {
   caption: string
-  inputLogin?: Inputt;
-  inputPassword?: Inputt;
-  children?: Block | Block[];
+  children: Block | Block[];
   isInvalid?: boolean
   buttonSubmit: Buttonn
   buttonAlt: Buttonn

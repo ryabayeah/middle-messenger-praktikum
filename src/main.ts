@@ -1,6 +1,5 @@
 import * as Widgets from "./shared/ui";
 import * as Pages from "./pages";
-import * as AuthProps from "./entities/auth/lib/constants/data";
 import * as UserProps from "./entities/user/lib/constants/data";
 
 import * as ChatUI from "./entities/chat/ui";
@@ -12,20 +11,12 @@ import { render } from "./shared/utils/renderDom";
 import { SignInPage } from "./pages/sign-in";
 import { Block } from "./shared/lib/block";
 import { NotFoundPage } from "./pages/not-found";
-import { ProfilePage, ServerErrorPage, SignUpPage } from "./pages";
+import { PasswordChangePage, ProfilePage, ServerErrorPage, SignUpPage } from "./pages";
 import { APP_PATH } from "./shared/constants";
 import { getUrlPathName } from "./shared/utils";
 
 
 const pagesMap = {
-  [APP_PATH.PROFILE]: {
-    template: Pages.Chats,
-    props: UserProps.ProfileProps,
-  },
-  [APP_PATH.PROFILE_EDIT]: {
-    template: Pages.ProfileEdit,
-    props: UserProps.ProfileProps,
-  },
   [APP_PATH.CHANGE_PASSWORD]: {
     template: Pages.ProfileChangePassword,
     props: {},
@@ -45,6 +36,7 @@ const route  = () => {
     [APP_PATH.NOT_FOUND]: NotFoundPage(),
     [APP_PATH.ERROR]: ServerErrorPage(),
     [APP_PATH.PROFILE]: ProfilePage(),
+    [APP_PATH.CHANGE_PASSWORD]: PasswordChangePage()
   }
 
   const pages = Object.keys(newPages);
@@ -58,10 +50,7 @@ const route  = () => {
 }
 
 Object.entries({
-  // ...Layouts,
   ...Widgets,
-  ...UserUI,
-  // ...AuthUI,
   ...ChatUI,
 }).forEach(([name, component]) => {
   Handlebars.registerPartial(name, component);

@@ -1,11 +1,11 @@
 import { FormInputProps } from "../../../../shared/ui/form-input/form-input";
 
-// TODO: Вынести в users
+
 export enum SIGN_IN_FORM_FIELDS_NAME {
   LOGIN = "login",
   PASSWORD = "password",
 }
-// TODO: Вынести в users
+
 export const SIGN_IN_FORM_FIELDS: Record<
   SIGN_IN_FORM_FIELDS_NAME,
   FormInputProps

@@ -44,6 +44,9 @@ export class FormInput extends Block {
     });
   }
 
+  get inputValue():string{
+    return String((this.children.input as Inputt).value)
+  }
   componentDidUpdate(
     _oldProps: FormInputProps,
     _newProps: FormInputProps

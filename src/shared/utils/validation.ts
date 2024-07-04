@@ -1,4 +1,6 @@
 import { REGEXP_PATTERN } from "../constants";
+import { Ref } from "../model/components";
+import { FormInput } from "../ui/form-input/form-input";
 
 export const emailValidator = (value: string): boolean => {
   return REGEXP_PATTERN.EMAIL.test(value);
@@ -40,9 +42,23 @@ export const passwordRepeatedValidator = (
   value: string,
   oldValue: string
 ): boolean => {
-  return value === oldValue;
+  return matchValidator(value, oldValue);
 };
 
-export const emptyValidator = (value: string): boolean => {
+// TODO: Перенести
+export const getPasswordRepeatedValidator = (refs: Ref, key: string) => {
+  return (value: string) => {
+    const ref = refs[key] as FormInput;
+    if (ref) {
+      return passwordRepeatedValidator(ref.inputValue, value);
+    }
+    return false;
+  };
+};
+
+export const matchValidator = <T>(valueOne: T, valueTwo: T) => {
+  return valueOne === valueTwo;
+};
+export const emptyValidator = (value: unknown): boolean => {
   return value !== "";
 };

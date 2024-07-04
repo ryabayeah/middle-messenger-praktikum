@@ -34,7 +34,7 @@ export interface InputProps extends CompileOptions {
   isDisabled?: boolean;
   isInvalid?: boolean;
   validateOn?: InputEvents[];
-  validator?: (value: string) => boolean;
+  validator?: (value: string, valueOld?: string) => boolean;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void;
   onValidate?: (isValid: boolean) => void;
@@ -65,6 +65,10 @@ export class Inputt extends Block {
         },
       },
     });
+  }
+
+  get value(){
+    return this.props.value
   }
 
   validate(validator: (value: string) => boolean, value: string) {

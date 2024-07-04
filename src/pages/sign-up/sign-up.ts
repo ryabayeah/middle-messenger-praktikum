@@ -7,7 +7,11 @@ import { AuthLayout } from "../../layouts";
 import { Block } from "../../shared/lib/block";
 import { Buttonn } from "../../shared/ui/button";
 import { FormInput } from "../../shared/ui/form-input/form-input";
-import { emptyValidator } from "../../shared/utils";
+import {
+  emptyValidator,
+  getPasswordRepeatedValidator,
+  passwordRepeatedValidator,
+} from "../../shared/utils";
 
 export const SignUpPage = () => {
   const refs: Record<SIGN_UP_FORM_FIELDS_NAME, FormInput | null> = {
@@ -20,18 +24,26 @@ export const SignUpPage = () => {
     [SIGN_UP_FORM_FIELDS_NAME.REPEAT_PASSWORD]: null,
   };
 
+  // TODO: Переделать под FormData
   const handleSubmit = () => {
     const result: Record<string, string> = {};
 
     Object.entries(SIGN_UP_FORM_FIELDS).forEach(
       ([key, { validator, value, label, ...props }]) => {
         const fieldRef = refs[key as SIGN_UP_FORM_FIELDS_NAME];
-        
+
         if (fieldRef) {
+
+          const fieldValidator = key === SIGN_UP_FORM_FIELDS_NAME.REPEAT_PASSWORD
+          ? getPasswordRepeatedValidator(
+              refs,
+              SIGN_UP_FORM_FIELDS_NAME.PASSWORD
+            )
+          : validator
           const isInvalid =
-            (validator && !validator(value || "")) ||
+            (fieldValidator && !fieldValidator(value || "")) ||
             !emptyValidator(value || "");
-            // TODO:  fieldRef.setProps({ isInvalid: isInvalid });
+          // TODO:  fieldRef.setProps({ isInvalid: isInvalid });
 
           fieldRef.setProps({ ...props, validator, value, label, isInvalid });
         }
@@ -49,6 +61,13 @@ export const SignUpPage = () => {
         ...value,
         validateOn: ["blur"],
         isInvalid: false,
+        validator:
+          key === SIGN_UP_FORM_FIELDS_NAME.REPEAT_PASSWORD
+            ? getPasswordRepeatedValidator(
+                refs,
+                SIGN_UP_FORM_FIELDS_NAME.PASSWORD
+              )
+            : value.validator,
         onChange(e) {
           SIGN_UP_FORM_FIELDS[key as SIGN_UP_FORM_FIELDS_NAME].value = (
             e.target as HTMLInputElement
