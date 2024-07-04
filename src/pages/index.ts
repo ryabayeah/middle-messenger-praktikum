@@ -7,4 +7,4 @@ export { PasswordChangePage } from "./password-change";
 export { Chats } from "./chats";
 
 // Временная страница для показа
-export { default as TempNav } from "./temp-nav/temp-nav.hbs?raw";
+export { TempNavPage } from "./temp-nav";
