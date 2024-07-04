@@ -1,11 +1,11 @@
 import template1 from "./form-input.hbs?raw";
-import { Inputt } from "../input";
+import { Input } from "../input";
 import { InputProps } from "../input/input";
 import "./form-input.scss";
 import { Feedback } from "../feedback/feedback";
 import { Block } from "../../lib";
-export type FormInputEvents = "blur" | "change";
-// NEW CLASS METHOD
+
+
 export interface FormInputProps extends InputProps {
   feedbackErrorText?: string;
 }
@@ -17,7 +17,7 @@ export class FormInput extends Block {
     onBlur,
     ...props
   }: FormInputProps) {
-    const input = new Inputt({
+    const input = new Input({
       ...props,
       onBlur: (e: Event) => {
         onBlur && onBlur(e);
@@ -45,7 +45,7 @@ export class FormInput extends Block {
   }
 
   get inputValue():string{
-    return String((this.children.input as Inputt).value)
+    return String((this.children.input as Input).value)
   }
   componentDidUpdate(
     _oldProps: FormInputProps,

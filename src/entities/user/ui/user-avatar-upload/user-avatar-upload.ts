@@ -1,6 +1,6 @@
 import { Block } from "../../../../shared/lib";
-import { Inputt } from "../../../../shared/ui/input";
-import { Linkk } from "../../../../shared/ui/link/link";
+import { Input } from "../../../../shared/ui/input";
+import { Link } from "../../../../shared/ui/link/link";
 import "./user-avatar-upload.scss";
 import template from "./user-avatar-upload.hbs?raw";
 
@@ -10,7 +10,7 @@ interface UserAvatarUploadProps extends CompileOptions {
 
 export class UserAvatarUpload extends Block {
   constructor({ onUploadAvatar }: UserAvatarUploadProps) {
-    const link = new Linkk({
+    const link = new Link({
       text: "Выбрать файл на компьютере",
       href: "#",
       class: "underline",
@@ -19,7 +19,7 @@ export class UserAvatarUpload extends Block {
       },
     });
 
-    const uploadedFileLink = new Linkk({
+    const uploadedFileLink = new Link({
       text: "",
       href: "#",
       onClick: () => {
@@ -27,7 +27,7 @@ export class UserAvatarUpload extends Block {
       },
     });
 
-    const hiddenInput = new Inputt({
+    const hiddenInput = new Input({
       type: "file",
       id: "hidden_input",
       name: "avatar_data",
@@ -50,14 +50,14 @@ export class UserAvatarUpload extends Block {
 
 
   protected _hideUploadedFileLinkRef(){
-    const uploadedFileLinkRef = this.children.uploadedFileLink as Linkk;
+    const uploadedFileLinkRef = this.children.uploadedFileLink as Link;
     if (uploadedFileLinkRef) {
       uploadedFileLinkRef.hide();
     }
   }
 
   protected _showUploadedFileLinkRef(text: string){
-    const uploadedFileLinkRef = this.children.uploadedFileLink as Linkk;
+    const uploadedFileLinkRef = this.children.uploadedFileLink as Link;
     if (uploadedFileLinkRef) {
       uploadedFileLinkRef.setProps({ text });
       uploadedFileLinkRef.show();
@@ -65,7 +65,7 @@ export class UserAvatarUpload extends Block {
   }
 
   protected _resetHiddenInputValue(){
-    const hiddenInputRef = this.children.hiddenInput as Inputt;
+    const hiddenInputRef = this.children.hiddenInput as Input;
     if (hiddenInputRef) {
         hiddenInputRef.setProps({ value: undefined });
         // TODO: Это костыль. При сбросе пропсов сбрасывается значение display в styles.
@@ -75,7 +75,7 @@ export class UserAvatarUpload extends Block {
 
 
   handleClick() {
-    const hiddenInputRef = this.children.hiddenInput as Inputt;
+    const hiddenInputRef = this.children.hiddenInput as Input;
     hiddenInputRef.click();
     this._hideUploadedFileLinkRef()
     // TODO: Сделать обработку загрузки файла (isLoading)

@@ -1,7 +1,7 @@
 import template from "./user-avatar-modal.hbs?raw";
 import { Block } from "../../../../shared/lib";
 import { Modal } from "../../../../shared/ui/modal/modal";
-import { Buttonn } from "../../../../shared/ui/button";
+import { Button } from "../../../../shared/ui/button";
 import { UserAvatarUpload } from "../user-avatar-upload";
 
 interface UserAvatarModalProps extends CompileOptions {
@@ -14,14 +14,14 @@ interface UserAvatarModalProps extends CompileOptions {
 export class UserAvatarModal extends Block {
   constructor({ onClose, onApply, ...props }: UserAvatarModalProps) {
     const avatarFile: File | null = null;
-    const saveButton = new Buttonn({
+    const saveButton = new Button({
       text: "Поменять",
       variant: "primary",
       class: "w-full",
       type: 'button',
       onClick: () => this.handleApply(onApply),
     });
-    const altButton = new Buttonn({
+    const altButton = new Button({
       text: "Отмена",
       variant: "secondary",
       class: "w-full",

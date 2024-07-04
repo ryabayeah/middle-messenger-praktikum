@@ -1,12 +1,5 @@
-import * as Widgets from "./shared/ui";
 import * as Pages from "./pages";
-import * as UserProps from "./entities/user/lib/constants/data";
-
-import * as ChatUI from "./entities/chat/ui";
-import * as UserUI from "./entities/user/ui";
-
 import "./main.scss";
-import Handlebars from "handlebars";
 import { render } from "./shared/utils/renderDom";
 import { SignInPage } from "./pages/sign-in";
 import { Block } from "./shared/lib/block";
@@ -17,14 +10,6 @@ import { getUrlPathName } from "./shared/utils";
 
 
 const pagesMap = {
-  [APP_PATH.CHANGE_PASSWORD]: {
-    template: Pages.ProfileChangePassword,
-    props: {},
-  },
-  [APP_PATH.CHANGE_AVATAR]: {
-    template: Pages.ProfileChangeAvatar,
-    props: {},
-  },
   [APP_PATH.CHATS]: { template: Pages.Chats, props: {} },
   [APP_PATH.NAV]: { template: Pages.TempNav, props: {} },
 };
@@ -48,13 +33,6 @@ const route  = () => {
 
   render('#root', pageData);
 }
-
-Object.entries({
-  ...Widgets,
-  ...ChatUI,
-}).forEach(([name, component]) => {
-  Handlebars.registerPartial(name, component);
-});
 
 document.addEventListener("DOMContentLoaded", () => {
   route()

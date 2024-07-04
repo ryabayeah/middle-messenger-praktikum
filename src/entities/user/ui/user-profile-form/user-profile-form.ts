@@ -1,7 +1,7 @@
 import { Block } from "../../../../shared/lib";
 import { Ref } from "../../../../shared/model/components";
-import { Avatarr } from "../../../../shared/ui/avatar/avatar";
-import { Buttonn } from "../../../../shared/ui/button";
+import { Avatar } from "../../../../shared/ui/avatar/avatar";
+import { Button } from "../../../../shared/ui/button";
 import { FormInput } from "../../../../shared/ui/form-input/form-input";
 import { emptyValidator, getBase64 } from "../../../../shared/utils";
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from "../../lib/constants";
@@ -18,11 +18,11 @@ interface UserProfileFormProps extends CompileOptions {
 
 interface InternalUserProfileFormProps extends UserProfileFormProps {
   refs: Record<PROFILE_FIELDS_NAME, Block | null>;
-  avatar: Avatarr;
+  avatar: Avatar;
   formFields: FormInput[];
-  saveButton: Buttonn;
-  altButton: Buttonn;
-  profileButtons: Buttonn[];
+  saveButton: Button;
+  altButton: Button;
+  profileButtons: Button[];
 }
 
 export class UserProfileForm extends Block {
@@ -59,20 +59,20 @@ export class UserProfileForm extends Block {
     });
     userAvatarModal.hide();
 
-    const avatar = new Avatarr({
+    const avatar = new Avatar({
       isEditable: false,
       onClick: () => {
         this.handleAvatarClick();
       },
     });
 
-    const saveButton = new Buttonn({
+    const saveButton = new Button({
       type: "submit",
       text: "Сохранить",
       variant: "primary",
     });
 
-    const altButton = new Buttonn({
+    const altButton = new Button({
       type: "reset",
       text: "Отмена",
       variant: "secondary",
@@ -81,7 +81,7 @@ export class UserProfileForm extends Block {
       },
     });
 
-    const editProfileButton = new Buttonn({
+    const editProfileButton = new Button({
       text: "Изменить данные",
       textPosition: "left",
       variant: "secondary",
@@ -92,7 +92,7 @@ export class UserProfileForm extends Block {
       },
     });
 
-    const editPasswordButton = new Buttonn({
+    const editPasswordButton = new Button({
       text: "Изменить пароль",
       textPosition: "left",
       variant: "secondary",
@@ -104,7 +104,7 @@ export class UserProfileForm extends Block {
       },
     });
 
-    const logOutButton = new Buttonn({
+    const logOutButton = new Button({
       text: "Выйти",
       textPosition: "left",
       variant: "error",
@@ -167,7 +167,7 @@ export class UserProfileForm extends Block {
     }
 
     //TODO: Возможно временно использоване base64? Мб будет открытый бакет? 
-    const avatarRef  = this.children[PROFILE_FIELDS_NAME.AVATAR] as Avatarr
+    const avatarRef  = this.children[PROFILE_FIELDS_NAME.AVATAR] as Avatar
     if (avatarRef){
       const base64 = (await getBase64(file)).split(',')[1]
       const imgType = base64.split('.').at(-1) || 'png'
@@ -215,7 +215,7 @@ export class UserProfileForm extends Block {
     _newProps: InternalUserProfileFormProps
   ): boolean {
     if (_oldProps.isEditable !== _newProps.isEditable) {
-      const avatarRef = this.children.avatar as Avatarr;
+      const avatarRef = this.children.avatar as Avatar;
       if (avatarRef) {
         avatarRef.setProps({ isEditable: _newProps.isEditable });
       }

@@ -1,7 +1,7 @@
 import { Block } from "../../lib";
 import "./feedback.scss";
 import template from './feedback.hbs?raw'
-// NEW CLASS METHOD
+
 interface FeedbackProps extends CompileOptions {
   class?: string;
   isInvalid?: boolean;

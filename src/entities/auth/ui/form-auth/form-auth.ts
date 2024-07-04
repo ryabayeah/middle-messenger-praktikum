@@ -1,13 +1,15 @@
 import { Block } from "../../../../shared/lib/block";
-import { Buttonn } from "../../../../shared/ui/button";
+import { Ref } from "../../../../shared/model/components";
+import { Button } from "../../../../shared/ui/button";
 import template from "./form-auth.hbs?raw"
 
-interface FormAuthProps extends CompileOptions {
+export interface FormAuthProps extends CompileOptions {
   caption: string
   children: Block | Block[];
   isInvalid?: boolean
-  buttonSubmit: Buttonn
-  buttonAlt: Buttonn
+  buttonSubmit: Button
+  buttonAlt: Button
+  refs?: Ref
   onSubmit?: (e: Event) => void
 }
 

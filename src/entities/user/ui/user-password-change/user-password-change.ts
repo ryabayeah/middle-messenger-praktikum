@@ -1,6 +1,6 @@
 import { Block } from "../../../../shared/lib";
 import { Ref } from "../../../../shared/model/components";
-import { Buttonn } from "../../../../shared/ui/button/button";
+import { Button } from "../../../../shared/ui/button/button";
 import { FormInput } from "../../../../shared/ui/form-input/form-input";
 import { emptyValidator, getPasswordRepeatedValidator } from "../../../../shared/utils";
 import { FormAuth } from "../../../auth/ui";
@@ -39,13 +39,13 @@ export class UserPasswordChange extends Block {
       formFields.push(field);
     });
 
-    const saveButton = new Buttonn({
+    const saveButton = new Button({
       type: "submit",
       text: "Сохранить",
       variant: "primary",
     });
 
-    const altButton = new Buttonn({
+    const altButton = new Button({
       type: "reset",
       text: "Отмена",
       variant: "secondary",

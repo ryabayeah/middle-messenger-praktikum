@@ -1,30 +1,17 @@
-import Handlebars from "handlebars";
 import template from "./input.hbs?raw";
-import template1 from "./input.new.hbs?raw";
 import "./input.scss";
 import { Block } from "../../lib";
 
-interface IInputProps {
-  id: string;
-  name: string;
-  type?: "text" | "number" | string;
-  label?: string;
-  value?: string;
-  isRequired?: boolean;
-  isDisabled?: boolean;
-  isInvalid?: boolean;
-}
-
-export const Input = ({ type = "text", ...props }: IInputProps) => {
-  return Handlebars.compile(template)({ type, ...props });
-};
 
 export type InputEvents = "blur" | "change";
+export type InputType = "text" | "number" | string;
+export type InputDefaultValidator = (value: string) => boolean
+
 // TODO: Стоит разделить FileInput и Input
 export interface InputProps extends CompileOptions {
   id: string;
   name: string;
-  type?: "text" | "number" | string;
+  type?: InputType;
   label?: string;
   value?: string;
   class?: string;
@@ -34,13 +21,13 @@ export interface InputProps extends CompileOptions {
   isDisabled?: boolean;
   isInvalid?: boolean;
   validateOn?: InputEvents[];
-  validator?: (value: string, valueOld?: string) => boolean;
+  validator?: InputDefaultValidator;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void;
   onValidate?: (isValid: boolean) => void;
 }
 
-export class Inputt extends Block {
+export class Input extends Block {
   constructor({
     validateOn,
     validator,
@@ -86,6 +73,6 @@ export class Inputt extends Block {
   }
 
   render() {
-    return this.compile(template1, { ...this.props });
+    return this.compile(template, { ...this.props });
   }
 }

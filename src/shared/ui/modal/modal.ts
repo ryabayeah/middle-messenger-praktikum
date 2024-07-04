@@ -2,7 +2,6 @@ import template from "./modal.hbs?raw";
 import "./modal.scss";
 import { Block } from "../../lib";
 
-// NEW CLASS METHOD
 interface ModalProps extends CompileOptions {
   title: string;
   body: Block;

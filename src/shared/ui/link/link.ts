@@ -1,19 +1,7 @@
-import Handlebars from "handlebars";
 import template from "./link.hbs?raw";
 import "./link.scss";
 import { Block } from "../../lib";
 
-interface ILinkProps {
-  href?: string;
-  value?: string;
-  class?: string;
-}
-
-export const Link = (props: ILinkProps) => {
-  return Handlebars.compile(template)(props);
-};
-
-// NEW CLASS METHOD
 interface LinkProps extends CompileOptions {
   text: string;
   class?: string;
@@ -21,7 +9,7 @@ interface LinkProps extends CompileOptions {
   onClick?: (e: Event) => void;
 }
 
-export class Linkk extends Block {
+export class Link extends Block {
   constructor({ onClick, ...props }: LinkProps) {
     super({
       ...props,

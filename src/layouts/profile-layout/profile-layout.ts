@@ -1,5 +1,5 @@
 import { Block } from "../../shared/lib";
-import { Buttonn } from "../../shared/ui/button";
+import { Button } from "../../shared/ui/button";
 import template from "./profile-layout.hbs?raw";
 
 interface ProfileLayoutProps extends CompileOptions {
@@ -9,7 +9,7 @@ interface ProfileLayoutProps extends CompileOptions {
 
 export class ProfileLayout extends Block {
   constructor(props: ProfileLayoutProps) {
-    const backButton = new Buttonn({
+    const backButton = new Button({
       variant: "secondary",
       text: "Назад",
       textPosition: "left",
