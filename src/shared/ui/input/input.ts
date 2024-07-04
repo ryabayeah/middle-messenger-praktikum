@@ -20,13 +20,16 @@ export const Input = ({ type = "text", ...props }: IInputProps) => {
 };
 
 export type InputEvents = "blur" | "change";
-// NEW CLASS METHOD
+// TODO: Стоит разделить FileInput и Input
 export interface InputProps extends CompileOptions {
   id: string;
   name: string;
   type?: "text" | "number" | string;
   label?: string;
   value?: string;
+  class?: string;
+  multiple?: boolean;
+  accept?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
   isInvalid?: boolean;
@@ -74,8 +77,11 @@ export class Inputt extends Block {
     return isValid;
   }
 
+  click() {
+    this.element?.click();
+  }
+
   render() {
-    console.log("-----p")
     return this.compile(template1, { ...this.props });
   }
 }

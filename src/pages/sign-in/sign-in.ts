@@ -14,7 +14,7 @@ export const SignInPage = () => {
     Object.values(SIGN_IN_FORM_FIELDS_NAME).forEach((fieldName) => {
       result[fieldName] = data.get(fieldName);
     });
-    console.log(result);
+    console.log("SIGN_IN_FORM: ", result);
   };
 
   const renderFormFields = () => {

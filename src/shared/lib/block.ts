@@ -37,6 +37,9 @@ export class Block {
   protected children: Children;
   private eventBus: () => EventBus;
 
+  get element(){
+    return this._element
+  }
   constructor(
     propsAndChildren: Props
     // , tagName: string = "div"
@@ -119,14 +122,22 @@ export class Block {
     return true;
   }
 
-  setProps = (newProps: Record<string, unknown>) => {
+  setProps = (newProps: Props) => {
     if (!newProps) {
       return;
     }
 
     Object.assign(this.props, newProps);
-    // this.eventBus().emit(Block.EVENTS.FLOW_CDU);
   };
+
+  setChildren = (newChildren: Props) => {
+    if (!newChildren) {
+      return;
+    }
+
+    Object.assign(this.children, newChildren);
+  };
+
 
   _addEvents() {
     const { events = {} } = this.props;
@@ -268,5 +279,19 @@ export class Block {
     });
 
     return fragment.content;
+  }
+
+  show() {
+    const element = this.getContent()
+    if (element){
+        element.style.display = "block";
+    }
+  }
+
+  hide() {
+    const element = this.getContent()
+    if (element){
+        element.style.display = "none";
+    }
   }
 }

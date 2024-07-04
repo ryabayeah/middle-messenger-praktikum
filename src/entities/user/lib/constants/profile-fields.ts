@@ -1,3 +1,5 @@
+import { FormInputProps } from "../../../../shared/ui/form-input/form-input";
+
 import {
   emailValidator,
   loginValidator,
@@ -12,14 +14,15 @@ export enum PROFILE_FIELDS_NAME {
   SECOND_NAME = "second_name",
   DISPLAY_NAME = "display_name",
   PHONE = "phone",
+  AVATAR = "avatar",
 }
-export const PROFILE_FIELDS = {
+export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
   [PROFILE_FIELDS_NAME.FIRST_NAME]: {
     id: PROFILE_FIELDS_NAME.FIRST_NAME,
     name: PROFILE_FIELDS_NAME.FIRST_NAME,
     type: "text",
     label: "Имя",
-    value: "Иван",
+    validateOn: ['blur'],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректное имя",
     validator: nameValidator,
@@ -29,7 +32,7 @@ export const PROFILE_FIELDS = {
     name: PROFILE_FIELDS_NAME.SECOND_NAME,
     type: "text",
     label: "Фамилия",
-    value: "Иванов",
+    validateOn: ['blur'],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректное имя",
     validator: nameValidator,
@@ -39,7 +42,6 @@ export const PROFILE_FIELDS = {
     name: PROFILE_FIELDS_NAME.DISPLAY_NAME,
     type: "text",
     label: "Имя в чате",
-    value: "Абоба",
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректное имя",
     validator: nameValidator,
@@ -49,7 +51,7 @@ export const PROFILE_FIELDS = {
     name: PROFILE_FIELDS_NAME.EMAIL,
     type: "email",
     label: "E-mail",
-    value: "Абоба@gmail.com",
+    validateOn: ['blur'],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректный E-mail",
     validator: emailValidator,
@@ -59,7 +61,7 @@ export const PROFILE_FIELDS = {
     name: PROFILE_FIELDS_NAME.LOGIN,
     type: "text",
     label: "Логин",
-    value: "login",
+    validateOn: ['blur'],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректный логин",
     validator: loginValidator,
@@ -69,9 +71,16 @@ export const PROFILE_FIELDS = {
     name: PROFILE_FIELDS_NAME.PHONE,
     type: "phone",
     label: "Телефон",
-    value: "8912392138912",
+    validateOn: ['blur'],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректный формат номера телефона",
     validator: phoneValidator,
+  },
+  [PROFILE_FIELDS_NAME.AVATAR]: {
+    id: PROFILE_FIELDS_NAME.AVATAR,
+    name: PROFILE_FIELDS_NAME.AVATAR,
+    type: "file",
+    label: "",
+    class: 'hidden',
   },
 };

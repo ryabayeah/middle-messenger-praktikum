@@ -11,7 +11,12 @@ export interface FormInputProps extends InputProps {
 }
 
 export class FormInput extends Block {
-  constructor({ feedbackErrorText, onChange, onBlur, ...props }: FormInputProps) {
+  constructor({
+    feedbackErrorText,
+    onChange,
+    onBlur,
+    ...props
+  }: FormInputProps) {
     const input = new Inputt({
       ...props,
       onBlur: (e: Event) => {
@@ -19,7 +24,6 @@ export class FormInput extends Block {
       },
       onValidate: (isValid: boolean) => {
         this.setProps({
-          ...props,
           isInvalid: !isValid,
         });
       },
@@ -46,7 +50,7 @@ export class FormInput extends Block {
   ): boolean {
     const { isInvalid, feedbackErrorText, isDisabled } = _newProps;
 
-    if (_oldProps.isInvalid !== isInvalid){
+    if (_oldProps.isInvalid !== isInvalid) {
       const feedbackChild = this.children.feedbackError as Block;
       feedbackChild.setProps({
         class: "form__feedback",
@@ -56,18 +60,17 @@ export class FormInput extends Block {
       return true;
     }
 
-    if (_oldProps.isDisabled !== isDisabled){
+    if (_oldProps.isDisabled !== isDisabled) {
       const inputChild = this.children.input as Block;
       inputChild.setProps({
-        isDisabled
-        // ..._newProps,
+        isDisabled,
       });
-      return true
+      return true;
     }
-    if (JSON.stringify(_oldProps) !== JSON.stringify(_newProps)){
-      return true
+    if (JSON.stringify(_oldProps) !== JSON.stringify(_newProps)) {
+      return true;
     }
-    return false
+    return false;
   }
 
   render() {

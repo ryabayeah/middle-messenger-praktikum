@@ -26,10 +26,13 @@ export const SignUpPage = () => {
     Object.entries(SIGN_UP_FORM_FIELDS).forEach(
       ([key, { validator, value, label, ...props }]) => {
         const fieldRef = refs[key as SIGN_UP_FORM_FIELDS_NAME];
+        
         if (fieldRef) {
           const isInvalid =
             (validator && !validator(value || "")) ||
             !emptyValidator(value || "");
+            // TODO:  fieldRef.setProps({ isInvalid: isInvalid });
+
           fieldRef.setProps({ ...props, validator, value, label, isInvalid });
         }
 
