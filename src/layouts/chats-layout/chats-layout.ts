@@ -1,4 +1,4 @@
-import { DIALOG_MESSAGE } from "../../entities/chat/lib/contsants";
+import { DIALOG_MESSAGE } from "../../entities/chat/lib/constants";
 import {
   Dialog,
   DialogCard,

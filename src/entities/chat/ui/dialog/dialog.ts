@@ -3,10 +3,11 @@ import template from "./dialog.hbs?raw";
 import { Block } from "../../../../shared/lib";
 import { Avatar, Button, Input } from "../../../../shared/ui";
 import { DialogNoLayout } from "../dialog-no-layout";
-import { DIALOG_ICONS, DIALOG_MESSAGE } from "../../lib/contsants";
+import { DIALOG_ICONS, DIALOG_MESSAGE } from "../../lib/constants";
 import { DialogActions } from "../dialog-actions";
 import { DialogAddUserModal } from "../dialog-add-user-modal";
 import { DialogDeleteUserModal } from "../dialog-delete-user-modal";
+import { DialogAttachments } from "../dialog-attachments";
 
 interface DialogProps extends CompileOptions {
   id: number;
@@ -50,7 +51,6 @@ export class Dialog extends Block {
       class: "user-avatar",
     });
 
-    
     // Send message
     const messageInput = new Input({
       id: "message",
@@ -63,7 +63,13 @@ export class Dialog extends Block {
       variant: "secondary",
       icon: DIALOG_ICONS.ATTACH,
       class: "buttons",
+      onClick: () => this.__handleAttachButtonClick(),
     });
+
+    const attachments = new DialogAttachments({
+      onAttach: (file: File) => this.__handleAttachFile(file),
+    });
+    attachments.hide();
 
     const sendButton = new Button({
       text: "",
@@ -118,10 +124,12 @@ export class Dialog extends Block {
       actionsButton,
       actions,
 
+      body,
+
       messageInput,
       attachButton,
+      attachments,
       sendButton,
-      body,
 
       addUserModal,
       deleteUserModal,
@@ -152,6 +160,17 @@ export class Dialog extends Block {
     const deleteUserModal = this.children
       .deleteUserModal as DialogDeleteUserModal;
     deleteUserModal.show();
+  }
+
+  private __handleAttachButtonClick() {
+    (this.children.attachments as DialogActions).toggleVisibility();
+  }
+
+  private __handleAttachFile(file: File) {
+    console.log(file.name, "---");
+    // TODO: Отправка файла
+    const attachments = this.children.attachments as DialogActions;
+    attachments.toggleVisibility();
   }
 
   render() {

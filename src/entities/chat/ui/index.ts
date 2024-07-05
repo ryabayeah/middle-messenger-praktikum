@@ -5,3 +5,4 @@ export { DialogNoLayout } from "./dialog-no-layout";
 export { DialogActions } from "./dialog-actions";
 export { DialogAddUserModal } from "./dialog-add-user-modal";
 export { DialogDeleteUserModal } from "./dialog-delete-user-modal";
+export { DialogAttachments } from "./dialog-attachments";

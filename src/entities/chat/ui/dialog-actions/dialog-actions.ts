@@ -2,7 +2,7 @@ import "./dialog-actions.scss";
 import template from "./dialog-actions.hbs?raw";
 import { Block } from "../../../../shared/lib";
 import { Button } from "../../../../shared/ui";
-import { DIALOG_ICONS } from "../../lib/contsants";
+import { DIALOG_ICONS } from "../../lib/constants";
 
 interface DialogActionsProps extends CompileOptions {
   onUserAdd: (e: Event) => void;
