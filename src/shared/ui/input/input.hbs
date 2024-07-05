@@ -1,9 +1,10 @@
 <input 
     autocomplete="off"
-    type={{type}}
-    class="form__input {{#if isInvalid}} 'invalid' {{/if}} {{class}}"
-    name={{name}}
     id={{id}}
+    name={{name}}
+    class="form__input {{#if isInvalid}} 'invalid' {{/if}} {{class}}"
+  
+    {{#if type}} type="{{type}}" {{/if}}
     {{#if placeholder}} placeholder="{{placeholder}}" {{/if}}
     {{#if accept}} accept="{{accept}}" {{/if}}
     {{#if multiple}} multiple="{{multiple}}" {{/if}}

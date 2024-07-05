@@ -1,3 +1,5 @@
 export { DialogCard } from "./dialog-card";
 export { DialogSearch } from "./dialog-search";
-export { NoDialogMessage } from "./no-dialog-message";
+export { Dialog } from "./dialog";
+export { DialogNoLayout } from "./dialog-no-layout";
+export { DialogActions } from "./dialog-actions";

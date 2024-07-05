@@ -1,0 +1,73 @@
+.dialog {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  &__header {
+    &-data {
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        &-avatar {
+          height: 34px;
+          width: 34px;
+        }
+      }
+      .actions{
+        position: relative;
+        .burger {
+          cursor: pointer;
+          height: 25px;
+          width: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 180%;
+  
+          &:hover {
+            background-color: var(--light-gray);
+          }
+        }
+
+      }
+    }
+  }
+
+  &__body{
+    height: 100%;
+  }
+  &__footer{
+    margin-top: auto;
+    &-data{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 0;
+        .buttons{
+            padding: 0;
+            height: 30px;
+            width: 30px;
+            &.send{
+                border-radius: 180px;
+                padding: 5px;
+            }
+            &.attach{
+                border-radius: 180px;
+                padding: 5px;
+            }
+        }
+    }
+  }
+}
+
+.dialog-separator {
+  border: 1px solid var(--light-gray);
+}

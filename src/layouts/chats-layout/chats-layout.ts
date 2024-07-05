@@ -1,7 +1,9 @@
+import { DIALOG_MESSAGE } from "../../entities/chat/lib/contsants";
 import {
+  Dialog,
   DialogCard,
   DialogSearch,
-  NoDialogMessage,
+  DialogNoLayout,
 } from "../../entities/chat/ui";
 import { APP_PATH } from "../../shared/constants";
 import { Block } from "../../shared/lib";
@@ -9,7 +11,7 @@ import { Link } from "../../shared/ui";
 import template from "./chats-layout.hbs?raw";
 import "./chats-layout.scss";
 
-const DIALOG_CARDS: ChatDialog[] = [
+const DIALOG_CARDS: ChatDialogShort[] = [
   {
     id: 1,
     avatarSrc: "",
@@ -101,7 +103,7 @@ const DIALOG_CARDS: ChatDialog[] = [
   },
 ];
 
-type ChatDialog = {
+type ChatDialogShort = {
   id: number;
   avatarSrc: string;
   name: string;
@@ -112,7 +114,7 @@ type ChatDialog = {
 
 interface ChatsLayoutProps extends CompileOptions {
   searchQuery?: string;
-  dialogs?: ChatDialog[];
+  dialogs?: ChatDialogShort[];
   selectedDialogId?: number;
 }
 
@@ -151,22 +153,26 @@ export class ChatsLayout extends Block {
       linkProfile,
       sidebarHeader: dialogSearch,
       sidebarBody: dialogCards,
-      body: new NoDialogMessage(),
+      body: new DialogNoLayout({
+        message: DIALOG_MESSAGE.NO_DIALOG_SELECTED
+      }),
     });
   }
 
   renderNoDataMessage() {
-    return new NoDialogMessage();
+    return new DialogNoLayout({
+      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED
+    });
   }
 
   // TODO: Здесь будет API запрос с search (?), вместо фильтрации "руками"
   getFilteredChatDialogs(name: string) {
-    return (this.props.dialogs as ChatDialog[]).filter((dialog) =>
+    return (this.props.dialogs as ChatDialogShort[]).filter((dialog) =>
       dialog.name.includes(name)
     );
   }
 
-  renderDialogCards(dialogs: ChatDialog[], activeId: number | undefined){
+  renderDialogCards(dialogs: ChatDialogShort[], activeId: number | undefined) {
     this.setChildren({
       sidebarBody: dialogs.map(
         (card) =>
@@ -179,24 +185,40 @@ export class ChatsLayout extends Block {
     });
   }
 
-  renderBody(id?: number){
-    const body = new NoDialogMessage()
-    if (id){
-      // TODO: Рендер диалогового окна
+  renderBody(id?: number) {
+    let body;
+    if (id) {
+      const dialogs = this.props.dialogs as ChatDialogShort[];
+      const shortDialog = dialogs.find((d) => d.id === id);
+      if (shortDialog) {
+        body = new Dialog({
+          id,
+          name: shortDialog.name,
+          avatar: shortDialog.avatarSrc,
+        });
+      }
+    } else {
+      body = new DialogNoLayout({
+        message: DIALOG_MESSAGE.NO_DIALOG_SELECTED
+      });
     }
-  
+
     this.setChildren({ body });
   }
   handleDialogCardSearch(value: string) {
     const filteredDialogs = this.getFilteredChatDialogs(value);
-    this.setProps({ searchQuery: value, dialogs: filteredDialogs  });
-    this.renderDialogCards(filteredDialogs, this.props.selectedDialogId as number | undefined)
+    this.setProps({ searchQuery: value, dialogs: filteredDialogs });
+    this.renderDialogCards(
+      filteredDialogs,
+      this.props.selectedDialogId as number | undefined
+    );
   }
 
   handleDialogCardClick(id?: number) {
     this.setProps({ selectedDialogId: id });
     // TODO: Продумать как изменить пропсы ТОЛЬКО У ОДНОЙ КАРТОЧКИ. Перерисовка всех карточек - костыль.
-    this.renderDialogCards(this.props.dialogs as ChatDialog[], id)
+    this.renderDialogCards(this.props.dialogs as ChatDialogShort[], id);
+    this.renderBody(id);
   }
 
   render() {
