@@ -5,6 +5,8 @@ import { Avatar, Button, Input } from "../../../../shared/ui";
 import { DialogNoLayout } from "../dialog-no-layout";
 import { DIALOG_ICONS, DIALOG_MESSAGE } from "../../lib/contsants";
 import { DialogActions } from "../dialog-actions";
+import { DialogAddUserModal } from "../dialog-add-user-modal";
+import { DialogDeleteUserModal } from "../dialog-delete-user-modal";
 
 interface DialogProps extends CompileOptions {
   id: number;
@@ -26,9 +28,11 @@ export const getDialogData = (id: number): ChatDialog | undefined => {
       id: 1,
       avatar: "",
       name: "Вадим",
-      messages: [{
-        // TODO: Пока не стала подставлять какую то структуру, как появится больше инфы - подставить
-      }],
+      messages: [
+        {
+          // TODO: Пока не стала подставлять какую то структуру, как появится больше инфы - подставить
+        },
+      ],
     },
   ];
 
@@ -40,22 +44,20 @@ export class Dialog extends Block {
   constructor({ id, name, avatar }: DialogProps) {
     const dialogData = getDialogData(id);
 
+    // Header
     const dialogAvatar = new Avatar({
       src: avatar,
       class: "user-avatar",
     });
+
+    
+    // Send message
     const messageInput = new Input({
       id: "message",
       name: "message",
       placeholder: "Введите сообщение",
     });
 
-    const actionsButton = new Button({
-        class: 'burger',
-        icon: DIALOG_ICONS.ACTION,
-        text: '',
-        onClick: () => this.handleDialogSettingsClick()
-    })
     const attachButton = new Button({
       text: "",
       variant: "secondary",
@@ -70,11 +72,33 @@ export class Dialog extends Block {
       class: "buttons send",
     });
 
-    const actions =  new DialogActions({
-        onUserAdd: (e: Event) => this.__handleAddUserClick(e),
-        onUserDelete: (e: Event) => this.__handleDeleteUserClick(e),
-    })
+    // Actions
+    const actionsButton = new Button({
+      class: "burger",
+      icon: DIALOG_ICONS.ACTION,
+      text: "",
+      onClick: () => this.__handleDialogSettingsClick(),
+    });
 
+    const actions = new DialogActions({
+      onUserAdd: () => this.__handleAddUserClick(),
+      onUserDelete: () => this.__handleDeleteUserClick(),
+    });
+    actions.hide();
+
+    const addUserModal = new DialogAddUserModal({
+      onApply: () => this.__closeAddUser(),
+      onClose: () => this.__closeAddUser(),
+    });
+    addUserModal.hide();
+
+    const deleteUserModal = new DialogDeleteUserModal({
+      onApply: () => this.__closeDeleteUser(),
+      onClose: () => this.__closeDeleteUser(),
+    });
+    deleteUserModal.hide();
+
+    // Body
     let body;
     if (!dialogData) {
       body = new DialogNoLayout({
@@ -85,9 +109,7 @@ export class Dialog extends Block {
         message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
       });
     } else {
-
     }
-
 
     super({
       id,
@@ -99,20 +121,37 @@ export class Dialog extends Block {
       messageInput,
       attachButton,
       sendButton,
-      body
+      body,
+
+      addUserModal,
+      deleteUserModal,
     });
   }
 
-  handleDialogSettingsClick(){
-    (this.children.actions as DialogActions).toggleVisibility()
+  private __handleDialogSettingsClick() {
+    (this.children.actions as DialogActions).toggleVisibility();
   }
 
-  private __handleAddUserClick(e: Event){
-    (this.children.actions as DialogActions).hide()
+  private __handleAddUserClick() {
+    const addUserModal = this.children.addUserModal as DialogAddUserModal;
+    addUserModal.show();
   }
 
-  private __handleDeleteUserClick(e: Event){
-    (this.children.actions as DialogActions).hide()
+  private __closeAddUser() {
+    const addUserModal = this.children.addUserModal as DialogAddUserModal;
+    addUserModal.hide();
+  }
+
+  private __closeDeleteUser() {
+    const deleteUserModal = this.children
+      .deleteUserModal as DialogDeleteUserModal;
+    deleteUserModal.hide();
+  }
+
+  private __handleDeleteUserClick() {
+    const deleteUserModal = this.children
+      .deleteUserModal as DialogDeleteUserModal;
+    deleteUserModal.show();
   }
 
   render() {

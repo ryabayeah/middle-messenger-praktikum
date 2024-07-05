@@ -7,6 +7,7 @@ import { Block } from "../../lib";
 
 
 export interface FormInputProps extends InputProps {
+  class?: string
   feedbackErrorText?: string;
 }
 
@@ -51,10 +52,11 @@ export class FormInput extends Block {
     _oldProps: FormInputProps,
     _newProps: FormInputProps
   ): boolean {
-    const { isInvalid, feedbackErrorText, isDisabled } = _newProps;
+    const { isInvalid, feedbackErrorText, isDisabled, value } = _newProps;
+    const inputChild = this.children.input as Block;
+    const feedbackChild = this.children.feedbackError as Block;
 
     if (_oldProps.isInvalid !== isInvalid) {
-      const feedbackChild = this.children.feedbackError as Block;
       feedbackChild.setProps({
         class: "form__feedback",
         isInvalid: isInvalid,
@@ -64,12 +66,19 @@ export class FormInput extends Block {
     }
 
     if (_oldProps.isDisabled !== isDisabled) {
-      const inputChild = this.children.input as Block;
       inputChild.setProps({
         isDisabled,
       });
       return true;
     }
+
+    if (_oldProps.value !== value) {
+      inputChild.setProps({
+        value,
+      });
+      return true;
+    }
+  
     if (JSON.stringify(_oldProps) !== JSON.stringify(_newProps)) {
       return true;
     }

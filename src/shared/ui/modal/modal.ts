@@ -2,12 +2,13 @@ import template from "./modal.hbs?raw";
 import "./modal.scss";
 import { Block } from "../../lib";
 
-interface ModalProps extends CompileOptions {
+export interface ModalProps extends CompileOptions {
   title: string;
   body: Block;
   buttons: Block[];
   hide?: boolean;
   isInvalid?: boolean;
+  class?:string
 }
 
 export class Modal extends Block {
