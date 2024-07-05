@@ -4,6 +4,7 @@ import { SignInPage } from "./pages/sign-in";
 import { Block } from "./shared/lib/block";
 import { NotFoundPage } from "./pages/not-found";
 import {
+  ChatsPage,
   PasswordChangePage,
   ProfilePage,
   ServerErrorPage,
@@ -21,6 +22,7 @@ const route = () => {
     [APP_PATH.ERROR]: ServerErrorPage(),
     [APP_PATH.PROFILE]: ProfilePage(),
     [APP_PATH.CHANGE_PASSWORD]: PasswordChangePage(),
+    [APP_PATH.CHATS]: ChatsPage(),
     [APP_PATH.NAV]: TempNavPage(),
   };
 

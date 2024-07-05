@@ -22,6 +22,15 @@ export type Children = {
   [key: string]: Block | Block[];
 };
 
+
+export const isBlock = <T>(value: T) => {
+  return value instanceof Block
+}
+
+export const isArrayOfBlock = <T>(value: T) => {
+  return value instanceof Array && value.every(isBlock)
+}
+
 export class Block {
   static EVENTS = {
     INIT: "init",
@@ -53,6 +62,10 @@ export class Block {
 
     this.props = this._makePropsProxy({
       ...props,
+    });
+
+    this.children = this._makeChildrenProxy({
+      ...children,
     });
 
     this.eventBus = () => eventBus;
@@ -93,7 +106,7 @@ export class Block {
       Object.values(this.children).forEach((child) => {
         if (child instanceof Array) {
           child.forEach((ch) => {
-            if (ch instanceof Block) {
+            if (isBlock(ch)) {
               ch.dispatchComponentDidMount();
             }
           });
@@ -192,9 +205,9 @@ export class Block {
     const props: Props = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Block) {
+      if (isBlock(value)) {
         children[key] = value;
-      } else if (value instanceof Array) {
+      } else if (isArrayOfBlock(value)) {
         children[key] = value;
       } else {
         props[key] = value;
@@ -226,11 +239,33 @@ export class Block {
     });
   }
 
+  private _makeChildrenProxy(chidren: Children) {
+    const self = this
+    return new Proxy(chidren, {
+      get(target, child: string) {
+        const value = target[child];
+
+        return value;
+      },
+
+      set(target: Record<any, unknown>, prop: string, value: string) {
+        const oldTarget = { ...target };
+        target[prop] = value;
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
+        return true;
+      },
+
+      deleteProperty() {
+        throw new Error("Нет доступа");
+      },
+    });
+  }
+
   compile(template: string, props: Props) {
-    const propsAndStubs: Record<string, unknown> = { ...props };
+    const propsAndStubs: Props = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
-      if (child instanceof Array) {
+      if (isArrayOfBlock(child)) {
         propsAndStubs[key] = ``;
         child.forEach((c) => {
           const data = `<div data-id="${c._id}"></div>`;
@@ -248,7 +283,7 @@ export class Block {
     fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
 
     Object.values(this.children).forEach((child) => {
-      if (child instanceof Array) {
+      if (isArrayOfBlock(child)) {
         const tmp = this._createDocumentElement(
           "template"
         ) as HTMLTemplateElement;

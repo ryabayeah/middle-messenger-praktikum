@@ -13,7 +13,7 @@
   transition: border-color 0.2s;
 
   &::placeholder {
-    color: transparent;
+    color: var(--gray);
   }
 
   &:disabled{

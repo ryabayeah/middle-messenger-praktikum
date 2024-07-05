@@ -16,6 +16,7 @@ export interface InputProps extends CompileOptions {
   value?: string;
   class?: string;
   multiple?: boolean;
+  placeholder?: string
   accept?: string;
   isRequired?: boolean;
   isDisabled?: boolean;

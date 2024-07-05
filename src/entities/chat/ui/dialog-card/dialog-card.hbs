@@ -1,19 +1,21 @@
-<div class="dialog-card">
-    {{> Avatar class='dialog-card__avatar' }}
-    <div class='dialog-card__message'>
-        <div class="wrapper left">
-            <span class="dialog-card__message-name">{{name}}</span>
-            <span class="text-secondary dialog-card__message-last">
-                {{#if isLastMe}}
-                <span>Вы:</span>
-                {{/if}}
-                {{lastMessage}}
-            </span>
+<div class="dialog-card-wrapper">
+    <div class="dialog-card {{#if isActive}} active{{/if}}">
+        {{{userAvatar}}}
+        <div class='dialog-card__message'>
+            <div class="wrapper left">
+                <span class="dialog-card__message-name">{{name}}</span>
+                <span class="text-secondary dialog-card__message-last">
+                    {{#if isLastMe}}
+                    <span>Вы:</span>
+                    {{/if}}
+                    {{lastMessage}}
+                </span>
+            </div>
+            <div class="wrapper right">
+                <span class="text-secondary dialog-card__message-time">{{lastMessageTime}}</span>
+                {{#if messageCount}}<span class="dialog-card__message-count">{{messageCount}}</span>{{/if}}
+            </div>
         </div>
-        <div class="wrapper right">
-            <span class="text-secondary dialog-card__message-time">15:35</span>
-            <span class="dialog-card__message-count">4</span>
-        </div>
-
     </div>
+    <div class='separator'></div>
 </div>

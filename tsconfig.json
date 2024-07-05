@@ -14,10 +14,14 @@
     "noEmit": true,
 
     /* Linting */
+    "noImplicitAny": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "strictNullChecks": true
+
   },
   "include": ["src"]
 }

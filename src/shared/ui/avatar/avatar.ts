@@ -2,12 +2,11 @@ import template from "./avatar.hbs?raw";
 import "./avatar.scss";
 import { Block } from "../../lib";
 
-
 interface AvatarProps extends CompileOptions {
   src?: string;
   class?: string;
   isEditable?: boolean;
-  onClick: (e: Event) => void;
+  onClick?: (e: Event) => void;
 }
 
 export class Avatar extends Block {
@@ -15,7 +14,9 @@ export class Avatar extends Block {
     super({
       ...props,
       events: {
-        click: onClick,
+        click: (e: Event) => {
+          onClick && onClick(e);
+        },
       },
     });
   }

@@ -1,1 +1,1 @@
-export { default as Chats } from "./chats.hbs?raw";
+export { ChatsPage } from "./chats";

@@ -4,8 +4,9 @@
     class="form__input {{#if isInvalid}} 'invalid' {{/if}} {{class}}"
     name={{name}}
     id={{id}}
-    accept={{accept}}
-    multiple={{multiple}}
+    {{#if placeholder}} placeholder="{{placeholder}}" {{/if}}
+    {{#if accept}} accept="{{accept}}" {{/if}}
+    {{#if multiple}} multiple="{{multiple}}" {{/if}}
     {{#if value}} value="{{value}}" {{/if}}
     {{#if isDisabled}} disabled {{/if}}
     {{#if isRequired}} required {{/if}}

@@ -1,1 +1,1 @@
-export { default as DialogCard } from "./dialog-card.hbs?raw";
+export { DialogCard } from "./dialog-card";
