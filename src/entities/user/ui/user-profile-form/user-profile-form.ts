@@ -1,7 +1,8 @@
+import { APP_PATH } from '../../../../shared/constants';
 import { Block } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
-import { emptyValidator, getBase64 } from '../../../../shared/utils';
+import { emptyValidator, getBase64, redirect } from '../../../../shared/utils';
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
 import { UserProfileData } from '../../model';
 import { UserAvatarModal } from '../user-avatar-modal';
@@ -10,7 +11,6 @@ import template from './user-profile-form.hbs?raw';
 interface UserProfileFormProps extends CompileOptions {
   isEditable: boolean;
   userProfileData: UserProfileData;
-  onEditPasswordClick?: VoidFunction;
 }
 
 // TODO: Подумать над уровнями доступа методов
@@ -27,7 +27,6 @@ export class UserProfileForm extends Block {
   constructor({
     isEditable,
     userProfileData,
-    onEditPasswordClick,
     ...props
   }: UserProfileFormProps) {
     const refs: Ref = {
@@ -98,7 +97,7 @@ export class UserProfileForm extends Block {
       class: 'p-0',
 
       onClick: () => {
-        onEditPasswordClick && onEditPasswordClick();
+        redirect(APP_PATH.CHANGE_PASSWORD)
       },
     });
 
@@ -111,6 +110,7 @@ export class UserProfileForm extends Block {
 
       onClick: () => {
         this.setProps({ ...this.props, isEditable: true });
+        redirect(APP_PATH.LOGIN)
       },
     });
 
