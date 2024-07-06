@@ -9,8 +9,8 @@ interface DialogCardProps extends CompileOptions {
   name: string;
   isActive?: boolean
   isLastMe?: boolean;
-  lastMessage: string;
-  lastMessageTime: string;
+  lastMessage?: string;
+  lastMessageTime?: string;
   messageCount?: number;
   onClick: (id?: number) => void
 }

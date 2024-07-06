@@ -91,12 +91,13 @@ export class Dialog extends Block {
 
     // Body
     let body;
+    let errorBody;
     if (!dialogData) {
-      body = new DialogNoLayout({
+      errorBody = new DialogNoLayout({
         message: DIALOG_MESSAGE.NO_DIALOG_DATA,
       });
     } else if (!dialogData?.messages?.length) {
-      body = new DialogNoLayout({
+      errorBody = new DialogNoLayout({
         message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
       });
     } else {
@@ -126,6 +127,7 @@ export class Dialog extends Block {
       actions,
 
       body,
+      errorBody,
 
       messageInput,
       attachButton,

@@ -19,7 +19,7 @@ export type ChatDialogShort = {
   avatarSrc: string;
   name: string;
   isLastMe: boolean;
-  lastMessage: string;
-  lastMessageTime: string;
+  lastMessage?: string;
+  lastMessageTime?: string;
   messageCount?: number
 };
