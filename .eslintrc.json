@@ -12,6 +12,11 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "quotes": ["warn", "single"],
-    "eol-last": ["warn", "always"]
+    "eol-last": ["warn", "always"],
+
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "no-unused-vars": "off",
+    "prettier/prettier": "warn"
   }
 }

@@ -130,7 +130,8 @@ export class Block {
     }
   }
 
-  componentDidUpdate(_oldProps: unknown, _newProps: unknown) {
+  componentDidUpdate(_: unknown, __: unknown) {
+
     return true;
   }
 
@@ -224,7 +225,7 @@ export class Block {
         return typeof value === 'function' ? value.bind(target) : value;
       },
 
-      set(target: Record<any, unknown>, prop: string, value: string) {
+      set(target: Record<string, unknown>, prop: string, value: string) {
         const oldTarget = { ...target };
         target[prop] = value;
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);

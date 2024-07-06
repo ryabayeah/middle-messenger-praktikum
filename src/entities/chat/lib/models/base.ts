@@ -13,7 +13,7 @@ export type ChatDialog = {
   id: number;
   name: string;
   avatar?: string;
-  messages?: any[];
+  messages?: ChatDialogMessage[];
 };
 
 export type ChatDialogShort = {
