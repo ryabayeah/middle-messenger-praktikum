@@ -2,7 +2,7 @@ import { Ref } from '../model/components';
 import { FormInput } from '../ui/form-input/form-input';
 
 export const emailValidator = (value: string): boolean => {
-  return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
 };
 
 export const loginValidator = (value: string): boolean => {
@@ -22,7 +22,7 @@ export const nameValidator = (value: string): boolean => {
 };
 
 export const phoneValidator = (value: string): boolean => {
-  const regExp = /^[+]*[0-9]{10,15}$/;
+  const regExp = /^\+?\d{10,15}$/;
   const checkValue = regExp.test(value);
 
   return checkValue;

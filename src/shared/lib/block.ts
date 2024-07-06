@@ -102,9 +102,9 @@ export class Block {
   private _componentDidMount() {
     this.componentDidMount();
     if (this.children) {
-      Object.values(this.children).forEach(child => {
+      Object.values(this.children).forEach((child) => {
         if (child instanceof Array) {
-          child.forEach(ch => {
+          child.forEach((ch) => {
             if (isBlock(ch)) {
               ch.dispatchComponentDidMount();
             }
@@ -131,7 +131,6 @@ export class Block {
   }
 
   componentDidUpdate(_: unknown, __: unknown) {
-
     return true;
   }
 
@@ -155,7 +154,7 @@ export class Block {
     const { events = {} } = this.props;
     if (!events) return;
 
-    Object.keys(events).forEach(eventName => {
+    Object.keys(events).forEach((eventName) => {
       if (this._element) {
         this._element.addEventListener(eventName, events[eventName]);
       }
@@ -167,7 +166,7 @@ export class Block {
 
     if (!events) return;
 
-    Object.keys(events).forEach(eventName => {
+    Object.keys(events).forEach((eventName) => {
       if (this._element) {
         this._element.removeEventListener(eventName, events[eventName]);
       }
@@ -247,7 +246,7 @@ export class Block {
         return value;
       },
 
-      set(target: Record<any, unknown>, prop: string, value: string) {
+      set(target: Record<string, unknown>, prop: string, value: string) {
         const oldTarget = { ...target };
         target[prop] = value;
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
@@ -266,7 +265,7 @@ export class Block {
     Object.entries(this.children).forEach(([key, child]) => {
       if (isArrayOfBlock(child)) {
         propsAndStubs[key] = ``;
-        child.forEach(c => {
+        child.forEach((c) => {
           const data = `<div data-id="${c._id}"></div>`;
           propsAndStubs[key] += data;
         });
@@ -281,13 +280,13 @@ export class Block {
 
     fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
 
-    Object.values(this.children).forEach(child => {
+    Object.values(this.children).forEach((child) => {
       if (isArrayOfBlock(child)) {
         const tmp = this._createDocumentElement(
           'template',
         ) as HTMLTemplateElement;
 
-        child.forEach(c => {
+        child.forEach((c) => {
           if (c instanceof Block) {
             const content = c.getContent();
             if (content) {
