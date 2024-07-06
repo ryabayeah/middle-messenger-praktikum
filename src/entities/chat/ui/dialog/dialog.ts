@@ -10,6 +10,7 @@ import { DialogDeleteUserModal } from "../dialog-delete-user-modal";
 import { DialogAttachments } from "../dialog-attachments";
 import { MessageBubble } from "../message-bubble";
 import { ChatDialog, ChatDialogMessage } from "../../lib/models";
+import { MessagesGroup } from "../messages-group";
 
 interface DialogProps extends CompileOptions {
   id: number;
@@ -99,7 +100,7 @@ export class Dialog extends Block {
         message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
       });
     } else {
-      body = (dialogData.messages as ChatDialogMessage[]).map(
+      const messages = (dialogData.messages as ChatDialogMessage[]).map(
         ({ message, senderId, isRead, src }) => {
           return new MessageBubble({
             message,
@@ -110,6 +111,11 @@ export class Dialog extends Block {
           });
         }
       );
+      // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
+      body = new MessagesGroup({
+        date: '19 июня',
+        messages
+      })
     }
 
     super({
