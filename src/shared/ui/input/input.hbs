@@ -1,0 +1,14 @@
+<input 
+    autocomplete="off"
+    id={{id}}
+    name={{name}}
+    class="form__input {{#if isInvalid}} 'invalid' {{/if}} {{class}}"
+  
+    {{#if type}} type="{{type}}" {{/if}}
+    {{#if placeholder}} placeholder="{{placeholder}}" {{/if}}
+    {{#if accept}} accept="{{accept}}" {{/if}}
+    {{#if multiple}} multiple="{{multiple}}" {{/if}}
+    {{#if value}} value="{{value}}" {{/if}}
+    {{#if isDisabled}} disabled {{/if}}
+    {{#if isRequired}} required {{/if}}
+/>

@@ -1,1 +1,1 @@
-export { default as AuthLayout } from "./auth-layout.hbs?raw";
+export { AuthLayout } from './auth-layout.ts';

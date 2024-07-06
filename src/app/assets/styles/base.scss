@@ -8,6 +8,12 @@
   .text-success {
     color: var(--black);
   }
+  .text-secondary {
+    color: var(--gray);
+  }
+  .text-primary {
+    color: black;
+  }
 }
 
 @mixin font-weight {
@@ -39,4 +45,3 @@
     display: none;
   }
 }
-

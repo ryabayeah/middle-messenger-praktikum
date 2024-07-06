@@ -1,66 +1,40 @@
-import * as Widgets from "./widgets";
-import * as Pages from "./pages";
-import * as Layouts from "./layouts";
-import * as AuthProps from "./entities/auth/lib/constants/data";
-import * as UserProps from "./entities/user/lib/constants/data";
+import './main.scss';
+import { render } from './shared/utils/renderDom';
+import { SignInPage } from './pages/sign-in';
+import { Block } from './shared/lib/block';
+import { NotFoundPage } from './pages/not-found';
+import {
+  ChatsPage,
+  PasswordChangePage,
+  ProfilePage,
+  ServerErrorPage,
+  SignUpPage,
+  TempNavPage,
+} from './pages';
+import { APP_PATH } from './shared/constants';
+import { getUrlPathName } from './shared/utils';
 
-import * as UserUI from "./entities/user/ui";
-import * as AuthUI from "./entities/auth/ui";
+const route = () => {
+  const newPages: Record<string, Block> = {
+    [APP_PATH.LOGIN]: SignInPage(),
+    [APP_PATH.REGISTER]: SignUpPage(),
+    [APP_PATH.NOT_FOUND]: NotFoundPage(),
+    [APP_PATH.ERROR]: ServerErrorPage(),
+    [APP_PATH.PROFILE]: ProfilePage(),
+    [APP_PATH.CHANGE_PASSWORD]: PasswordChangePage(),
+    [APP_PATH.CHATS]: ChatsPage(),
+    [APP_PATH.NAV]: TempNavPage(),
+  };
 
-import "./main.scss";
-import Handlebars from "handlebars";
+  const pages = Object.keys(newPages);
+  const currentPath = getUrlPathName() || APP_PATH.NAV;
+  const pageData = pages.includes(currentPath)
+    ? newPages[currentPath as keyof typeof newPages]
+    : newPages[APP_PATH.NOT_FOUND];
 
-const pagesMap = {
-  login: {
-    template: Pages.SignIn,
-    props: AuthProps.SignInProps,
-  },
-  register: {
-    template: Pages.SignUp,
-    props: AuthProps.SignUpProps,
-  },
-  "404": {
-    template: Pages.NotFound,
-    props: {},
-  },
-  "500": {
-    template: Pages.ServerError,
-    props: {},
-  },
-  profile: {
-    template: Pages.Profile,
-    props: UserProps.ProfileProps,
-  },
-  "profile-edit": {
-    template: Pages.ProfileEdit,
-    props: UserProps.ProfileProps,
-  },
-  "change-password": {
-    template: Pages.ProfileChangePassword,
-    props: {},
-  },
-  "change-avatar": {
-    template: Pages.ProfileChangeAvatar,
-    props: {},
-  },
-  chats: { template: Pages.Chats, props: {} },
-  nav: { template: Pages.TempNav, props: {} },
+  render('#root', pageData);
 };
 
-Object.entries({ ...Layouts, ...Widgets, ...UserUI, ...AuthUI }).forEach(
-  ([name, component]) => {
-    Handlebars.registerPartial(name, component);
-  }
-);
-
-document.addEventListener("DOMContentLoaded", () => {
-  const pages = Object.keys(pagesMap);
-  const currentPath = document.location.pathname.replace("/", "") || "nav";
-
-  const pageData = pages.includes(currentPath)
-    ? pagesMap[currentPath as keyof typeof pagesMap]
-    : pagesMap["404"];
-  const result = Handlebars.compile(pageData.template)(pageData.props);
-
-  document.getElementById("root")!.innerHTML = result;
+document.addEventListener('DOMContentLoaded', () => {
+  route();
 });

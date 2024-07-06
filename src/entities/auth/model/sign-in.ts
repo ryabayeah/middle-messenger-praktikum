@@ -1,4 +1,4 @@
 export interface ISignInFields {
-    login: string
-    password: string
+  login: string;
+  password: string;
 }

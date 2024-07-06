@@ -1,0 +1,82 @@
+.message-bubble {
+  padding: 11px;
+  width: fit-content;
+  min-width: 56px;
+  max-width: 30rem;
+  margin: 0.125rem;
+
+  &.outer {
+    border-radius: 8px 8px 8px 0;
+    background: var(--light-gray);
+    .message_send {
+      color: var(--gray);
+    }
+    .send_status {
+      display: none;
+    }
+  }
+
+  &.inner {
+    border-radius: 8px 8px 0 8px;
+    background: var(--gray-blue-20);
+    margin-left: auto;
+    .message_send {
+      color: var(--blue);
+    }
+  }
+
+  &.msg__attachment {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border-radius: 8px;
+    background: transparent;
+    .message_attachment {
+      border-radius: 8px;
+    }
+    .message_send {
+      position: absolute;
+      margin: 0;
+      right: 10px;
+      background: var(--gray);
+      padding: 4px;
+      border-radius: 8px;
+      color: white;
+      bottom: 10px;
+    }
+    &.inner {
+      .message_send {
+        color: var(--blue);
+      }
+    }
+  }
+
+  .message_attachment {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .message_send {
+    padding-left: 15px;
+    margin-top: 10px;
+    float: right;
+    line-height: 1;
+    // font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    vertical-align: middle;
+    pointer-events: none;
+    z-index: 1;
+    cursor: pointer;
+    margin-inline-start: 0.1875rem;
+    direction: ltr;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .message_time {
+      font-size: 9px;
+    }
+  }
+}

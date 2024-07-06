@@ -1,1 +1,1 @@
-export { default as ProfileLayout } from "./profile-layout.hbs?raw";
+export { ProfileLayout } from './profile-layout';
