@@ -76,6 +76,7 @@ export class UserAvatarUpload extends Block {
     const hiddenInputRef = this.children.hiddenInput as Input;
     hiddenInputRef.click();
     this._hideUploadedFileLinkRef();
+    // TODO: Сделать обработку того, что кликнули по Apply а файл не загрузили
     // TODO: Сделать обработку загрузки файла (isLoading)
     // TODO: Сделать обработку ошибки загрузки файла (isError)
   }
