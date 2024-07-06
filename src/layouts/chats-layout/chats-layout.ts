@@ -1,8 +1,8 @@
 import {
   DIALOG_CARDS,
   DIALOG_MESSAGE,
-} from "../../entities/chat/lib/constants";
-import { ChatDialogShort } from "../../entities/chat/lib/models";
+  ChatDialogShort,
+} from "../../entities/chat/lib";
 import {
   Dialog,
   DialogCard,
@@ -21,6 +21,7 @@ interface ChatsLayoutProps extends CompileOptions {
   selectedDialogId?: number;
 }
 
+// TODO: Подумать над уровнями доступа методов
 export class ChatsLayout extends Block {
   constructor({
     searchQuery = "",
@@ -62,17 +63,34 @@ export class ChatsLayout extends Block {
     });
   }
 
-  renderNoDataMessage() {
-    return new DialogNoLayout({
-      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
-    });
-  }
-
   // TODO: Здесь будет API запрос с search (?), вместо фильтрации "руками"
   getFilteredChatDialogs(name: string) {
     return (this.props.dialogs as ChatDialogShort[]).filter((dialog) =>
       dialog.name.includes(name)
     );
+  }
+
+
+  handleDialogCardSearch(value: string) {
+    const filteredDialogs = this.getFilteredChatDialogs(value);
+    this.setProps({ searchQuery: value, dialogs: filteredDialogs });
+    this.renderDialogCards(
+      filteredDialogs,
+      this.props.selectedDialogId as number | undefined
+    );
+  }
+
+  handleDialogCardClick(id?: number) {
+    this.setProps({ selectedDialogId: id });
+    // TODO: Продумать как изменить пропсы ТОЛЬКО У ОДНОЙ КАРТОЧКИ. Перерисовка всех карточек - костыль.
+    this.renderDialogCards(this.props.dialogs as ChatDialogShort[], id);
+    this.renderBody(id);
+  }
+
+  renderNoDataMessage() {
+    return new DialogNoLayout({
+      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
+    });
   }
 
   renderDialogCards(dialogs: ChatDialogShort[], activeId: number | undefined) {
@@ -107,21 +125,6 @@ export class ChatsLayout extends Block {
     }
 
     this.setChildren({ body });
-  }
-  handleDialogCardSearch(value: string) {
-    const filteredDialogs = this.getFilteredChatDialogs(value);
-    this.setProps({ searchQuery: value, dialogs: filteredDialogs });
-    this.renderDialogCards(
-      filteredDialogs,
-      this.props.selectedDialogId as number | undefined
-    );
-  }
-
-  handleDialogCardClick(id?: number) {
-    this.setProps({ selectedDialogId: id });
-    // TODO: Продумать как изменить пропсы ТОЛЬКО У ОДНОЙ КАРТОЧКИ. Перерисовка всех карточек - костыль.
-    this.renderDialogCards(this.props.dialogs as ChatDialogShort[], id);
-    this.renderBody(id);
   }
 
   render() {

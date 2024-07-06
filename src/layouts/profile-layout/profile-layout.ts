@@ -13,6 +13,7 @@ export class ProfileLayout extends Block {
       variant: "secondary",
       text: "Назад",
       textPosition: "left",
+      // TODO: Вынести в константы shared
       icon: `<svg width="13" height="12" viewBox="0 0 13 12" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <rect x="13" y="6.7998" width="11" height="1.6" transform="rotate(-180 13 6.7998)" fill="#3369F3" />
@@ -21,7 +22,7 @@ export class ProfileLayout extends Block {
     });
     super({
       ...props,
-      backButton
+      backButton,
     });
   }
 

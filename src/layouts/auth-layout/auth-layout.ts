@@ -2,11 +2,11 @@ import { Block } from "../../shared/lib";
 import template from "./auth-layout.hbs?raw";
 
 interface AuthLayoutProps extends CompileOptions {
-  children: Block | Block[]
+  children: Block | Block[];
 }
 
 export class AuthLayout extends Block {
-  constructor({...props }: AuthLayoutProps) {
+  constructor({ ...props }: AuthLayoutProps) {
     super({
       ...props,
     });
