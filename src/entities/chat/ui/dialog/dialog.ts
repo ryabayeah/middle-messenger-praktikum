@@ -17,6 +17,8 @@ interface DialogProps extends CompileOptions {
   name: string;
   avatar?: string;
   messages?: ChatDialogMessage[];
+   // В телеге есть интересный функционал, когда пишешь с мобилки и набираемый текст отображается в любом клиенте телеграма
+  currentInputMessage?: string
 }
 
 const CURRENT_USER_ID = 1;
@@ -41,6 +43,7 @@ export class Dialog extends Block {
       id: "message",
       name: "message",
       placeholder: "Введите сообщение",
+      onChange: (e: Event)=> this.__handleChangeMessageInput(e) 
     });
 
     const attachButton = new Button({
@@ -61,6 +64,7 @@ export class Dialog extends Block {
       variant: "primary",
       icon: DIALOG_ICONS.SEND,
       class: "buttons send",
+      onClick: () => this.__handleSendMessage()
     });
 
     // Actions
@@ -137,6 +141,15 @@ export class Dialog extends Block {
       addUserModal,
       deleteUserModal,
     });
+  }
+
+  private __handleChangeMessageInput(e: Event){
+    const target = e.target as HTMLInputElement
+    this.setProps({currentInputMessage: target.value})
+  }
+
+  private __handleSendMessage(){
+    console.log(this.props.currentInputMessage)
   }
 
   private __handleDialogSettingsClick() {
