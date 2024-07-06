@@ -9,7 +9,7 @@
     "server": "node server.js",
     "start": "npm run build && npm run server",
     "preview": "vite preview",
-    "eslint": "eslint ./src/*/*.ts",
+    "lint": "eslint . --ext .ts",
     "stylelint": "stylelint  '**/*{.css,.scss}'",
     "stylelint:fix": "stylelint --fix '**/*{.css,.scss}'",
     "prettier": "prettier ./src/*/*.ts --check",

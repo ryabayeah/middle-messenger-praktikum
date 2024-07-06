@@ -13,9 +13,11 @@
   "rules": {
     "quotes": ["warn", "single"],
     "eol-last": ["warn", "always"],
-
+    "no-unused-vars": "off",
+    "no-extra-semi": "error",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-this-alias": "off",
     "no-empty-function": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    "no-unused-vars": "off"
+    "@typescript-eslint/no-empty-function": "off"
   }
 }
