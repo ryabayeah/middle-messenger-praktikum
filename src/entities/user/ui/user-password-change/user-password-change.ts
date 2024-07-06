@@ -1,8 +1,11 @@
+
 import { Block } from "../../../../shared/lib";
-import { Ref } from "../../../../shared/model/components";
-import { Button } from "../../../../shared/ui/button/button";
-import { FormInput } from "../../../../shared/ui/form-input/form-input";
-import { emptyValidator, getPasswordRepeatedValidator } from "../../../../shared/utils";
+import { Ref } from "../../../../shared/model";
+import { FormInput, Button } from "../../../../shared/ui";
+import {
+  emptyValidator,
+  getPasswordRepeatedValidator,
+} from "../../../../shared/utils";
 import { FormAuth } from "../../../auth/ui";
 import {
   CHANGE_PASSWORD_FIELDS_NAME,
@@ -10,12 +13,10 @@ import {
 } from "../../lib/constants";
 import template from "./user-password-change.hbs?raw";
 import "./user-password-change.scss";
-// TODO: Проверить импорты
 
-interface UserPasswordChangeProps extends CompileOptions {}
-
+// TODO: Подумать над уровнями доступа методов
 export class UserPasswordChange extends Block {
-  constructor({ ...props }: UserPasswordChangeProps) {
+  constructor() {
     const refs: Ref = {
       [CHANGE_PASSWORD_FIELDS_NAME.NEW_PASSWORD]: null,
       [CHANGE_PASSWORD_FIELDS_NAME.OLD_PASSWORD]: null,
@@ -49,7 +50,9 @@ export class UserPasswordChange extends Block {
       type: "reset",
       text: "Отмена",
       variant: "secondary",
-      onClick: () => {},
+      onClick: () => {
+        // TODO: Редирект на /profile
+      },
     });
 
     const userPasswordChangeForm = new FormAuth({
@@ -60,7 +63,6 @@ export class UserPasswordChange extends Block {
       onSubmit: (e: Event) => this.handleSubmit(e),
     });
     super({
-      ...props,
       refs,
       userPasswordChangeForm,
     });
@@ -77,15 +79,17 @@ export class UserPasswordChange extends Block {
       const value = (formData.get(key) || "")?.toString();
       const { validator } = CHANGE_PASSWORD_FIELDS[key];
 
-      const fieldValidator = key === CHANGE_PASSWORD_FIELDS_NAME.REPEAT_NEW_PASSWORD
-      ? getPasswordRepeatedValidator(
-          this.props.refs as Ref,
-          CHANGE_PASSWORD_FIELDS_NAME.NEW_PASSWORD
-        )
-      : validator
-    
+      const fieldValidator =
+        key === CHANGE_PASSWORD_FIELDS_NAME.REPEAT_NEW_PASSWORD
+          ? getPasswordRepeatedValidator(
+              this.props.refs as Ref,
+              CHANGE_PASSWORD_FIELDS_NAME.NEW_PASSWORD
+            )
+          : validator;
+
       const isInvalid =
-        (fieldValidator && !fieldValidator(value || "")) || !emptyValidator(value || "");
+        (fieldValidator && !fieldValidator(value || "")) ||
+        !emptyValidator(value || "");
       if (isInvalid && !isAnyInvalid) {
         isAnyInvalid = true;
       }

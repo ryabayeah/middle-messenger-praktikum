@@ -13,6 +13,7 @@ export enum FIELDS_NAME {
   REPEAT_PASSWORD = "repeatPassword",
 }
 
+// TODO: Использовать в sign-in\-up и profile как деструктор в константах fields
 export const FIELDS: Record<FIELDS_NAME, FormInputProps> = {
   [FIELDS_NAME.OLD_PASSWORD]: {
     id: FIELDS_NAME.OLD_PASSWORD,
@@ -91,7 +92,6 @@ export const FIELDS: Record<FIELDS_NAME, FormInputProps> = {
     name: FIELDS_NAME.REPEAT_PASSWORD,
     type: "password",
     label: "Повторите пароль",
-    value: "123",
     feedbackErrorText: "Пароли не совпадают",
   },
 };

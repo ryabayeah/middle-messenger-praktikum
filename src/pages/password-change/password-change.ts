@@ -5,6 +5,6 @@ import { APP_PATH } from "../../shared/constants";
 export const PasswordChangePage = () => {
   return new ProfileLayout({
     backPath: APP_PATH.PROFILE,
-    body: new UserPasswordChange({}),
+    body: new UserPasswordChange(),
   });
 };

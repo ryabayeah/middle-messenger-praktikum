@@ -1,14 +1,11 @@
 import { Block } from "../../../../shared/lib";
-import { Ref } from "../../../../shared/model/components";
-import { Avatar } from "../../../../shared/ui/avatar/avatar";
-import { Button } from "../../../../shared/ui/button";
-import { FormInput } from "../../../../shared/ui/form-input/form-input";
+import { Ref } from "../../../../shared/model";
+import { Avatar, FormInput, Button } from "../../../../shared/ui";
 import { emptyValidator, getBase64 } from "../../../../shared/utils";
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from "../../lib/constants";
 import { UserProfileData } from "../../model/base";
 import { UserAvatarModal } from "../user-avatar-modal";
-import template from "./user-profile-form.new.hbs?raw";
-// TODO: Проверить импорты
+import template from "./user-profile-form.hbs?raw";
 
 interface UserProfileFormProps extends CompileOptions {
   isEditable: boolean;
@@ -16,6 +13,7 @@ interface UserProfileFormProps extends CompileOptions {
   onEditPasswordClick?: VoidFunction;
 }
 
+// TODO: Подумать над уровнями доступа методов
 interface InternalUserProfileFormProps extends UserProfileFormProps {
   refs: Record<PROFILE_FIELDS_NAME, Block | null>;
   avatar: Avatar;
@@ -145,6 +143,29 @@ export class UserProfileForm extends Block {
     });
   }
 
+  componentDidUpdate(
+    _oldProps: InternalUserProfileFormProps,
+    _newProps: InternalUserProfileFormProps
+  ): boolean {
+    if (_oldProps.isEditable !== _newProps.isEditable) {
+      const avatarRef = this.children.avatar as Avatar;
+      if (avatarRef) {
+        avatarRef.setProps({ isEditable: _newProps.isEditable });
+      }
+      const { refs } = _oldProps;
+      Object.entries(PROFILE_FIELDS).forEach(([key, fieldValues]) => {
+        const field = refs[key as keyof typeof refs];
+        if (field) {
+          field.setProps({
+            ...fieldValues,
+            isDisabled: !_newProps.isEditable,
+          });
+        }
+      });
+    }
+    return true;
+  }
+
   handleAvatarClick() {
     const userAvatarModalChild = this.children
       .userAvatarModal as UserAvatarModal;
@@ -166,11 +187,11 @@ export class UserProfileForm extends Block {
       avatarHiddenRef.setProps({ value: file });
     }
 
-    //TODO: Возможно временно использоване base64? Мб будет открытый бакет? 
-    const avatarRef  = this.children[PROFILE_FIELDS_NAME.AVATAR] as Avatar
-    if (avatarRef){
-      const base64 = (await getBase64(file)).split(',')[1]
-      const imgType = base64.split('.').at(-1) || 'png'
+    //TODO: Возможно временно использоване base64? Мб будет открытый бакет?
+    const avatarRef = this.children[PROFILE_FIELDS_NAME.AVATAR] as Avatar;
+    if (avatarRef) {
+      const base64 = (await getBase64(file)).split(",")[1];
+      const imgType = base64.split(".").at(-1) || "png";
       avatarRef.setProps({ src: `data:image/${imgType};base64, ${base64}` });
     }
 
@@ -185,7 +206,6 @@ export class UserProfileForm extends Block {
 
     const formData = new FormData(target);
     Object.values(PROFILE_FIELDS_NAME).forEach((key) => {
-      // TODO: Добавить валидирование на сабмит
       const value = (formData.get(key) || "")?.toString();
       const { validator } = PROFILE_FIELDS[key];
       const isInvalid =
@@ -208,29 +228,6 @@ export class UserProfileForm extends Block {
       this.setProps({ isEditable: false });
     }
     console.log("PROFILE_EDIT_FORM: ", result);
-  }
-
-  componentDidUpdate(
-    _oldProps: InternalUserProfileFormProps,
-    _newProps: InternalUserProfileFormProps
-  ): boolean {
-    if (_oldProps.isEditable !== _newProps.isEditable) {
-      const avatarRef = this.children.avatar as Avatar;
-      if (avatarRef) {
-        avatarRef.setProps({ isEditable: _newProps.isEditable });
-      }
-      const { refs } = _oldProps;
-      Object.entries(PROFILE_FIELDS).forEach(([key, fieldValues]) => {
-        const field = refs[key as keyof typeof refs];
-        if (field) {
-          field.setProps({
-            ...fieldValues,
-            isDisabled: !_newProps.isEditable,
-          });
-        }
-      });
-    }
-    return true;
   }
 
   render() {

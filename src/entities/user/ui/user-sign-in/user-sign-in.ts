@@ -1,13 +1,13 @@
-import { Ref } from "../../../../shared/model/components";
-import { Button } from "../../../../shared/ui/button";
-import { FormInput } from "../../../../shared/ui/form-input/form-input";
+import { Ref } from "../../../../shared/model";
+import { FormInput, Button } from "../../../../shared/ui";
 import { emptyValidator } from "../../../../shared/utils";
-import { FormAuth } from "../../../auth/ui/form-auth/form-auth";
+import { FormAuth } from "../../../auth/ui";
 import {
   SIGN_IN_FORM_FIELDS,
   SIGN_IN_FORM_FIELDS_NAME,
 } from "../../lib/constants";
 
+// TODO: Подумать над уровнями доступа методов
 export class UserSignInForm extends FormAuth {
   constructor() {
     const refs: Ref = {
@@ -36,7 +36,7 @@ export class UserSignInForm extends FormAuth {
       text: "Нет аккаунта?",
       variant: "secondary",
       onClick: () => {
-        //TODO: Редиркет
+        //TODO: Редиркет на sign-up
       },
     });
 
@@ -58,7 +58,6 @@ export class UserSignInForm extends FormAuth {
 
     const formData = new FormData(target);
     Object.values(SIGN_IN_FORM_FIELDS_NAME).forEach((key) => {
-      // TODO: Добавить валидирование на сабмит
       const value = (formData.get(key) || "")?.toString();
       const { validator } = SIGN_IN_FORM_FIELDS[key];
       const isInvalid =
@@ -80,6 +79,6 @@ export class UserSignInForm extends FormAuth {
     if (!isAnyInvalid) {
       this.setProps({ isEditable: false });
     }
-    console.log("SIGN_IN_FORM: ",result);
+    console.log("SIGN_IN_FORM: ", result);
   }
 }

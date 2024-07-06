@@ -1,13 +1,13 @@
-import { Block } from "../../../../shared/lib";
-import { Input } from "../../../../shared/ui/input";
-import { Link } from "../../../../shared/ui/link/link";
 import "./user-avatar-upload.scss";
 import template from "./user-avatar-upload.hbs?raw";
+import { Block } from "../../../../shared/lib";
+import { Link, Input } from "../../../../shared/ui";
 
 interface UserAvatarUploadProps extends CompileOptions {
   onUploadAvatar: (f: File) => void;
 }
 
+// TODO: Подумать над уровнями доступа методов
 export class UserAvatarUpload extends Block {
   constructor({ onUploadAvatar }: UserAvatarUploadProps) {
     const link = new Link({
@@ -32,7 +32,7 @@ export class UserAvatarUpload extends Block {
       id: "hidden_input",
       name: "avatar_data",
       multiple: false,
-      accept: 'image/jpeg, image/png',
+      accept: "image/jpeg, image/png",
       onChange: (e: Event) => this.handleAvatarUpload(e, onUploadAvatar),
     });
     hiddenInput.hide();
@@ -48,15 +48,14 @@ export class UserAvatarUpload extends Block {
     });
   }
 
-
-  protected _hideUploadedFileLinkRef(){
+  protected _hideUploadedFileLinkRef() {
     const uploadedFileLinkRef = this.children.uploadedFileLink as Link;
     if (uploadedFileLinkRef) {
       uploadedFileLinkRef.hide();
     }
   }
 
-  protected _showUploadedFileLinkRef(text: string){
+  protected _showUploadedFileLinkRef(text: string) {
     const uploadedFileLinkRef = this.children.uploadedFileLink as Link;
     if (uploadedFileLinkRef) {
       uploadedFileLinkRef.setProps({ text });
@@ -64,26 +63,25 @@ export class UserAvatarUpload extends Block {
     }
   }
 
-  protected _resetHiddenInputValue(){
+  private __resetHiddenInputValue() {
     const hiddenInputRef = this.children.hiddenInput as Input;
     if (hiddenInputRef) {
-        hiddenInputRef.setProps({ value: undefined });
-        // TODO: Это костыль. При сбросе пропсов сбрасывается значение display в styles.
-        hiddenInputRef.hide()
+      hiddenInputRef.setProps({ value: undefined });
+      // TODO: Это костыль. При сбросе пропсов сбрасывается значение display в styles.
+      hiddenInputRef.hide();
     }
   }
-
 
   handleClick() {
     const hiddenInputRef = this.children.hiddenInput as Input;
     hiddenInputRef.click();
-    this._hideUploadedFileLinkRef()
+    this._hideUploadedFileLinkRef();
     // TODO: Сделать обработку загрузки файла (isLoading)
     // TODO: Сделать обработку ошибки загрузки файла (isError)
   }
 
-  reset(){
-    this._hideUploadedFileLinkRef()
+  reset() {
+    this._hideUploadedFileLinkRef();
   }
 
   handleAvatarUpload(e: Event, callback: (f: File) => void) {
@@ -92,8 +90,8 @@ export class UserAvatarUpload extends Block {
     if (files.length > 0) {
       const file = files[0];
       callback(file);
-      this._showUploadedFileLinkRef(`Загружен файл ${file.name}`)
-      this._resetHiddenInputValue()
+      this._showUploadedFileLinkRef(`Загружен файл ${file.name}`);
+      this.__resetHiddenInputValue();
       this.setProps({ avatarFile: file });
     }
   }

@@ -10,7 +10,7 @@ interface UserAvatarModalProps extends CompileOptions {
   onApply: (file: File) => void;
 }
 
-
+// TODO: Наследовать от Modal => избавляемся от hbs
 export class UserAvatarModal extends Block {
   constructor({ onClose, onApply, ...props }: UserAvatarModalProps) {
     const avatarFile: File | null = null;
@@ -18,20 +18,20 @@ export class UserAvatarModal extends Block {
       text: "Поменять",
       variant: "primary",
       class: "w-full",
-      type: 'button',
+      type: "button",
       onClick: () => this.handleApply(onApply),
     });
     const altButton = new Button({
       text: "Отмена",
       variant: "secondary",
       class: "w-full",
-      type: 'button',
-      onClick: ()=> this.handleClose(onClose),
+      type: "button",
+      onClick: () => this.handleClose(onClose),
     });
 
     const modalBody = new UserAvatarUpload({
       onUploadAvatar: (f: File) => {
-        this.handleUploadAvatar(f)
+        this.handleUploadAvatar(f);
       },
     });
 
@@ -52,31 +52,30 @@ export class UserAvatarModal extends Block {
     });
   }
 
+  private __resetModalBody() {
+    const modalBodyRef = this.children.modalBody as UserAvatarUpload;
+    if (modalBodyRef) {
+      modalBodyRef.reset();
+    }
+  }
+
   handleUploadAvatar(file: File) {
     this.setProps({ avatarFile: file });
   }
 
-  handleApply(callback: (file: File)=> void) {
-    const file = this.props.avatarFile as File | null
-    if (file){
-      callback(file)
+  handleApply(callback: (file: File) => void) {
+    const file = this.props.avatarFile as File | null;
+    if (file) {
+      callback(file);
     }
     // При закрытии модалки сбрасываем все примененые значения
-    this.__resetModalBody()
-  }
-
-  private __resetModalBody(){
-    const modalBodyRef = this.children.modalBody as UserAvatarUpload
-    if (modalBodyRef){
-      modalBodyRef.reset()
-    }
+    this.__resetModalBody();
   }
 
   handleClose(callback: VoidFunction) {
-    callback()
+    callback();
     // При закрытии модалки сбрасываем все примененые значения
-    this.__resetModalBody()
-
+    this.__resetModalBody();
   }
 
   render() {

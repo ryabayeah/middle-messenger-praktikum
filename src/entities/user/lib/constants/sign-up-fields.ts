@@ -5,7 +5,6 @@ import {
   nameValidator,
   phoneValidator,
   passwordValidator,
-  passwordRepeatedValidator,
 } from "../../../../shared/utils";
 
 
@@ -80,13 +79,6 @@ export const SIGN_UP_FORM_FIELDS: Record<SIGN_UP_FORM_FIELDS_NAME, FormInputProp
     name: SIGN_UP_FORM_FIELDS_NAME.REPEAT_PASSWORD,
     type: "password",
     label: "Повторите пароль",
-    value: "123",
     feedbackErrorText: "Пароли не совпадают",
-    validator: (value: string) => {
-      return passwordRepeatedValidator(
-        value,
-        SIGN_UP_FORM_FIELDS["password"].value || ""
-      );
-    },
   },
 };

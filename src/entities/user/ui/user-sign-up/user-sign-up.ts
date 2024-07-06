@@ -1,16 +1,17 @@
-import { Ref } from "../../../../shared/model/components";
+import { Ref } from "../../../../shared/model";
+import { FormInput } from "../../../../shared/ui";
 import { Button } from "../../../../shared/ui/button";
-import { FormInput } from "../../../../shared/ui/form-input/form-input";
 import {
   emptyValidator,
   getPasswordRepeatedValidator,
 } from "../../../../shared/utils";
-import { FormAuth } from "../../../auth/ui/form-auth/form-auth";
+import { FormAuth } from "../../../auth/ui";
 import {
   SIGN_UP_FORM_FIELDS,
   SIGN_UP_FORM_FIELDS_NAME,
 } from "../../lib/constants";
 
+// TODO: Подумать над уровнями доступа методов
 export class UserSignUpForm extends FormAuth {
   constructor() {
     const refs: Ref = {
@@ -50,6 +51,7 @@ export class UserSignUpForm extends FormAuth {
     const buttonAlt = new Button({
       text: "Войти",
       variant: "secondary",
+      type: "button",
       onClick: () => {
         // TODO: Редиркет на sign-in
       },
@@ -73,7 +75,6 @@ export class UserSignUpForm extends FormAuth {
 
     const formData = new FormData(target);
     Object.values(SIGN_UP_FORM_FIELDS_NAME).forEach((key) => {
-      // TODO: Добавить валидирование на сабмит
       const refs = this.props.refs as Ref;
       const value = (formData.get(key) || "")?.toString();
       const { validator } = SIGN_UP_FORM_FIELDS[key];
@@ -105,6 +106,6 @@ export class UserSignUpForm extends FormAuth {
     if (!isAnyInvalid) {
       this.setProps({ isEditable: false });
     }
-    console.log("SIGN_UP_FORM: ",result);
+    console.log("SIGN_UP_FORM: ", result);
   }
 }
