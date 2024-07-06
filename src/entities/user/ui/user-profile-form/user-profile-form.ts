@@ -191,7 +191,11 @@ export class UserProfileForm extends Block {
     const avatarRef = this.children[PROFILE_FIELDS_NAME.AVATAR] as Avatar;
     if (avatarRef) {
       const base64 = (await getBase64(file)).split(',')[1];
-      const imgType = base64.split('.').at(-1) || 'png';
+      //Не могу использовать 
+      // const imgType = base64.split('.').at(-1) || 'png';
+
+      const splitted = base64.split('.')
+      const imgType = splitted[splitted.length-1] || 'png';
       avatarRef.setProps({ src: `data:image/${imgType};base64, ${base64}` });
     }
 
