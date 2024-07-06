@@ -1,0 +1,24 @@
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+
+  .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  .form__feedback {
+    padding-top: 4px;
+  }
+
+  &.invalid {
+    input {
+      border-bottom: 1px solid var(--red);
+    }
+  }
+}

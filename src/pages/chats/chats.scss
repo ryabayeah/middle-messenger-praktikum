@@ -1,0 +1,24 @@
+.chat {
+  height: 100vh;
+  width: 100vw;
+  &-sidebar {
+    height: 100%;
+    width: 30%;
+    min-width: 370px;
+    background: var(--gray-blue-10);
+    border-right: 1px solid var(--gray-10);
+    &__header {
+      border-bottom: 1px solid var(--gray-10);
+      padding: 13px 10px;
+      .profile-link {
+        margin-bottom: 23px;
+        font-size: 12px;
+      }
+    }
+    &__body {
+      .chat-dialogs-list {
+        overflow: auto;
+      }
+    }
+  }
+}

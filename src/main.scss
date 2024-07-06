@@ -1,0 +1,30 @@
+@import './app/assets/styles/colors';
+@import './app/assets/styles/base';
+@import './app/assets/styles/scroll';
+
+@import './pages/chats/chats';
+@import './pages/temp-nav/temp-nav';
+
+@import './shared/ui/modal/modal';
+
+@import './entities/chat/ui/dialog-card/dialog-card';
+@import './entities/auth/ui/form-auth/form-auth';
+@import './entities/user/ui/user-profile-form/user-profile-form';
+
+@import './layouts/auth-layout/auth-layout';
+@import './layouts/error-layout/error-layout';
+@import './layouts/profile-layout/profile-layout';
+
+:root {
+  @include colors;
+  @include text;
+  @include font-weight;
+  @include base;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
