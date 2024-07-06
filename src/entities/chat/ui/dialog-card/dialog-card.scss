@@ -22,10 +22,13 @@
     gap: 5px;
     width: 100%;
 
-    .wrapper {
-        min-height: 50px;
+    .dialog-card__message-wrapper {
+      min-height: 50px;
       display: flex;
       flex-direction: column;
+      gap: 4px;
+      justify-content: center;
+      // justify-content: center;
       &.right {
         gap:4px;
       }
@@ -33,10 +36,14 @@
         justify-content: space-between;
         align-items: center;
       }
+      &.last-message{
+        justify-content: start;
+      }
     }
 
     &-name {
       font-weight: bold;
+     
     }
     &-time {
       margin-left: auto;
@@ -48,6 +55,7 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 12px;
     }
     &-count {
       width: 20px;

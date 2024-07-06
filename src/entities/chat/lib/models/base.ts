@@ -21,4 +21,5 @@ export type ChatDialogShort = {
   isLastMe: boolean;
   lastMessage: string;
   lastMessageTime: string;
+  messageCount?: number
 };

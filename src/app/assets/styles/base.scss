@@ -11,6 +11,9 @@
   .text-secondary {
     color: var(--gray);
   }
+  .text-primary {
+    color: black;
+  }
 }
 
 @mixin font-weight {

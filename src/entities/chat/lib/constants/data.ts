@@ -47,6 +47,7 @@ export const DIALOG_CARDS: ChatDialogShort[] = [
       lastMessage:
         "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
       lastMessageTime: "15:34",
+      messageCount: 4,
     },
     {
       id: 156,
