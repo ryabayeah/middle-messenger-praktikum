@@ -9,8 +9,10 @@
     "server": "node server.js",
     "start": "npm run build && npm run server",
     "preview": "vite preview",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .ts .scss ."
+
+    "eslint": "eslint ./src/*/*.ts",
+    "stylelint": "stylelint  '**/*{.css,.scss}'",
+    "prettier": "prettier"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.21.0",

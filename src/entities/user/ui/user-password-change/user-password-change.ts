@@ -1,10 +1,12 @@
 
+import { APP_PATH } from "../../../../shared/constants";
 import { Block } from "../../../../shared/lib";
 import { Ref } from "../../../../shared/model";
 import { FormInput, Button } from "../../../../shared/ui";
 import {
   emptyValidator,
   getPasswordRepeatedValidator,
+  redirect,
 } from "../../../../shared/utils";
 import { FormAuth } from "../../../auth/ui";
 import {
@@ -51,7 +53,7 @@ export class UserPasswordChange extends Block {
       text: "Отмена",
       variant: "secondary",
       onClick: () => {
-        // TODO: Редирект на /profile
+        redirect(APP_PATH.PROFILE)
       },
     });
 

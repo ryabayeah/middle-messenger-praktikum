@@ -1,6 +1,7 @@
+import { APP_PATH } from "../../../../shared/constants";
 import { Ref } from "../../../../shared/model";
 import { FormInput, Button } from "../../../../shared/ui";
-import { emptyValidator } from "../../../../shared/utils";
+import { emptyValidator, redirect } from "../../../../shared/utils";
 import { FormAuth } from "../../../auth/ui";
 import {
   SIGN_IN_FORM_FIELDS,
@@ -36,7 +37,7 @@ export class UserSignInForm extends FormAuth {
       text: "Нет аккаунта?",
       variant: "secondary",
       onClick: () => {
-        //TODO: Редиркет на sign-up
+        redirect(APP_PATH.REGISTER)
       },
     });
 

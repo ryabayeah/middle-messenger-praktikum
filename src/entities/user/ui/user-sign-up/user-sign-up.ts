@@ -1,9 +1,11 @@
+import { APP_PATH } from "../../../../shared/constants";
 import { Ref } from "../../../../shared/model";
 import { FormInput } from "../../../../shared/ui";
 import { Button } from "../../../../shared/ui/button";
 import {
   emptyValidator,
   getPasswordRepeatedValidator,
+  redirect,
 } from "../../../../shared/utils";
 import { FormAuth } from "../../../auth/ui";
 import {
@@ -53,6 +55,7 @@ export class UserSignUpForm extends FormAuth {
       variant: "secondary",
       type: "button",
       onClick: () => {
+        redirect(APP_PATH.LOGIN)
         // TODO: Редиркет на sign-in
       },
     });
