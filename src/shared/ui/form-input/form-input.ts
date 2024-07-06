@@ -5,9 +5,8 @@ import "./form-input.scss";
 import { Feedback } from "../feedback/feedback";
 import { Block } from "../../lib";
 
-
 export interface FormInputProps extends InputProps {
-  class?: string
+  class?: string;
   feedbackErrorText?: string;
 }
 
@@ -45,8 +44,8 @@ export class FormInput extends Block {
     });
   }
 
-  get inputValue():string{
-    return String((this.children.input as Input).value)
+  get inputValue(): string {
+    return String((this.children.input as Input).value);
   }
   componentDidUpdate(
     _oldProps: FormInputProps,
@@ -78,7 +77,7 @@ export class FormInput extends Block {
       });
       return true;
     }
-  
+
     if (JSON.stringify(_oldProps) !== JSON.stringify(_newProps)) {
       return true;
     }

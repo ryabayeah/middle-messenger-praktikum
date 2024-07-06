@@ -8,7 +8,7 @@ export interface ModalProps extends CompileOptions {
   buttons: Block[];
   hide?: boolean;
   isInvalid?: boolean;
-  class?:string
+  class?: string;
 }
 
 export class Modal extends Block {

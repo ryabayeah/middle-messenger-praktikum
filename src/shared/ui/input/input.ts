@@ -2,10 +2,9 @@ import template from "./input.hbs?raw";
 import "./input.scss";
 import { Block } from "../../lib";
 
-
 export type InputEvents = "blur" | "change";
 export type InputType = "text" | "number" | string;
-export type InputDefaultValidator = (value: string) => boolean
+export type InputDefaultValidator = (value: string) => boolean;
 
 // TODO: Стоит разделить FileInput и Input
 export interface InputProps extends CompileOptions {
@@ -16,7 +15,7 @@ export interface InputProps extends CompileOptions {
   value?: string;
   class?: string;
   multiple?: boolean;
-  placeholder?: string
+  placeholder?: string;
   accept?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
@@ -55,8 +54,8 @@ export class Input extends Block {
     });
   }
 
-  get value(){
-    return this.props.value
+  get value() {
+    return this.props.value;
   }
 
   validate(validator: (value: string) => boolean, value: string) {
