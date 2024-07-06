@@ -1,17 +1,17 @@
-import "./dialog.scss";
-import template from "./dialog.hbs?raw";
-import { Block } from "../../../../shared/lib";
-import { Avatar, Button, Input } from "../../../../shared/ui";
-import { DialogNoLayout } from "../dialog-no-layout";
-import { DIALOG_ICONS, DIALOG_MESSAGE, DIALOGS } from "../../lib/constants";
-import { DialogActions } from "../dialog-actions";
-import { DialogAddUserModal } from "../dialog-add-user-modal";
-import { DialogDeleteUserModal } from "../dialog-delete-user-modal";
-import { DialogAttachments } from "../dialog-attachments";
-import { MessageBubble } from "../message-bubble";
-import { ChatDialog, ChatDialogMessage } from "../../lib/models";
-import { MessagesGroup } from "../messages-group";
-import { DialogDeleteDialogModal } from "../dialog-delete-dialog";
+import './dialog.scss';
+import template from './dialog.hbs?raw';
+import { Block } from '../../../../shared/lib';
+import { Avatar, Button, Input } from '../../../../shared/ui';
+import { DialogNoLayout } from '../dialog-no-layout';
+import { DIALOG_ICONS, DIALOG_MESSAGE, DIALOGS } from '../../lib/constants';
+import { DialogActions } from '../dialog-actions';
+import { DialogAddUserModal } from '../dialog-add-user-modal';
+import { DialogDeleteUserModal } from '../dialog-delete-user-modal';
+import { DialogAttachments } from '../dialog-attachments';
+import { MessageBubble } from '../message-bubble';
+import { ChatDialog, ChatDialogMessage } from '../../lib/models';
+import { MessagesGroup } from '../messages-group';
+import { DialogDeleteDialogModal } from '../dialog-delete-dialog';
 
 interface DialogProps extends CompileOptions {
   id: number;
@@ -25,7 +25,7 @@ interface DialogProps extends CompileOptions {
 const CURRENT_USER_ID = 1;
 // TODO: Запрос на получение диалога
 export const getDialogData = (id: number): ChatDialog | undefined => {
-  const dialog = DIALOGS.find((dialog) => dialog.id === id);
+  const dialog = DIALOGS.find(dialog => dialog.id === id);
   return dialog;
 };
 
@@ -36,22 +36,22 @@ export class Dialog extends Block {
     // Header
     const dialogAvatar = new Avatar({
       src: avatar,
-      class: "user-avatar",
+      class: 'user-avatar',
     });
 
     // Send message
     const messageInput = new Input({
-      id: "message",
-      name: "message",
-      placeholder: "Введите сообщение",
+      id: 'message',
+      name: 'message',
+      placeholder: 'Введите сообщение',
       onChange: (e: Event) => this.__handleChangeMessageInput(e),
     });
 
     const attachButton = new Button({
-      text: "",
-      variant: "secondary",
+      text: '',
+      variant: 'secondary',
       icon: DIALOG_ICONS.ATTACH,
-      class: "buttons",
+      class: 'buttons',
       onClick: () => this.__handleAttachButtonClick(),
     });
 
@@ -61,18 +61,18 @@ export class Dialog extends Block {
     attachments.hide();
 
     const sendButton = new Button({
-      text: "",
-      variant: "primary",
+      text: '',
+      variant: 'primary',
       icon: DIALOG_ICONS.SEND,
-      class: "buttons send",
+      class: 'buttons send',
       onClick: () => this.__handleSendMessage(),
     });
 
     // Actions
     const actionsButton = new Button({
-      class: "burger",
+      class: 'burger',
       icon: DIALOG_ICONS.ACTION,
-      text: "",
+      text: '',
       onClick: () => this.__handleDialogSettingsClick(),
     });
 
@@ -117,16 +117,16 @@ export class Dialog extends Block {
         ({ message, senderId, isRead, attachment }) => {
           return new MessageBubble({
             message,
-            time: "12:45",
+            time: '12:45',
             attachment: attachment,
             isRead,
             isOuter: senderId !== CURRENT_USER_ID,
           });
-        }
+        },
       );
       // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
       body = new MessagesGroup({
-        date: "19 июня",
+        date: '19 июня',
         messages,
       });
     }
@@ -158,7 +158,7 @@ export class Dialog extends Block {
   }
 
   private __handleSendMessage() {
-    console.log("SEND_MESSAGE: ", this.props.currentInputMessage);
+    console.log('SEND_MESSAGE: ', this.props.currentInputMessage);
   }
 
   private __handleDialogSettingsClick() {
@@ -204,7 +204,7 @@ export class Dialog extends Block {
   }
 
   private __handleAttachFile(file: File) {
-    console.log("SEND_ATTACHMENT: ", file.name, "---");
+    console.log('SEND_ATTACHMENT: ', file.name, '---');
     // TODO: Отправка файла в диалог
     const attachments = this.children.attachments as DialogActions;
     attachments.toggleVisibility();

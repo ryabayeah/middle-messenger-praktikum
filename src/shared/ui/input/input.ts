@@ -1,9 +1,9 @@
-import template from "./input.hbs?raw";
-import "./input.scss";
-import { Block } from "../../lib";
+import template from './input.hbs?raw';
+import './input.scss';
+import { Block } from '../../lib';
 
-export type InputEvents = "blur" | "change";
-export type InputType = "text" | "number" | string;
+export type InputEvents = 'blur' | 'change';
+export type InputType = 'text' | 'number' | string;
 export type InputDefaultValidator = (value: string) => boolean;
 
 // TODO: Стоит разделить FileInput и Input
@@ -41,12 +41,12 @@ export class Input extends Block {
       events: {
         change: (e: Event) => onChange && onChange(e),
         blur: (e: Event) => {
-          if (validateOn?.includes("blur") && validator) {
+          if (validateOn?.includes('blur') && validator) {
             const isValid = this.validate(
               validator,
-              (e.target as HTMLInputElement).value
+              (e.target as HTMLInputElement).value,
             );
-            console.log(isValid, "----")
+            console.log(isValid, '----');
             onValidate && onValidate(isValid);
           }
           onBlur && onBlur(e);

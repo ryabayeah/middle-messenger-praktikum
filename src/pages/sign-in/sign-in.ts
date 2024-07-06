@@ -1,5 +1,5 @@
-import { UserSignInForm } from "../../entities/user/ui";
-import { AuthLayout } from "../../layouts";
+import { UserSignInForm } from '../../entities/user/ui';
+import { AuthLayout } from '../../layouts';
 
 export const SignInPage = () => {
   const signInForm = new UserSignInForm();

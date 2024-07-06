@@ -1,1 +1,1 @@
-export { DialogDeleteUserModal } from "./dialog-delete-user-modal";
+export { DialogDeleteUserModal } from './dialog-delete-user-modal';

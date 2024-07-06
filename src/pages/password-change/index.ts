@@ -1,1 +1,1 @@
-export { PasswordChangePage } from "./password-change";
+export { PasswordChangePage } from './password-change';

@@ -1,6 +1,6 @@
-import template from "./avatar.hbs?raw";
-import "./avatar.scss";
-import { Block } from "../../lib";
+import template from './avatar.hbs?raw';
+import './avatar.scss';
+import { Block } from '../../lib';
 
 interface AvatarProps extends CompileOptions {
   src?: string;

@@ -1,1 +1,1 @@
-export { DialogNoLayout } from "./dialog-no-layout";
+export { DialogNoLayout } from './dialog-no-layout';

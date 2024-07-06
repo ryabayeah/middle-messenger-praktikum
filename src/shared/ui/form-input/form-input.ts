@@ -1,9 +1,9 @@
-import template1 from "./form-input.hbs?raw";
-import { Input } from "../input";
-import { InputProps } from "../input/input";
-import "./form-input.scss";
-import { Feedback } from "../feedback/feedback";
-import { Block } from "../../lib";
+import template1 from './form-input.hbs?raw';
+import { Input } from '../input';
+import { InputProps } from '../input/input';
+import './form-input.scss';
+import { Feedback } from '../feedback/feedback';
+import { Block } from '../../lib';
 
 export interface FormInputProps extends InputProps {
   class?: string;
@@ -31,8 +31,8 @@ export class FormInput extends Block {
     });
 
     const feedbackError = new Feedback({
-      value: props.isInvalid && feedbackErrorText ? feedbackErrorText : "",
-      class: "form__feedback",
+      value: props.isInvalid && feedbackErrorText ? feedbackErrorText : '',
+      class: 'form__feedback',
       isInvalid: props.isInvalid,
     });
 
@@ -49,18 +49,18 @@ export class FormInput extends Block {
   }
   componentDidUpdate(
     _oldProps: FormInputProps,
-    _newProps: FormInputProps
+    _newProps: FormInputProps,
   ): boolean {
     const { isInvalid, feedbackErrorText, isDisabled, value } = _newProps;
     const inputChild = this.children.input as Block;
     const feedbackChild = this.children.feedbackError as Block;
 
     if (_oldProps.isInvalid !== isInvalid) {
-      console.log("--1-")
+      console.log('--1-');
       feedbackChild.setProps({
-        class: "form__feedback",
+        class: 'form__feedback',
         isInvalid: isInvalid,
-        value: isInvalid && feedbackErrorText ? feedbackErrorText : "",
+        value: isInvalid && feedbackErrorText ? feedbackErrorText : '',
       });
       return true;
     }

@@ -1,8 +1,8 @@
-import "./dialog-attachments.scss";
-import template from "./dialog-attachments.hbs?raw";
-import { Block } from "../../../../shared/lib";
-import { Button, Input } from "../../../../shared/ui";
-import { DIALOG_ICONS } from "../../lib/constants";
+import './dialog-attachments.scss';
+import template from './dialog-attachments.hbs?raw';
+import { Block } from '../../../../shared/lib';
+import { Button, Input } from '../../../../shared/ui';
+import { DIALOG_ICONS } from '../../lib/constants';
 
 interface DialogAttachmentsProps extends CompileOptions {
   // TODO: Узнать в каком формате Location
@@ -13,29 +13,29 @@ interface DialogAttachmentsProps extends CompileOptions {
 export class DialogAttachments extends Block {
   constructor({ onAttach }: DialogAttachmentsProps) {
     const buttonAddPhotoVideo = new Button({
-      text: "Фото или видео",
-      variant: "secondary",
+      text: 'Фото или видео',
+      variant: 'secondary',
       icon: DIALOG_ICONS.ATTACH_PHOTO_VIDEO,
-      onClick: () => this._callFileAttach("image/*, video/*"),
+      onClick: () => this._callFileAttach('image/*, video/*'),
     });
     const buttonAddFile = new Button({
-      text: "Файл",
-      variant: "secondary",
+      text: 'Файл',
+      variant: 'secondary',
       icon: DIALOG_ICONS.ATTACH_FILE,
-      onClick: () => this._callFileAttach(".pdf, .doc, .docx"),
+      onClick: () => this._callFileAttach('.pdf, .doc, .docx'),
     });
     const buttonAddLocation = new Button({
-      text: "Локация",
-      variant: "secondary",
+      text: 'Локация',
+      variant: 'secondary',
       icon: DIALOG_ICONS.ATTACH_LOCATION,
       onClick: () => this.__handleAddLocationClick(),
     });
 
     const hiddenInput = new Input({
-      id: "hiddenInput",
-      name: "hiddenInput",
-      type: "file",
-      class: "hidden",
+      id: 'hiddenInput',
+      name: 'hiddenInput',
+      type: 'file',
+      class: 'hidden',
       onChange: (e: Event) => this.__handleAttachUpload(e, onAttach),
     });
 
@@ -79,7 +79,7 @@ export class DialogAttachments extends Block {
     // callback()
   }
   toggleVisibility() {
-    this.element?.style.display === "none" ? this.show() : this.hide();
+    this.element?.style.display === 'none' ? this.show() : this.hide();
   }
   render() {
     return this.compile(template, { ...this.props });

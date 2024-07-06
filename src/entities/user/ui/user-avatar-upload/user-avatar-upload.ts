@@ -1,7 +1,7 @@
-import "./user-avatar-upload.scss";
-import template from "./user-avatar-upload.hbs?raw";
-import { Block } from "../../../../shared/lib";
-import { Link, Input } from "../../../../shared/ui";
+import './user-avatar-upload.scss';
+import template from './user-avatar-upload.hbs?raw';
+import { Block } from '../../../../shared/lib';
+import { Link, Input } from '../../../../shared/ui';
 
 interface UserAvatarUploadProps extends CompileOptions {
   onUploadAvatar: (f: File) => void;
@@ -11,28 +11,28 @@ interface UserAvatarUploadProps extends CompileOptions {
 export class UserAvatarUpload extends Block {
   constructor({ onUploadAvatar }: UserAvatarUploadProps) {
     const link = new Link({
-      text: "Выбрать файл на компьютере",
-      href: "#",
-      class: "underline",
+      text: 'Выбрать файл на компьютере',
+      href: '#',
+      class: 'underline',
       onClick: () => {
         this.__handleClick();
       },
     });
 
     const uploadedFileLink = new Link({
-      text: "",
-      href: "#",
+      text: '',
+      href: '#',
       onClick: () => {
         // TODO: Скачивать файл на клик
       },
     });
 
     const hiddenInput = new Input({
-      type: "file",
-      id: "hidden_input",
-      name: "avatar_data",
+      type: 'file',
+      id: 'hidden_input',
+      name: 'avatar_data',
       multiple: false,
-      accept: "image/jpeg, image/png",
+      accept: 'image/jpeg, image/png',
       onChange: (e: Event) => this.__handleAvatarUpload(e, onUploadAvatar),
     });
     hiddenInput.hide();

@@ -1,1 +1,1 @@
-export { AuthLayout } from "./auth-layout.ts";
+export { AuthLayout } from './auth-layout.ts';

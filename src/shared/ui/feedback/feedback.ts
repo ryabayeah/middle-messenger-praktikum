@@ -1,6 +1,6 @@
-import { Block } from "../../lib";
-import "./feedback.scss";
-import template from "./feedback.hbs?raw";
+import { Block } from '../../lib';
+import './feedback.scss';
+import template from './feedback.hbs?raw';
 
 interface FeedbackProps extends CompileOptions {
   class?: string;

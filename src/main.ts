@@ -1,8 +1,8 @@
-import "./main.scss";
-import { render } from "./shared/utils/renderDom";
-import { SignInPage } from "./pages/sign-in";
-import { Block } from "./shared/lib/block";
-import { NotFoundPage } from "./pages/not-found";
+import './main.scss';
+import { render } from './shared/utils/renderDom';
+import { SignInPage } from './pages/sign-in';
+import { Block } from './shared/lib/block';
+import { NotFoundPage } from './pages/not-found';
 import {
   ChatsPage,
   PasswordChangePage,
@@ -10,9 +10,9 @@ import {
   ServerErrorPage,
   SignUpPage,
   TempNavPage,
-} from "./pages";
-import { APP_PATH } from "./shared/constants";
-import { getUrlPathName } from "./shared/utils";
+} from './pages';
+import { APP_PATH } from './shared/constants';
+import { getUrlPathName } from './shared/utils';
 
 const route = () => {
   const newPages: Record<string, Block> = {
@@ -32,9 +32,9 @@ const route = () => {
     ? newPages[currentPath as keyof typeof newPages]
     : newPages[APP_PATH.NOT_FOUND];
 
-  render("#root", pageData);
+  render('#root', pageData);
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   route();
 });

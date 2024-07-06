@@ -1,1 +1,1 @@
-export { UserAvatarModal } from "./user-avatar-modal";
+export { UserAvatarModal } from './user-avatar-modal';

@@ -1,10 +1,10 @@
-import template from "./button.hbs?raw";
-import "./button.scss";
-import { Block } from "../../lib";
+import template from './button.hbs?raw';
+import './button.scss';
+import { Block } from '../../lib';
 
-export type ButtonType = "submit" | "reset" | "button" | "menu";
-export type ButtonVariant = "primary" | "secondary" | "error" | "link";
-export type ButtonTextPosition = "left" | "center" | "right";
+export type ButtonType = 'submit' | 'reset' | 'button' | 'menu';
+export type ButtonVariant = 'primary' | 'secondary' | 'error' | 'link';
+export type ButtonTextPosition = 'left' | 'center' | 'right';
 
 export interface ButtonProps extends CompileOptions {
   text: string;

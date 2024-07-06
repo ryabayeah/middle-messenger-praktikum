@@ -1,1 +1,1 @@
-export { DialogActions } from "./dialog-actions";
+export { DialogActions } from './dialog-actions';

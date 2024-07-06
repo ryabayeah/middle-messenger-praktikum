@@ -1,1 +1,1 @@
-export { MessagesGroup } from "./messages-group";
+export { MessagesGroup } from './messages-group';

@@ -1,1 +1,1 @@
-export { TempNavPage } from "./temp-nav";
+export { TempNavPage } from './temp-nav';

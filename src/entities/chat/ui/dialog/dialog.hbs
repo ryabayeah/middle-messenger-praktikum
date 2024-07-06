@@ -1,41 +1,41 @@
-<div class="dialog">
-    <div class="dialog__header">
-        <div class="dialog__header-data">
-            <div class="user">
-                {{{avatar}}}
-                <span class="bold">{{name}}</span>
-            </div>
-            <div class="actions">
-                {{{actionsButton}}}
-                {{{actions}}}
-            </div>
-        </div>
-        <div class="dialog-separator"></div>
+<div class='dialog'>
+  <div class='dialog__header'>
+    <div class='dialog__header-data'>
+      <div class='user'>
+        {{{avatar}}}
+        <span class='bold'>{{name}}</span>
+      </div>
+      <div class='actions'>
+        {{{actionsButton}}}
+        {{{actions}}}
+      </div>
+    </div>
+    <div class='dialog-separator'></div>
 
+  </div>
+
+  <div class='dialog__body'>
+    {{{errorBody}}}
+    <div class='dialog_messages__wrapper'>
+      <div class='dialog_messages'>
+        {{{body}}}
+      </div>
     </div>
 
-    <div class="dialog__body">
-        {{{errorBody}}}
-        <div class="dialog_messages__wrapper">
-            <div class="dialog_messages">
-                {{{body}}}
-            </div>
-        </div>
-
+  </div>
+  <div class='dialog__footer'>
+    <div class='dialog-separator'></div>
+    <div class='dialog__footer-data'>
+      <div class='attachments'>
+        {{{attachments}}}
+        {{{attachButton}}}
+      </div>
+      {{{messageInput}}}
+      {{{sendButton}}}
     </div>
-    <div class="dialog__footer">
-        <div class="dialog-separator"></div>
-        <div class="dialog__footer-data">
-            <div class="attachments">
-                {{{attachments}}}
-                {{{attachButton}}}
-            </div>
-            {{{messageInput}}}
-            {{{sendButton}}}
-        </div>
 
-    </div>
-    {{{addUserModal}}}
-    {{{deleteUserModal}}}
-    {{{deleteDialogModal}}}
+  </div>
+  {{{addUserModal}}}
+  {{{deleteUserModal}}}
+  {{{deleteDialogModal}}}
 </div>

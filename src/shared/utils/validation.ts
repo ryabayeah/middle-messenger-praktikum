@@ -1,5 +1,5 @@
-import { Ref } from "../model/components";
-import { FormInput } from "../ui/form-input/form-input";
+import { Ref } from '../model/components';
+import { FormInput } from '../ui/form-input/form-input';
 
 export const emailValidator = (value: string): boolean => {
   return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
@@ -39,7 +39,7 @@ export const passwordValidator = (value: string): boolean => {
 
 export const passwordRepeatedValidator = (
   value: string,
-  oldValue: string
+  oldValue: string,
 ): boolean => {
   return matchValidator(value, oldValue);
 };
@@ -58,5 +58,5 @@ export const matchValidator = <T>(valueOne: T, valueTwo: T) => {
   return valueOne === valueTwo;
 };
 export const emptyValidator = (value: unknown): boolean => {
-  return value !== "";
+  return value !== '';
 };

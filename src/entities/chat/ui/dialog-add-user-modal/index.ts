@@ -1,1 +1,1 @@
-export { DialogAddUserModal } from "./dialog-add-user-modal";
+export { DialogAddUserModal } from './dialog-add-user-modal';

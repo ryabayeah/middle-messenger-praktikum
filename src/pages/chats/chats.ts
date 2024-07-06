@@ -1,4 +1,4 @@
-import { ChatsLayout } from "../../layouts";
+import { ChatsLayout } from '../../layouts';
 
 export const ChatsPage = () => {
   return new ChatsLayout({});

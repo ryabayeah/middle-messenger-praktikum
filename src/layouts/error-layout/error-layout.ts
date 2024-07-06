@@ -1,6 +1,6 @@
-import { Block } from "../../shared/lib";
-import { Button } from "../../shared/ui";
-import template from "./error-layout.hbs?raw";
+import { Block } from '../../shared/lib';
+import { Button } from '../../shared/ui';
+import template from './error-layout.hbs?raw';
 
 interface ErrorLayoutProps extends CompileOptions {
   code: string;
@@ -13,7 +13,7 @@ interface ErrorLayoutProps extends CompileOptions {
 export class ErrorLayout extends Block {
   constructor({ textBackPath, onSubmit, ...props }: ErrorLayoutProps) {
     const backButton = new Button({
-      variant: "secondary",
+      variant: 'secondary',
       text: textBackPath,
     });
     super({

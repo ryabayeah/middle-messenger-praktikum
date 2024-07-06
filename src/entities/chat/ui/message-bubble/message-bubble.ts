@@ -1,7 +1,7 @@
-import "./message-bubble.scss";
-import template from "./message-bubble.hbs?raw";
-import { Block } from "../../../../shared/lib";
-import { MessageAttachmentType } from "../../lib";
+import './message-bubble.scss';
+import template from './message-bubble.hbs?raw';
+import { Block } from '../../../../shared/lib';
+import { MessageAttachmentType } from '../../lib';
 
 interface MessageBubbleProps extends CompileOptions {
   message?: string;

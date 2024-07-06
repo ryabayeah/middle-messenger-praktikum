@@ -1,1 +1,1 @@
-export { DialogAttachments } from "./dialog-attachments";
+export { DialogAttachments } from './dialog-attachments';

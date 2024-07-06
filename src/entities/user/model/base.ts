@@ -14,5 +14,5 @@ export interface UserProfileData {
   second_name: string;
   display_name: string;
   phone: string;
-  avatar: string
+  avatar: string;
 }

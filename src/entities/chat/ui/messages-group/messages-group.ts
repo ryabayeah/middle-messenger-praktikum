@@ -1,7 +1,7 @@
-import "./messages-group.scss";
-import template from "./messages-group.hbs?raw";
-import { MessageBubble } from "../message-bubble";
-import { Block } from "../../../../shared/lib";
+import './messages-group.scss';
+import template from './messages-group.hbs?raw';
+import { MessageBubble } from '../message-bubble';
+import { Block } from '../../../../shared/lib';
 
 interface MessagesGroupProps extends CompileOptions {
   date: string; // TODO: сделать таймстампом?

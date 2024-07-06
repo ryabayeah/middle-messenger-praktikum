@@ -1,11 +1,11 @@
-import { Block } from "../../../../shared/lib";
-import { Ref } from "../../../../shared/model";
-import { Avatar, FormInput, Button } from "../../../../shared/ui";
-import { emptyValidator, getBase64 } from "../../../../shared/utils";
-import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from "../../lib/constants";
-import { UserProfileData } from "../../model";
-import { UserAvatarModal } from "../user-avatar-modal";
-import template from "./user-profile-form.hbs?raw";
+import { Block } from '../../../../shared/lib';
+import { Ref } from '../../../../shared/model';
+import { Avatar, FormInput, Button } from '../../../../shared/ui';
+import { emptyValidator, getBase64 } from '../../../../shared/utils';
+import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
+import { UserProfileData } from '../../model';
+import { UserAvatarModal } from '../user-avatar-modal';
+import template from './user-profile-form.hbs?raw';
 
 interface UserProfileFormProps extends CompileOptions {
   isEditable: boolean;
@@ -65,37 +65,37 @@ export class UserProfileForm extends Block {
     });
 
     const saveButton = new Button({
-      type: "submit",
-      text: "Сохранить",
-      variant: "primary",
+      type: 'submit',
+      text: 'Сохранить',
+      variant: 'primary',
     });
 
     const altButton = new Button({
-      type: "reset",
-      text: "Отмена",
-      variant: "secondary",
+      type: 'reset',
+      text: 'Отмена',
+      variant: 'secondary',
       onClick: () => {
         this.setProps({ isEditable: false });
       },
     });
 
     const editProfileButton = new Button({
-      text: "Изменить данные",
-      textPosition: "left",
-      variant: "secondary",
-      type: "button",
-      class: "p-0",
+      text: 'Изменить данные',
+      textPosition: 'left',
+      variant: 'secondary',
+      type: 'button',
+      class: 'p-0',
       onClick: () => {
         this.setProps({ ...this.props, isEditable: true });
       },
     });
 
     const editPasswordButton = new Button({
-      text: "Изменить пароль",
-      textPosition: "left",
-      variant: "secondary",
-      type: "button",
-      class: "p-0",
+      text: 'Изменить пароль',
+      textPosition: 'left',
+      variant: 'secondary',
+      type: 'button',
+      class: 'p-0',
 
       onClick: () => {
         onEditPasswordClick && onEditPasswordClick();
@@ -103,11 +103,11 @@ export class UserProfileForm extends Block {
     });
 
     const logOutButton = new Button({
-      text: "Выйти",
-      textPosition: "left",
-      variant: "error",
-      type: "button",
-      class: "p-0",
+      text: 'Выйти',
+      textPosition: 'left',
+      variant: 'error',
+      type: 'button',
+      class: 'p-0',
 
       onClick: () => {
         this.setProps({ ...this.props, isEditable: true });
@@ -145,7 +145,7 @@ export class UserProfileForm extends Block {
 
   componentDidUpdate(
     _oldProps: InternalUserProfileFormProps,
-    _newProps: InternalUserProfileFormProps
+    _newProps: InternalUserProfileFormProps,
   ): boolean {
     if (_oldProps.isEditable !== _newProps.isEditable) {
       const avatarRef = this.children.avatar as Avatar;
@@ -190,8 +190,8 @@ export class UserProfileForm extends Block {
     //TODO: Возможно временно использоване base64? Мб будет открытый бакет?
     const avatarRef = this.children[PROFILE_FIELDS_NAME.AVATAR] as Avatar;
     if (avatarRef) {
-      const base64 = (await getBase64(file)).split(",")[1];
-      const imgType = base64.split(".").at(-1) || "png";
+      const base64 = (await getBase64(file)).split(',')[1];
+      const imgType = base64.split('.').at(-1) || 'png';
       avatarRef.setProps({ src: `data:image/${imgType};base64, ${base64}` });
     }
 
@@ -205,11 +205,11 @@ export class UserProfileForm extends Block {
     const target = e.target as HTMLFormElement;
 
     const formData = new FormData(target);
-    Object.values(PROFILE_FIELDS_NAME).forEach((key) => {
-      const value = (formData.get(key) || "")?.toString();
+    Object.values(PROFILE_FIELDS_NAME).forEach(key => {
+      const value = (formData.get(key) || '')?.toString();
       const { validator } = PROFILE_FIELDS[key];
       const isInvalid =
-        (validator && !validator(value || "")) || !emptyValidator(value || "");
+        (validator && !validator(value || '')) || !emptyValidator(value || '');
       if (isInvalid && !isAnyInvalid) {
         isAnyInvalid = true;
       }
@@ -227,7 +227,7 @@ export class UserProfileForm extends Block {
     if (!isAnyInvalid) {
       this.setProps({ isEditable: false });
     }
-    console.log("PROFILE_EDIT_FORM: ", result);
+    console.log('PROFILE_EDIT_FORM: ', result);
   }
 
   render() {

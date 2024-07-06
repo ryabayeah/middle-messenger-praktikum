@@ -1,2 +1,2 @@
-export * from "./app-path";
-export * from "./fields";
+export * from './app-path';
+export * from './fields';

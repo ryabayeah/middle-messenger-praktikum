@@ -1,1 +1,1 @@
-export { DialogCard } from "./dialog-card";
+export { DialogCard } from './dialog-card';

@@ -1,10 +1,10 @@
-export type MessageAttachmentType = "file" | "video" | "img" | "location";
+export type MessageAttachmentType = 'file' | 'video' | 'img' | 'location';
 
 export type ChatDialogMessage = {
   senderId: number;
   message?: string;
   timestamp: number;
-  type: "text" | "attachment";
+  type: 'text' | 'attachment';
   attachment?: { type: MessageAttachmentType; src: string };
   isRead?: boolean;
 };

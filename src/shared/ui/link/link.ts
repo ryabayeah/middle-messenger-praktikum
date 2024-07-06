@@ -1,6 +1,6 @@
-import template from "./link.hbs?raw";
-import "./link.scss";
-import { Block } from "../../lib";
+import template from './link.hbs?raw';
+import './link.scss';
+import { Block } from '../../lib';
 
 interface LinkProps extends CompileOptions {
   text: string;

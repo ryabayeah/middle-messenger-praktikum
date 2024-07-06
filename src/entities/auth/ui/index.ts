@@ -1,1 +1,1 @@
-export { FormAuth } from "../ui/form-auth";
+export { FormAuth } from '../ui/form-auth';

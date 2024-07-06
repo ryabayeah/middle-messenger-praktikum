@@ -1,12 +1,12 @@
-import { APP_PATH } from "../../../../shared/constants";
-import { Ref } from "../../../../shared/model";
-import { FormInput, Button } from "../../../../shared/ui";
-import { emptyValidator, redirect } from "../../../../shared/utils";
-import { FormAuth } from "../../../auth/ui";
+import { APP_PATH } from '../../../../shared/constants';
+import { Ref } from '../../../../shared/model';
+import { FormInput, Button } from '../../../../shared/ui';
+import { emptyValidator, redirect } from '../../../../shared/utils';
+import { FormAuth } from '../../../auth/ui';
 import {
   SIGN_IN_FORM_FIELDS,
   SIGN_IN_FORM_FIELDS_NAME,
-} from "../../lib/constants";
+} from '../../lib/constants';
 
 // TODO: Подумать над уровнями доступа методов
 export class UserSignInForm extends FormAuth {
@@ -28,21 +28,21 @@ export class UserSignInForm extends FormAuth {
     });
 
     const buttonSubmit = new Button({
-      text: "Вход",
-      type: "submit",
-      variant: "primary",
+      text: 'Вход',
+      type: 'submit',
+      variant: 'primary',
     });
     const buttonAlt = new Button({
-      type: "reset",
-      text: "Нет аккаунта?",
-      variant: "secondary",
+      type: 'reset',
+      text: 'Нет аккаунта?',
+      variant: 'secondary',
       onClick: () => {
-        redirect(APP_PATH.REGISTER)
+        redirect(APP_PATH.REGISTER);
       },
     });
 
     super({
-      caption: "Вход",
+      caption: 'Вход',
       children: formFields,
       buttonSubmit: buttonSubmit,
       buttonAlt: buttonAlt,
@@ -58,11 +58,11 @@ export class UserSignInForm extends FormAuth {
     const target = e.target as HTMLFormElement;
 
     const formData = new FormData(target);
-    Object.values(SIGN_IN_FORM_FIELDS_NAME).forEach((key) => {
-      const value = (formData.get(key) || "")?.toString();
+    Object.values(SIGN_IN_FORM_FIELDS_NAME).forEach(key => {
+      const value = (formData.get(key) || '')?.toString();
       const { validator } = SIGN_IN_FORM_FIELDS[key];
       const isInvalid =
-        (validator && !validator(value || "")) || !emptyValidator(value || "");
+        (validator && !validator(value || '')) || !emptyValidator(value || '');
       if (isInvalid && !isAnyInvalid) {
         isAnyInvalid = true;
       }
@@ -80,6 +80,6 @@ export class UserSignInForm extends FormAuth {
     if (!isAnyInvalid) {
       this.setProps({ isEditable: false });
     }
-    console.log("SIGN_IN_FORM: ", result);
+    console.log('SIGN_IN_FORM: ', result);
   }
 }

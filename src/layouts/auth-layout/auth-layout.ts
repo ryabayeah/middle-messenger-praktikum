@@ -1,5 +1,5 @@
-import { Block } from "../../shared/lib";
-import template from "./auth-layout.hbs?raw";
+import { Block } from '../../shared/lib';
+import template from './auth-layout.hbs?raw';
 
 interface AuthLayoutProps extends CompileOptions {
   children: Block | Block[];
