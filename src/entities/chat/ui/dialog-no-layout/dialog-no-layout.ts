@@ -3,13 +3,13 @@ import template from "./dialog-no-layout.hbs?raw";
 import { Block } from "../../../../shared/lib";
 
 interface DialogNoLayoutProps extends CompileOptions {
-    message: string
+  message: string;
 }
 
 export class DialogNoLayout extends Block {
-  constructor(props: DialogNoLayoutProps ) {
+  constructor(props: DialogNoLayoutProps) {
     super({
-        ...props
+      ...props,
     });
   }
   render() {

@@ -1,7 +1,7 @@
 import { FIELDS } from "../../../../shared/constants";
 import { Button, FormInput, Modal } from "../../../../shared/ui";
 import { loginValidator } from "../../../../shared/utils";
-import './dialog-delete-user-modal.scss'
+import "./dialog-delete-user-modal.scss";
 
 interface DialogDeleteUserModalProps extends CompileOptions {
   onClose: VoidFunction;
@@ -25,30 +25,29 @@ export class DialogDeleteUserModal extends Modal {
       onClick: () => this.__handleClose(onClose),
     });
 
-
     const loginInput = new FormInput({
       ...FIELDS.login,
-      validateOn: ['blur'],
+      validateOn: ["blur"],
       validator: loginValidator,
-    })
+    });
 
     super({
       hide: false,
       title: "Удалить пользователя",
       body: loginInput,
       buttons: [saveButton, altButton],
-      class: 'dialog-delete-user-modal'
+      class: "dialog-delete-user-modal",
     });
   }
 
-  reset(){
-    const input = this.children.body as FormInput
-    input.setProps({value: '', isInvalid: false})
+  reset() {
+    const input = this.children.body as FormInput;
+    input.setProps({ value: "", isInvalid: false });
   }
 
   private __handleApply(e: Event, callback: VoidFunction) {
-    const target = e.target as HTMLInputElement
-    console.log("DELETE_DIALOG_USER: ",target.value)
+    const target = e.target as HTMLInputElement;
+    console.log("DELETE_DIALOG_USER: ", target.value);
     callback();
   }
 

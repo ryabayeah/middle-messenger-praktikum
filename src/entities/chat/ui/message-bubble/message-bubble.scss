@@ -5,37 +5,36 @@
   max-width: 30rem;
   margin: 0.125rem;
 
- 
-    &.outer {
-      border-radius: 8px 8px 8px 0;
-      background: var(--light-gray);
-      .message_send {
-        color: var(--gray);
-      }
-      .send_status {
-        display: none;
-      }
+  &.outer {
+    border-radius: 8px 8px 8px 0;
+    background: var(--light-gray);
+    .message_send {
+      color: var(--gray);
     }
-  
-    &.inner {
-      border-radius: 8px 8px 0 8px;
-      background: var(--gray-blue-20);
-      margin-left: auto;
-      .message_send {
-        color: var(--blue);
-      }
+    .send_status {
+      display: none;
     }
-    
-  &.msg__attachment{
+  }
+
+  &.inner {
+    border-radius: 8px 8px 0 8px;
+    background: var(--gray-blue-20);
+    margin-left: auto;
+    .message_send {
+      color: var(--blue);
+    }
+  }
+
+  &.msg__attachment {
     position: relative;
     margin: 0;
     padding: 0;
     border-radius: 8px;
     background: transparent;
-    .message_attachment{
+    .message_attachment {
       border-radius: 8px;
     }
-    .message_send{
+    .message_send {
       position: absolute;
       padding: 0;
       margin: 0;
