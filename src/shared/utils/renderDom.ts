@@ -1,5 +1,3 @@
-// utils/renderDOM.js
-
 import { Block } from "../lib/block";
 
 export const render = (query: string, block: Block) => {

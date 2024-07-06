@@ -1,7 +1,7 @@
-// function fetchWithRetry(url, options = {}) {
+// function fetchWithRetry(url: string, options: unknown = {}): Promise<Response> {
 //     const {tries = 1} = options;
   
-//       function onError(err){
+//       function onError(err: string){
 //           const triesLeft = tries - 1;
 //           if (!triesLeft){
 //               throw err;
