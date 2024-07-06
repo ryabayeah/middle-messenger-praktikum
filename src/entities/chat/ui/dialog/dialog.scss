@@ -21,7 +21,7 @@
           width: 34px;
         }
       }
-      .actions{
+      .actions {
         position: relative;
         .burger {
           cursor: pointer;
@@ -31,42 +31,56 @@
           align-items: center;
           justify-content: center;
           border-radius: 180%;
-  
+
           &:hover {
             background-color: var(--light-gray);
           }
         }
-
       }
     }
   }
 
-  &__body{
+  &__body {
     height: 100%;
-  }
-  &__footer{
-    margin-top: auto;
-    &-data{
+    width: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 10px 0 30px 0;
+    .dialog_messages__wrapper{
+      overflow: auto;
+      // height: 100%;
+      .dialog_messages {
+        height: 100%;
         display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 0;
-        .buttons{
-            padding: 0;
-            height: 30px;
-            width: 30px;
-            &.send{
-                border-radius: 180px;
-                padding: 5px;
-            }
-            &.attach{
-                border-radius: 180px;
-                padding: 5px;
-            }
+        justify-content: flex-end;
+        flex-direction: column;
+      }
+
+    }
+  }
+  &__footer {
+    margin-top: auto;
+    &-data {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      .buttons {
+        padding: 0;
+        height: 30px;
+        width: 30px;
+        &.send {
+          border-radius: 180px;
+          padding: 5px;
         }
-        .attachments{
-          position: relative;
+        &.attach {
+          border-radius: 180px;
+          padding: 5px;
         }
+      }
+      .attachments {
+        position: relative;
+      }
     }
   }
 }

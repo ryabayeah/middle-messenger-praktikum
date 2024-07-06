@@ -3,40 +3,24 @@ import template from "./dialog.hbs?raw";
 import { Block } from "../../../../shared/lib";
 import { Avatar, Button, Input } from "../../../../shared/ui";
 import { DialogNoLayout } from "../dialog-no-layout";
-import { DIALOG_ICONS, DIALOG_MESSAGE } from "../../lib/constants";
+import { DIALOG_ICONS, DIALOG_MESSAGE, DIALOGS } from "../../lib/constants";
 import { DialogActions } from "../dialog-actions";
 import { DialogAddUserModal } from "../dialog-add-user-modal";
 import { DialogDeleteUserModal } from "../dialog-delete-user-modal";
 import { DialogAttachments } from "../dialog-attachments";
+import { MessageBubble } from "../message-bubble";
+import { ChatDialog, ChatDialogMessage } from "../../lib/models";
 
 interface DialogProps extends CompileOptions {
   id: number;
   name: string;
   avatar?: string;
+  messages?: ChatDialogMessage[];
 }
 
-export type ChatDialog = {
-  id: number;
-  name: string;
-  avatar?: string;
-  messages?: any[];
-};
-
+const CURRENT_USER_ID = 1;
 // TODO: Запрос на получение диалога
 export const getDialogData = (id: number): ChatDialog | undefined => {
-  const DIALOGS: ChatDialog[] = [
-    {
-      id: 1,
-      avatar: "",
-      name: "Вадим",
-      messages: [
-        {
-          // TODO: Пока не стала подставлять какую то структуру, как появится больше инфы - подставить
-        },
-      ],
-    },
-  ];
-
   const dialog = DIALOGS.find((dialog) => dialog.id === id);
   return dialog;
 };
@@ -115,6 +99,17 @@ export class Dialog extends Block {
         message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
       });
     } else {
+      body = (dialogData.messages as ChatDialogMessage[]).map(
+        ({ message, senderId, isRead, src }) => {
+          return new MessageBubble({
+            message,
+            time: "12:45",
+            attachmentSrc: src,
+            isRead,
+            isOuter: senderId !== CURRENT_USER_ID,
+          });
+        }
+      );
     }
 
     super({
@@ -168,7 +163,7 @@ export class Dialog extends Block {
 
   private __handleAttachFile(file: File) {
     console.log(file.name, "---");
-    // TODO: Отправка файла
+    // TODO: Отправка файла в диалог
     const attachments = this.children.attachments as DialogActions;
     attachments.toggleVisibility();
   }

@@ -1,4 +1,8 @@
-import { DIALOG_MESSAGE } from "../../entities/chat/lib/constants";
+import {
+  DIALOG_CARDS,
+  DIALOG_MESSAGE,
+} from "../../entities/chat/lib/constants";
+import { ChatDialogShort } from "../../entities/chat/lib/models";
 import {
   Dialog,
   DialogCard,
@@ -10,107 +14,6 @@ import { Block } from "../../shared/lib";
 import { Link } from "../../shared/ui";
 import template from "./chats-layout.hbs?raw";
 import "./chats-layout.scss";
-
-const DIALOG_CARDS: ChatDialogShort[] = [
-  {
-    id: 1,
-    avatarSrc: "",
-    name: "Вадим",
-    isLastMe: true,
-    lastMessage: "Так круто!",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 2,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 33,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 1231,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 1323,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 14444,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 156,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 661,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 661,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-  {
-    id: 166,
-    avatarSrc: "",
-    name: "Илья",
-    isLastMe: false,
-    lastMessage:
-      "Друзья, у меня для вас большие новости! Мы смогли сделать первый в мире самолет на ядерном двигателе",
-    lastMessageTime: "15:34",
-  },
-];
-
-type ChatDialogShort = {
-  id: number;
-  avatarSrc: string;
-  name: string;
-  isLastMe: boolean;
-  lastMessage: string;
-  lastMessageTime: string;
-};
 
 interface ChatsLayoutProps extends CompileOptions {
   searchQuery?: string;
@@ -154,14 +57,14 @@ export class ChatsLayout extends Block {
       sidebarHeader: dialogSearch,
       sidebarBody: dialogCards,
       body: new DialogNoLayout({
-        message: DIALOG_MESSAGE.NO_DIALOG_SELECTED
+        message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
       }),
     });
   }
 
   renderNoDataMessage() {
     return new DialogNoLayout({
-      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED
+      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
   }
 
@@ -199,7 +102,7 @@ export class ChatsLayout extends Block {
       }
     } else {
       body = new DialogNoLayout({
-        message: DIALOG_MESSAGE.NO_DIALOG_SELECTED
+        message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
       });
     }
 
