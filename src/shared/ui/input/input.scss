@@ -9,7 +9,18 @@
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
-
+  &:focus {
+    ~ .form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 12px;
+      color: var(--gray);
+    }
+    // padding-bottom: 6px;
+    border-width: 1px;
+  }
   &::placeholder {
     color: var(--gray);
   }
@@ -29,17 +40,4 @@
       border-bottom: 1px solid var(--red);
     }
   }
-}
-
-.form__input:focus {
-  ~ .form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 12px;
-    color: var(--gray);
-  }
-  // padding-bottom: 6px;
-  border-width: 1px;
 }
