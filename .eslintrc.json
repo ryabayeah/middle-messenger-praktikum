@@ -11,9 +11,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "linebreak-style": ["warn", "windows"],
-    "quotes": ["warn", "double"],
-    "semi": ["warn", "always"],
+    "quotes": ["warn", "single"],
     "eol-last": ["warn", "always"]
   }
 }

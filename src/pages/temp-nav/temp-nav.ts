@@ -1,18 +1,17 @@
-import { Block } from '../../shared/lib';
-import { Link } from '../../shared/ui';
-import template from './temp-nav.hbs?raw';
-import './temp-nav.scss';
+import { APP_PATH } from "../../shared/constants";
+import { Block } from "../../shared/lib";
+import { Link } from "../../shared/ui";
+import template from "./temp-nav.hbs?raw";
+import "./temp-nav.scss";
 
 const LINKS = [
-  { href: '/login', text: 'Логин' },
-  { href: '/register', text: 'Регистрация' },
-  { href: '/404', text: '404' },
-  { href: '/500', text: '500' },
-  { href: '/profile', text: 'Профиль' },
-  { href: '/profile-edit', text: 'Редактирование профиля' },
-  { href: '/change-password', text: 'Смена пароля' },
-  { href: '/change-avatar', text: 'Смена аватарки' },
-  { href: '/chats', text: 'Чаты' },
+  { href: APP_PATH.LOGIN, text: "Логин" },
+  { href: APP_PATH.REGISTER, text: "Регистрация" },
+  { href: APP_PATH.NOT_FOUND, text: "404" },
+  { href: APP_PATH.ERROR, text: "500" },
+  { href: APP_PATH.PROFILE, text: "Профиль" },
+  { href: APP_PATH.CHANGE_PASSWORD, text: "Смена пароля" },
+  { href: APP_PATH.CHATS, text: "Чаты" },
 ];
 
 class TempNav extends Block {
