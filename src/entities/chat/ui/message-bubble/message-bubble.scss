@@ -36,7 +36,6 @@
     }
     .message_send {
       position: absolute;
-      padding: 0;
       margin: 0;
       right: 10px;
       background: var(--gray);
@@ -67,7 +66,6 @@
     user-select: none;
     vertical-align: middle;
     pointer-events: none;
-    display: inline-flex;
     z-index: 1;
     cursor: pointer;
     margin-inline-start: 0.1875rem;

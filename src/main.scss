@@ -2,18 +2,18 @@
 @import './app/assets/styles/base';
 @import './app/assets/styles/scroll';
 
-@import './pages/chats/chats.scss';
-@import './pages/temp-nav/temp-nav.scss';
+@import './pages/chats/chats';
+@import './pages/temp-nav/temp-nav';
 
-@import './shared/ui/modal/modal.scss';
+@import './shared/ui/modal/modal';
 
-@import './entities/chat/ui/dialog-card/dialog-card.scss';
-@import './entities/auth/ui/form-auth/form-auth.scss';
-@import './entities/user/ui/user-profile-form/user-profile-form.scss';
+@import './entities/chat/ui/dialog-card/dialog-card';
+@import './entities/auth/ui/form-auth/form-auth';
+@import './entities/user/ui/user-profile-form/user-profile-form';
 
-@import './layouts/auth-layout/auth-layout.scss';
-@import './layouts/error-layout/error-layout.scss';
-@import './layouts/profile-layout/profile-layout.scss';
+@import './layouts/auth-layout/auth-layout';
+@import './layouts/error-layout/error-layout';
+@import './layouts/profile-layout/profile-layout';
 
 :root {
   @include colors;

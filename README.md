@@ -8,8 +8,6 @@
 1. [Регистрация](https://deploy--animated-torrone-eb1c64.netlify.app/register)
 1. [Чаты](https://deploy--animated-torrone-eb1c64.netlify.app/chats)
 1. [Профиль](https://deploy--animated-torrone-eb1c64.netlify.app/profile)
-1. [Профиль - редактирование](https://deploy--animated-torrone-eb1c64.netlify.app/profile-edit)
-1. [Профиль - редактирование аватарки](https://deploy--animated-torrone-eb1c64.netlify.app/change-avatar)
 1. [Профиль - смена пароля](https://deploy--animated-torrone-eb1c64.netlify.app/change-password)
 1. [500](https://deploy--animated-torrone-eb1c64.netlify.app/500)
 1. [404](https://deploy--animated-torrone-eb1c64.netlify.app/404)
@@ -26,4 +24,28 @@ npm install
 
 ```bash
 npm run start
+```
+
+### Eslint
+
+```bash
+npm run eslint
+```
+
+### Prettier
+
+```bash
+npm run prettier
+```
+
+### Eslint
+
+```bash
+npm run eslint
+```
+
+### Stylelint
+
+```bash
+npm run stylelint
 ```

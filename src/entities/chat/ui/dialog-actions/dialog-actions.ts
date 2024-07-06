@@ -27,7 +27,7 @@ export class DialogActions extends Block {
     });
     const buttonDeleteDialog = new Button({
       text: 'Удалить диалог',
-      variant: 'error',
+      variant: 'secondary',
       icon: DIALOG_ICONS.DELETE,
       onClick: onDialogDelete,
     });
