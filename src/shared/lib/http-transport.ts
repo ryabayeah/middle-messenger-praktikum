@@ -8,55 +8,13 @@ enum METHOD {
 
 type Options = {
   method: METHOD;
-  data?: any;
+  data?: never;
   headers?: Record<string, string>;
   timeout?: number;
 };
 
-type RequestParams = {
-  url: string;
-  options: Options;
-};
-
 type OptionsWithoutMethod = Omit<Options, 'method'>;
 
-// export class HTTPTransport {
-//   get(
-//     url: string,
-//     options: OptionsWithoutMethod = {}
-//   ): Promise<XMLHttpRequest> {
-//     return this.request(url, { ...options, method: METHOD.GET });
-//   }
-
-//   request(
-//     url: string,
-//     options: Options = { method: METHOD.GET }
-//   ): Promise<XMLHttpRequest> {
-//     const { method, data } = options;
-
-//     return new Promise((resolve, reject) => {
-//       const xhr = new XMLHttpRequest();
-//       xhr.open(method, url);
-
-//       xhr.onload = function () {
-//         resolve(xhr);
-//       };
-
-//       xhr.onabort = reject;
-//       xhr.onerror = reject;
-//       xhr.ontimeout = reject;
-
-//       if (method === METHOD.GET || !data) {
-//         xhr.send();
-//       } else {
-//         xhr.send(data);
-//       }
-//     });
-//   }
-// }
-
-// Самая простая версия. Реализовать штучку со всеми проверками им предстоит в конце спринта
-// Необязательный метод
 function queryStringify(data: Record<string, unknown>) {
   if (typeof data !== 'object') {
     throw new Error('Data must be object');
