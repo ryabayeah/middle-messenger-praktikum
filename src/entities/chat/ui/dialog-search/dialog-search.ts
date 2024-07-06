@@ -1,5 +1,4 @@
 import { Input } from '../../../../shared/ui';
-import './dialog-search.scss';
 
 interface DialogSearchProps extends CompileOptions {
   onChange: (value: string) => void;
