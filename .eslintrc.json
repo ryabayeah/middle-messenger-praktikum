@@ -17,6 +17,5 @@
     "no-empty-function": "off",
     "@typescript-eslint/no-empty-function": "off",
     "no-unused-vars": "off",
-    "prettier/prettier": "warn"
   }
 }
