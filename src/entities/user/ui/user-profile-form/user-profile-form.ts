@@ -3,7 +3,7 @@ import { Ref } from "../../../../shared/model";
 import { Avatar, FormInput, Button } from "../../../../shared/ui";
 import { emptyValidator, getBase64 } from "../../../../shared/utils";
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from "../../lib/constants";
-import { UserProfileData } from "../../model/base";
+import { UserProfileData } from "../../model";
 import { UserAvatarModal } from "../user-avatar-modal";
 import template from "./user-profile-form.hbs?raw";
 

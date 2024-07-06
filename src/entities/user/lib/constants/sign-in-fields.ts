@@ -20,6 +20,6 @@ export const SIGN_IN_FORM_FIELDS: Record<
     name: SIGN_IN_FORM_FIELDS_NAME.PASSWORD,
     type: "password",
     label: "Пароль",
-    feedbackErrorText: 'Неверный логин или пароль'
+    feedbackErrorText: "Неверный логин или пароль",
   },
 };

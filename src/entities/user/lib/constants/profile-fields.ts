@@ -22,7 +22,7 @@ export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
     name: PROFILE_FIELDS_NAME.FIRST_NAME,
     type: "text",
     label: "Имя",
-    validateOn: ['blur'],
+    validateOn: ["blur"],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректное имя",
     validator: nameValidator,
@@ -32,7 +32,7 @@ export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
     name: PROFILE_FIELDS_NAME.SECOND_NAME,
     type: "text",
     label: "Фамилия",
-    validateOn: ['blur'],
+    validateOn: ["blur"],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректное имя",
     validator: nameValidator,
@@ -51,7 +51,7 @@ export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
     name: PROFILE_FIELDS_NAME.EMAIL,
     type: "email",
     label: "E-mail",
-    validateOn: ['blur'],
+    validateOn: ["blur"],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректный E-mail",
     validator: emailValidator,
@@ -61,7 +61,7 @@ export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
     name: PROFILE_FIELDS_NAME.LOGIN,
     type: "text",
     label: "Логин",
-    validateOn: ['blur'],
+    validateOn: ["blur"],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректный логин",
     validator: loginValidator,
@@ -71,7 +71,7 @@ export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
     name: PROFILE_FIELDS_NAME.PHONE,
     type: "phone",
     label: "Телефон",
-    validateOn: ['blur'],
+    validateOn: ["blur"],
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: "Некорректный формат номера телефона",
     validator: phoneValidator,
@@ -81,6 +81,6 @@ export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
     name: PROFILE_FIELDS_NAME.AVATAR,
     type: "file",
     label: "",
-    class: 'hidden',
+    class: "hidden",
   },
 };

@@ -7,7 +7,6 @@ import {
   passwordValidator,
 } from "../../../../shared/utils";
 
-
 export enum SIGN_UP_FORM_FIELDS_NAME {
   EMAIL = "email",
   LOGIN = "login",
@@ -18,8 +17,10 @@ export enum SIGN_UP_FORM_FIELDS_NAME {
   REPEAT_PASSWORD = "repeatPassword",
 }
 
-
-export const SIGN_UP_FORM_FIELDS: Record<SIGN_UP_FORM_FIELDS_NAME, FormInputProps> = {
+export const SIGN_UP_FORM_FIELDS: Record<
+  SIGN_UP_FORM_FIELDS_NAME,
+  FormInputProps
+> = {
   [SIGN_UP_FORM_FIELDS_NAME.EMAIL]: {
     id: SIGN_UP_FORM_FIELDS_NAME.EMAIL,
     name: SIGN_UP_FORM_FIELDS_NAME.EMAIL,
