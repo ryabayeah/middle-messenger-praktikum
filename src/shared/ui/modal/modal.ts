@@ -4,7 +4,7 @@ import { Block } from "../../lib";
 
 export interface ModalProps extends CompileOptions {
   title: string;
-  body: Block;
+  body?: Block;
   buttons: Block[];
   hide?: boolean;
   isInvalid?: boolean;

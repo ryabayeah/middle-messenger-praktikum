@@ -11,7 +11,7 @@ interface DialogAddUserModalProps extends CompileOptions {
 export class DialogAddUserModal extends Modal {
   constructor({ onClose, onApply }: DialogAddUserModalProps) {
     const saveButton = new Button({
-      text: "Применить",
+      text: "Добавить",
       variant: "primary",
       class: "w-full",
       type: "button",
@@ -49,7 +49,7 @@ export class DialogAddUserModal extends Modal {
 
   private __handleApply(e: Event, callback: VoidFunction) {
     const target = e.target as HTMLInputElement
-    console.log(target.value)
+    console.log("DIALOG_ADD_USER: ",target.value)
     this.reset()
     callback();
   }

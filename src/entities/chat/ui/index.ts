@@ -8,3 +8,4 @@ export { DialogDeleteUserModal } from "./dialog-delete-user-modal";
 export { DialogAttachments } from "./dialog-attachments";
 export { MessageBubble } from "./message-bubble";
 export { MessagesGroup } from "./messages-group";
+export { DialogDeleteDialogModal } from "./dialog-delete-dialog";

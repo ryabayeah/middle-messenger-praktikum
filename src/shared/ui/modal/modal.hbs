@@ -1,11 +1,14 @@
-<div>
+<div class="modal-wrapper">
     <section class="modal  {{class}} {{#if isInvalid}} invalid {{/if}}">
         <div class="modal__header">
             <h3>{{title}}</h3>
         </div>
-        <div class="modal__content">
-            {{{body}}}
-        </div>
+        {{#if body}}
+            <div class="modal__content">
+                {{{body}}}
+            </div> 
+        {{/if}}
+
         <div class="modal__buttons">
             {{{buttons}}}
         </div>

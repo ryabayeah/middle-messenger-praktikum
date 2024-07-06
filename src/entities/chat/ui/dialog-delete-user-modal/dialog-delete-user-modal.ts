@@ -11,7 +11,7 @@ interface DialogDeleteUserModalProps extends CompileOptions {
 export class DialogDeleteUserModal extends Modal {
   constructor({ onClose, onApply }: DialogDeleteUserModalProps) {
     const saveButton = new Button({
-      text: "Применить",
+      text: "Удалить",
       variant: "primary",
       class: "w-full",
       type: "button",
@@ -48,7 +48,7 @@ export class DialogDeleteUserModal extends Modal {
 
   private __handleApply(e: Event, callback: VoidFunction) {
     const target = e.target as HTMLInputElement
-    console.log(target.value)
+    console.log("DELETE_DIALOG_USER: ",target.value)
     callback();
   }
 

@@ -14,7 +14,6 @@ export class DialogSearch extends Input {
       class: "search",
       placeholder: "Поиск",
       onChange: (e: Event) => {
-        console.log("---")
         const target = e.target as HTMLInputElement;
         onChange(target.value || "");
       },

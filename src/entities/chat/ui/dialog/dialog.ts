@@ -11,14 +11,15 @@ import { DialogAttachments } from "../dialog-attachments";
 import { MessageBubble } from "../message-bubble";
 import { ChatDialog, ChatDialogMessage } from "../../lib/models";
 import { MessagesGroup } from "../messages-group";
+import { DialogDeleteDialogModal } from "../dialog-delete-dialog";
 
 interface DialogProps extends CompileOptions {
   id: number;
   name: string;
   avatar?: string;
   messages?: ChatDialogMessage[];
-   // В телеге есть интересный функционал, когда пишешь с мобилки и набираемый текст отображается в любом клиенте телеграма
-  currentInputMessage?: string
+  // В телеге есть интересный функционал, когда пишешь с мобилки и набираемый текст отображается в любом клиенте телеграма
+  currentInputMessage?: string;
 }
 
 const CURRENT_USER_ID = 1;
@@ -43,7 +44,7 @@ export class Dialog extends Block {
       id: "message",
       name: "message",
       placeholder: "Введите сообщение",
-      onChange: (e: Event)=> this.__handleChangeMessageInput(e) 
+      onChange: (e: Event) => this.__handleChangeMessageInput(e),
     });
 
     const attachButton = new Button({
@@ -64,7 +65,7 @@ export class Dialog extends Block {
       variant: "primary",
       icon: DIALOG_ICONS.SEND,
       class: "buttons send",
-      onClick: () => this.__handleSendMessage()
+      onClick: () => this.__handleSendMessage(),
     });
 
     // Actions
@@ -78,6 +79,7 @@ export class Dialog extends Block {
     const actions = new DialogActions({
       onUserAdd: () => this.__handleAddUserClick(),
       onUserDelete: () => this.__handleDeleteUserClick(),
+      onDialogDelete: () => this.__handleDeleteDialogClick(),
     });
     actions.hide();
 
@@ -92,6 +94,12 @@ export class Dialog extends Block {
       onClose: () => this.__closeDeleteUser(),
     });
     deleteUserModal.hide();
+
+    const deleteDialogModal = new DialogDeleteDialogModal({
+      onApply: () => this.__closeDeleteDialog(),
+      onClose: () => this.__closeDeleteDialog(),
+    });
+    deleteDialogModal.hide();
 
     // Body
     let body;
@@ -118,9 +126,9 @@ export class Dialog extends Block {
       );
       // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
       body = new MessagesGroup({
-        date: '19 июня',
-        messages
-      })
+        date: "19 июня",
+        messages,
+      });
     }
 
     super({
@@ -140,16 +148,17 @@ export class Dialog extends Block {
 
       addUserModal,
       deleteUserModal,
+      deleteDialogModal,
     });
   }
 
-  private __handleChangeMessageInput(e: Event){
-    const target = e.target as HTMLInputElement
-    this.setProps({currentInputMessage: target.value})
+  private __handleChangeMessageInput(e: Event) {
+    const target = e.target as HTMLInputElement;
+    this.setProps({ currentInputMessage: target.value });
   }
 
-  private __handleSendMessage(){
-    console.log(this.props.currentInputMessage)
+  private __handleSendMessage() {
+    console.log("SEND_MESSAGE: ",this.props.currentInputMessage);
   }
 
   private __handleDialogSettingsClick() {
@@ -172,10 +181,22 @@ export class Dialog extends Block {
     deleteUserModal.hide();
   }
 
+  private __closeDeleteDialog() {
+    const deleteDialogModal = this.children
+      .deleteDialogModal as DialogDeleteUserModal;
+    deleteDialogModal.hide();
+  }
+
   private __handleDeleteUserClick() {
     const deleteUserModal = this.children
       .deleteUserModal as DialogDeleteUserModal;
     deleteUserModal.show();
+  }
+
+  private __handleDeleteDialogClick() {
+    const deleteDialogModal = this.children
+      .deleteDialogModal as DialogDeleteUserModal;
+    deleteDialogModal.show();
   }
 
   private __handleAttachButtonClick() {
@@ -183,7 +204,7 @@ export class Dialog extends Block {
   }
 
   private __handleAttachFile(file: File) {
-    console.log(file.name, "---");
+    console.log("SEND_ATTACHMENT: ",file.name, "---");
     // TODO: Отправка файла в диалог
     const attachments = this.children.attachments as DialogActions;
     attachments.toggleVisibility();

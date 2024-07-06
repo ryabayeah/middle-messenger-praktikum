@@ -105,6 +105,6 @@ export class UserSignUpForm extends FormAuth {
     if (!isAnyInvalid) {
       this.setProps({ isEditable: false });
     }
-    console.log(result);
+    console.log("SIGN_UP_FORM: ",result);
   }
 }
