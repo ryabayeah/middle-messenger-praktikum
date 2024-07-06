@@ -60,7 +60,7 @@ export class UserPasswordChange extends Block {
       children: formFields,
       buttonSubmit: saveButton,
       buttonAlt: altButton,
-      onSubmit: (e: Event) => this.handleSubmit(e),
+      onSubmit: (e: Event) => this.__handleSubmit(e),
     });
     super({
       refs,
@@ -68,7 +68,7 @@ export class UserPasswordChange extends Block {
     });
   }
 
-  handleSubmit(e: Event) {
+  private __handleSubmit(e: Event) {
     const result: Record<string, string> = {};
     let isAnyInvalid = false;
 

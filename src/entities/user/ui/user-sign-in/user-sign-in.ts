@@ -46,11 +46,11 @@ export class UserSignInForm extends FormAuth {
       buttonSubmit: buttonSubmit,
       buttonAlt: buttonAlt,
       refs,
-      onSubmit: (e: Event) => this.handleSubmit(e),
+      onSubmit: (e: Event) => this.__handleSubmit(e),
     });
   }
 
-  handleSubmit(e: Event) {
+  private __handleSubmit(e: Event) {
     const result: Record<string, string> = {};
     let isAnyInvalid = false;
 

@@ -10,6 +10,7 @@ interface UserAvatarModalProps extends CompileOptions {
   onApply: (file: File) => void;
 }
 
+// TODO: Подумать над уровнями доступа методов
 // TODO: Наследовать от Modal => избавляемся от hbs
 export class UserAvatarModal extends Block {
   constructor({ onClose, onApply, ...props }: UserAvatarModalProps) {
@@ -19,19 +20,19 @@ export class UserAvatarModal extends Block {
       variant: "primary",
       class: "w-full",
       type: "button",
-      onClick: () => this.handleApply(onApply),
+      onClick: () => this.__handleApply(onApply),
     });
     const altButton = new Button({
       text: "Отмена",
       variant: "secondary",
       class: "w-full",
       type: "button",
-      onClick: () => this.handleClose(onClose),
+      onClick: () => this.__handleClose(onClose),
     });
 
     const modalBody = new UserAvatarUpload({
       onUploadAvatar: (f: File) => {
-        this.handleUploadAvatar(f);
+        this.__handleUploadAvatar(f);
       },
     });
 
@@ -59,11 +60,11 @@ export class UserAvatarModal extends Block {
     }
   }
 
-  handleUploadAvatar(file: File) {
+  private __handleUploadAvatar(file: File) {
     this.setProps({ avatarFile: file });
   }
 
-  handleApply(callback: (file: File) => void) {
+  private __handleApply(callback: (file: File) => void) {
     const file = this.props.avatarFile as File | null;
     if (file) {
       callback(file);
@@ -72,7 +73,7 @@ export class UserAvatarModal extends Block {
     this.__resetModalBody();
   }
 
-  handleClose(callback: VoidFunction) {
+  private __handleClose(callback: VoidFunction) {
     callback();
     // При закрытии модалки сбрасываем все примененые значения
     this.__resetModalBody();

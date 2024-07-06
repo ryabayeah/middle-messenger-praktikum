@@ -52,15 +52,15 @@ export class UserProfileForm extends Block {
     });
 
     const userAvatarModal = new UserAvatarModal({
-      onApply: (file: File) => this.handleAvatarModalApply(file),
-      onClose: () => this.handleAvatarModalClose(),
+      onApply: (file: File) => this.__handleAvatarModalApply(file),
+      onClose: () => this.__handleAvatarModalClose(),
     });
     userAvatarModal.hide();
 
     const avatar = new Avatar({
       isEditable: false,
       onClick: () => {
-        this.handleAvatarClick();
+        this.__handleAvatarClick();
       },
     });
 
@@ -137,7 +137,7 @@ export class UserProfileForm extends Block {
       events: {
         submit: (e: Event) => {
           e.preventDefault();
-          this.handleSubmit(e);
+          this.__handleSubmit(e);
         },
       },
     });
@@ -166,20 +166,20 @@ export class UserProfileForm extends Block {
     return true;
   }
 
-  handleAvatarClick() {
+  private __handleAvatarClick() {
     const userAvatarModalChild = this.children
       .userAvatarModal as UserAvatarModal;
 
     this.props.isEditable && userAvatarModalChild.show();
   }
 
-  handleAvatarModalClose() {
+  private __handleAvatarModalClose() {
     const userAvatarModalChild = this.children
       .userAvatarModal as UserAvatarModal;
     userAvatarModalChild.hide();
   }
 
-  async handleAvatarModalApply(file: File) {
+  private async __handleAvatarModalApply(file: File) {
     const refs = this.props.refs as Ref;
     // TODO: пока не понятно как работать с файлом (подождать апи?)
     const avatarHiddenRef = refs[PROFILE_FIELDS_NAME.AVATAR];
@@ -195,10 +195,10 @@ export class UserProfileForm extends Block {
       avatarRef.setProps({ src: `data:image/${imgType};base64, ${base64}` });
     }
 
-    this.handleAvatarModalClose();
+    this.__handleAvatarModalClose();
   }
 
-  handleSubmit(e: Event) {
+  private __handleSubmit(e: Event) {
     const result: Record<string, string> = {};
     let isAnyInvalid = false;
 

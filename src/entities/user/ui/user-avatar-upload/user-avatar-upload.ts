@@ -15,7 +15,7 @@ export class UserAvatarUpload extends Block {
       href: "#",
       class: "underline",
       onClick: () => {
-        this.handleClick();
+        this.__handleClick();
       },
     });
 
@@ -33,7 +33,7 @@ export class UserAvatarUpload extends Block {
       name: "avatar_data",
       multiple: false,
       accept: "image/jpeg, image/png",
-      onChange: (e: Event) => this.handleAvatarUpload(e, onUploadAvatar),
+      onChange: (e: Event) => this.__handleAvatarUpload(e, onUploadAvatar),
     });
     hiddenInput.hide();
     uploadedFileLink.hide();
@@ -72,7 +72,7 @@ export class UserAvatarUpload extends Block {
     }
   }
 
-  handleClick() {
+  private __handleClick() {
     const hiddenInputRef = this.children.hiddenInput as Input;
     hiddenInputRef.click();
     this._hideUploadedFileLinkRef();
@@ -84,7 +84,7 @@ export class UserAvatarUpload extends Block {
     this._hideUploadedFileLinkRef();
   }
 
-  handleAvatarUpload(e: Event, callback: (f: File) => void) {
+  private __handleAvatarUpload(e: Event, callback: (f: File) => void) {
     const target = e.target as HTMLInputElement;
     const files = Array.from(target.files || []);
     if (files.length > 0) {
