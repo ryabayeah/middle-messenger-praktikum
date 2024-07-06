@@ -25,13 +25,12 @@ export class DialogActions extends Block {
       icon: DIALOG_ICONS.DELETE,
       onClick: onUserDelete,
     });
-    const buttonDeleteDialog= new Button({
+    const buttonDeleteDialog = new Button({
       text: "Удалить диалог",
       variant: "error",
       icon: DIALOG_ICONS.DELETE,
       onClick: onDialogDelete,
     });
-
 
     super({
       buttonAddUser,

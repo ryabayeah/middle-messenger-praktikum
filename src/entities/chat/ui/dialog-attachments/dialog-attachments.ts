@@ -36,7 +36,7 @@ export class DialogAttachments extends Block {
       name: "hiddenInput",
       type: "file",
       class: "hidden",
-      onChange: (e: Event) => this.handleAttachUpload(e, onAttach),
+      onChange: (e: Event) => this.__handleAttachUpload(e, onAttach),
     });
 
     super({
@@ -56,7 +56,7 @@ export class DialogAttachments extends Block {
     }
   }
 
-  handleAttachUpload(e: Event, callback: (f: File) => void) {
+  private __handleAttachUpload(e: Event, callback: (f: File) => void) {
     const target = e.target as HTMLInputElement;
     const files = Array.from(target.files || []);
     if (files.length > 0) {

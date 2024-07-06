@@ -1,6 +1,6 @@
-.separator{
+.separator {
   border: 1px solid var(--light-gray);
-   margin: 5px 10px;
+  margin: 5px 10px;
 }
 
 .dialog-card {
@@ -30,20 +30,19 @@
       justify-content: center;
       // justify-content: center;
       &.right {
-        gap:4px;
+        gap: 4px;
       }
       &.right {
         justify-content: space-between;
         align-items: center;
       }
-      &.last-message{
+      &.last-message {
         justify-content: start;
       }
     }
 
     &-name {
       font-weight: bold;
-     
     }
     &-time {
       margin-left: auto;

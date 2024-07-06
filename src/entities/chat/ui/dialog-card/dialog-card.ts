@@ -4,15 +4,15 @@ import { Block } from "../../../../shared/lib";
 import { Avatar } from "../../../../shared/ui";
 
 interface DialogCardProps extends CompileOptions {
-  id: number
+  id: number;
   avatarSrc: string;
   name: string;
-  isActive?: boolean
+  isActive?: boolean;
   isLastMe?: boolean;
   lastMessage?: string;
   lastMessageTime?: string;
   messageCount?: number;
-  onClick: (id?: number) => void
+  onClick: (id?: number) => void;
 }
 
 export class DialogCard extends Block {
@@ -25,8 +25,8 @@ export class DialogCard extends Block {
       userAvatar,
       ...props,
       events: {
-        click: () => onClick(props.isActive? undefined : props.id)
-      }
+        click: () => onClick(props.isActive ? undefined : props.id),
+      },
     });
   }
   render() {

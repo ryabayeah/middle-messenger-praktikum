@@ -1,5 +1,5 @@
 import { Button, FormInput, Modal } from "../../../../shared/ui";
-import './dialog-delete-dialog-modal.scss'
+import "./dialog-delete-dialog-modal.scss";
 
 interface DialogDeleteDialogModalProps extends CompileOptions {
   onClose: VoidFunction;
@@ -27,13 +27,13 @@ export class DialogDeleteDialogModal extends Modal {
       hide: false,
       title: "Вы уверены, что хотите удалить этот диалог?",
       buttons: [saveButton, altButton],
-      class: 'dialog-delete-dialog-modal'
+      class: "dialog-delete-dialog-modal",
     });
   }
 
-  reset(){
-    const input = this.children.body as FormInput
-    input.setProps({value: '', isInvalid: false})
+  reset() {
+    const input = this.children.body as FormInput;
+    input.setProps({ value: "", isInvalid: false });
   }
 
   private __handleApply(callback: VoidFunction) {

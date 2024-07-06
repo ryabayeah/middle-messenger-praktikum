@@ -158,7 +158,7 @@ export class Dialog extends Block {
   }
 
   private __handleSendMessage() {
-    console.log("SEND_MESSAGE: ",this.props.currentInputMessage);
+    console.log("SEND_MESSAGE: ", this.props.currentInputMessage);
   }
 
   private __handleDialogSettingsClick() {
@@ -204,7 +204,7 @@ export class Dialog extends Block {
   }
 
   private __handleAttachFile(file: File) {
-    console.log("SEND_ATTACHMENT: ",file.name, "---");
+    console.log("SEND_ATTACHMENT: ", file.name, "---");
     // TODO: Отправка файла в диалог
     const attachments = this.children.attachments as DialogActions;
     attachments.toggleVisibility();

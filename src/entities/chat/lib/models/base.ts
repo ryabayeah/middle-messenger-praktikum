@@ -1,11 +1,11 @@
-export type MessageAttachmentType = 'file' | 'video' | 'img' | 'location'
+export type MessageAttachmentType = "file" | "video" | "img" | "location";
 
 export type ChatDialogMessage = {
   senderId: number;
   message?: string;
   timestamp: number;
   type: "text" | "attachment";
-  attachment?: {type: MessageAttachmentType, src: string} 
+  attachment?: { type: MessageAttachmentType; src: string };
   isRead?: boolean;
 };
 
@@ -23,5 +23,5 @@ export type ChatDialogShort = {
   isLastMe: boolean;
   lastMessage?: string;
   lastMessageTime?: string;
-  messageCount?: number
+  messageCount?: number;
 };
