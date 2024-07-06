@@ -114,11 +114,11 @@ export class Dialog extends Block {
       });
     } else {
       const messages = (dialogData.messages as ChatDialogMessage[]).map(
-        ({ message, senderId, isRead, src }) => {
+        ({ message, senderId, isRead, attachment }) => {
           return new MessageBubble({
             message,
             time: "12:45",
-            attachmentSrc: src,
+            attachment: attachment,
             isRead,
             isOuter: senderId !== CURRENT_USER_ID,
           });

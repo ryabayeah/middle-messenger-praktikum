@@ -102,7 +102,7 @@ export const DIALOGS: ChatDialog[] = [
       },
       {
         senderId: 2,
-        src: "https://i08.fotocdn.net/s131/1641425b569167cc/public_pin_l/2958360175.jpg",
+        attachment: {type: "img", src:"https://i08.fotocdn.net/s131/1641425b569167cc/public_pin_l/2958360175.jpg"},
         timestamp: 0,
       },
       {

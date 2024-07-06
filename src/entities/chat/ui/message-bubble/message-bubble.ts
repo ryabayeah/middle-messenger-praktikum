@@ -1,19 +1,32 @@
 import "./message-bubble.scss";
 import template from "./message-bubble.hbs?raw";
 import { Block } from "../../../../shared/lib";
+import { MessageAttachmentType } from "../../lib/models";
 
 interface MessageBubbleProps extends CompileOptions {
     message?: string
-    attachmentSrc?: string
+    // TODO: Ненадежная конструкция
+    attachment?: {type: MessageAttachmentType, src: string}
     time: string
     isOuter?: boolean
     isRead?: boolean
 }
 
+interface InternalMessageBubbleProps extends MessageBubbleProps{
+  file?:string
+  video?:string
+  img?:string
+  location?:string
+}
+
 export class MessageBubble extends Block {
-  constructor(props: MessageBubbleProps ) {
+  constructor({attachment, ...props}: MessageBubbleProps ) {
+    const bubbleProps: InternalMessageBubbleProps = {...props}
+    if (attachment){
+      bubbleProps[attachment.type] = attachment.src
+    }
     super({
-        ...props
+        ...bubbleProps
     });
   }
   render() {
