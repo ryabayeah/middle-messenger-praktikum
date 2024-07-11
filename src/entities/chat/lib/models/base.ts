@@ -4,7 +4,7 @@ export type ChatDialogMessage = {
   senderId: number;
   message?: string;
   timestamp: number;
-  type: 'text' | 'attachment';
+  type?: 'text' | 'attachment';
   attachment?: { type: MessageAttachmentType; src: string };
   isRead?: boolean;
 };
@@ -13,7 +13,7 @@ export type ChatDialog = {
   id: number;
   name: string;
   avatar?: string;
-  messages?: any[];
+  messages?: ChatDialogMessage[];
 };
 
 export type ChatDialogShort = {

@@ -9,13 +9,14 @@
     "server": "node server.js",
     "start": "npm run build && npm run server",
     "preview": "vite preview",
-    "eslint": "eslint ./src/*/*.ts",
+    "lint": "eslint . --ext .ts",
     "stylelint": "stylelint  '**/*{.css,.scss}'",
     "stylelint:fix": "stylelint --fix '**/*{.css,.scss}'",
     "prettier": "prettier ./src/*/*.ts --check",
     "prettier:fix": "prettier ./src/*/*.ts --write"
   },
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.0",

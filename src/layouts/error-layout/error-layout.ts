@@ -7,11 +7,10 @@ interface ErrorLayoutProps extends CompileOptions {
   message: string;
   backPath: string;
   textBackPath: string;
-  onSubmit?: (e: Event) => void;
 }
 
 export class ErrorLayout extends Block {
-  constructor({ textBackPath, onSubmit, ...props }: ErrorLayoutProps) {
+  constructor({ textBackPath, ...props }: ErrorLayoutProps) {
     const backButton = new Button({
       variant: 'secondary',
       text: textBackPath,

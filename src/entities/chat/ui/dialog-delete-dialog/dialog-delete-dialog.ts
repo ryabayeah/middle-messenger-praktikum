@@ -13,7 +13,7 @@ export class DialogDeleteDialogModal extends Modal {
       variant: 'primary',
       class: 'w-full',
       type: 'button',
-      onClick: (e: Event) => this.__handleApply(onApply),
+      onClick: () => this.__handleApply(onApply),
     });
     const altButton = new Button({
       text: 'Отмена',

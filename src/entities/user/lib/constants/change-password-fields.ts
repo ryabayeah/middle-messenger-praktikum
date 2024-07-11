@@ -1,9 +1,5 @@
 import { FormInputProps } from '../../../../shared/ui/form-input/form-input';
-import {
-  matchValidator,
-  passwordRepeatedValidator,
-  passwordValidator,
-} from '../../../../shared/utils';
+import { passwordValidator } from '../../../../shared/utils';
 
 export enum CHANGE_PASSWORD_FIELDS_NAME {
   OLD_PASSWORD = 'old_password',

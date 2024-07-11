@@ -28,10 +28,6 @@
       flex-direction: column;
       gap: 4px;
       justify-content: center;
-      // justify-content: center;
-      &.right {
-        gap: 4px;
-      }
       &.right {
         justify-content: space-between;
         align-items: center;
