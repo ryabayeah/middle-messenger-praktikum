@@ -1,5 +1,7 @@
 import { ChatsLayout } from '../../layouts';
 
-export const ChatsPage = () => {
-  return new ChatsLayout({});
-};
+export class ChatsPage extends ChatsLayout {
+  constructor() {
+    super({});
+  }
+}

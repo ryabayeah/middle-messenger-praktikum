@@ -1,12 +1,12 @@
 export enum APP_PATH {
   LOGIN = '/',
   REGISTER = '/sign-up',
-  NOT_FOUND = '404',
-  ERROR = '500',
-  PROFILE = 'profile',
-  PROFILE_EDIT = 'profile-edit',
-  CHANGE_PASSWORD = 'change-password',
-  CHANGE_AVATAR = 'change-avatar',
+  PROFILE = '/settings',
   CHATS = '/messenger',
-  NAV = 'nav',
+
+  NOT_FOUND = '/404',
+  ERROR = '/500',
+  CHANGE_PASSWORD = '/change-password',
+  LOG_OUT = '/log-out',
+  NAV = '/nav',
 }

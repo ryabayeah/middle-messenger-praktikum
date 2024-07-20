@@ -3,13 +3,15 @@ import { UserProfileForm } from '../../entities/user/ui';
 import { ProfileLayout } from '../../layouts';
 import { APP_PATH } from '../../shared/constants';
 
-export const ProfilePage = () => {
-  const userProfileForm = new UserProfileForm({
-    isEditable: false,
-    userProfileData,
-  });
-  return new ProfileLayout({
-    backPath: APP_PATH.CHATS,
-    body: userProfileForm,
-  });
-};
+export class ProfilePage extends ProfileLayout {
+  constructor() {
+    const userProfileForm = new UserProfileForm({
+      isEditable: false,
+      userProfileData,
+    });
+    super({
+      backPath: APP_PATH.CHATS,
+      body: userProfileForm,
+    });
+  }
+}
