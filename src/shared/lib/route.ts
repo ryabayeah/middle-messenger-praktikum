@@ -1,7 +1,7 @@
 import { isEqual, render } from '../utils';
 import { Block } from './block';
 
-export default class Route {
+export class Route {
   protected _pathname: string;
   protected _blockClass: typeof Block;
   protected _block: Block | null;

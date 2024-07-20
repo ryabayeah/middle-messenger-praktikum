@@ -1,4 +1,6 @@
+import { ApiError } from '../../../../shared/api';
 import { APP_PATH } from '../../../../shared/constants';
+import { router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { FormInput } from '../../../../shared/ui';
 import { Button } from '../../../../shared/ui/button';
@@ -8,6 +10,8 @@ import {
   redirect,
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
+import { authApi, userApi } from '../../api';
+import { SignUpData } from '../../api/auth-api';
 import {
   SIGN_UP_FORM_FIELDS,
   SIGN_UP_FORM_FIELDS_NAME,
@@ -70,14 +74,31 @@ export class UserSignUpForm extends FormAuth {
     });
   }
 
-  private __handleSubmit(e: Event) {
-    const result: Record<string, string> = {};
+  getCurrentUserData = async () => {
+    await userApi
+      .getCurrentUser()
+      .then((respp) => console.log('get-me-respp:', respp))
+      .catch((err: { reason: string }) => console.log('get-me:', err));
+  };
+
+  componentDidMount(_oldProps?: unknown[]): void {
+    this.getCurrentUserData();
+  }
+  private async __handleSubmit(e: Event) {
+    const result: SignUpData = {
+      first_name: '',
+      second_name: '',
+      login: '',
+      email: '',
+      phone: '',
+      password: '',
+    };
     let isAnyInvalid = false;
 
     const target = e.target as HTMLFormElement;
 
     const formData = new FormData(target);
-    Object.values(SIGN_UP_FORM_FIELDS_NAME).forEach(key => {
+    Object.values(SIGN_UP_FORM_FIELDS_NAME).forEach((key) => {
       const refs = this.props.refs as Ref;
       const value = (formData.get(key) || '')?.toString();
       const { validator } = SIGN_UP_FORM_FIELDS[key];
@@ -102,13 +123,28 @@ export class UserSignUpForm extends FormAuth {
         fieldRef.setProps({ isInvalid });
       }
 
-      result[key] = value;
+      result[key as keyof SignUpData] = value;
     });
 
     // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
+      await authApi
+        .signup(result)
+        .then(() => {
+          userApi
+            .getCurrentUser()
+            .then(() => router.go(APP_PATH.CHATS))
+            .catch((_: ApiError) => {
+              // TODO: Показать тост с ошибкой пользователю
+            });
+        })
+        .catch((_: ApiError) => {
+          // TODO: Показать тост с ошибкой пользователю
+        });
+
       this.setProps({ isEditable: false });
     }
+
     console.log('SIGN_UP_FORM: ', result);
   }
 }

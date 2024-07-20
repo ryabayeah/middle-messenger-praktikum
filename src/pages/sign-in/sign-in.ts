@@ -1,8 +1,12 @@
 import { UserSignInForm } from '../../entities/user/ui';
 import { AuthLayout } from '../../layouts';
 
-export const SignInPage = () => {
-  const signInForm = new UserSignInForm();
+export class SignInPage extends AuthLayout {
+  constructor() {
+    const signInForm = new UserSignInForm();
 
-  return new AuthLayout({ children: signInForm });
-};
+    super({
+      children: signInForm,
+    });
+  }
+}

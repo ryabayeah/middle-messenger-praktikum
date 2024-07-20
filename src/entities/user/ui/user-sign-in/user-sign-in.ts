@@ -3,6 +3,8 @@ import { Ref } from '../../../../shared/model';
 import { FormInput, Button } from '../../../../shared/ui';
 import { emptyValidator, redirect } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
+import { authApi } from '../../api';
+import { SignInData, SignUpData } from '../../api/auth-api';
 import {
   SIGN_IN_FORM_FIELDS,
   SIGN_IN_FORM_FIELDS_NAME,
@@ -51,7 +53,7 @@ export class UserSignInForm extends FormAuth {
     });
   }
 
-  private __handleSubmit(e: Event) {
+  private async __handleSubmit(e: Event) {
     const result: Record<string, string> = {};
     let isAnyInvalid = false;
 
@@ -80,6 +82,8 @@ export class UserSignInForm extends FormAuth {
     if (!isAnyInvalid) {
       this.setProps({ isEditable: false });
     }
+
+
     console.log('SIGN_IN_FORM: ', result);
   }
 }

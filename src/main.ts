@@ -13,13 +13,17 @@ import {
 } from './pages';
 import { APP_PATH } from './shared/constants';
 import { getUrlPathName } from './shared/utils';
+import { router } from './shared/lib';
+
+router
+  .use(APP_PATH.LOGIN, SignInPage)
+  .use(APP_PATH.REGISTER, SignUpPage)
+  .use(APP_PATH.ERROR, ServerErrorPage)
+  .start();
 
 const route = () => {
   const newPages: Record<string, Block> = {
-    [APP_PATH.LOGIN]: SignInPage(),
-    [APP_PATH.REGISTER]: SignUpPage(),
     [APP_PATH.NOT_FOUND]: NotFoundPage(),
-    [APP_PATH.ERROR]: ServerErrorPage(),
     [APP_PATH.PROFILE]: ProfilePage(),
     [APP_PATH.CHANGE_PASSWORD]: PasswordChangePage(),
     [APP_PATH.CHATS]: ChatsPage(),
@@ -35,6 +39,6 @@ const route = () => {
   render('#root', pageData);
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  route();
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//   // route();
+// });
