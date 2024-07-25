@@ -7,6 +7,8 @@ import { DialogCard } from '../dialog-card';
 import { DialogSearch } from '../dialog-search';
 import { Button, Link } from '../../../../shared/ui';
 import { NoDialogsMessage } from '../no-dialogs-message';
+import { DialogCreateModal } from '../dialog-create-modal';
+import { chatController } from '../../controller';
 
 interface DialogsListSidebarProps extends CompileOptions {
   dialogs?: Dialog[];
@@ -29,17 +31,45 @@ export class DialogsListSidebar extends Block {
     const createButton = new Button({
       text: 'Создать диалог',
       class: 'create-dialog-btn',
-      variant: 'secondary'
+      variant: 'secondary',
+      onClick: () => {
+        console.log('-');
+        this.__openCreateDialog();
+      },
     });
+
+    const createDialogModal = new DialogCreateModal({
+      onApply: () => this.handleCreateApply(),
+      onClose: () => this.__closeCreateDialog(),
+    });
+    createDialogModal.hide();
 
     super({
       dialogs,
       linkProfile,
-      createButton, 
+      createButton,
       searchInput: dialogSearch,
       sidebarBody: new NoDialogsMessage(),
+      createDialogModal,
       onSelectDialog,
     });
+  }
+
+  handleCreateApply() {
+    chatController.getChats();
+    this.__closeCreateDialog();
+  }
+  private __closeCreateDialog() {
+    const createDialogModal = this.children
+      .createDialogModal as DialogCreateModal;
+    createDialogModal.hide();
+  }
+
+  private __openCreateDialog() {
+    const createDialogModal = this.children
+      .createDialogModal as DialogCreateModal;
+    console.log(createDialogModal);
+    createDialogModal.show();
   }
 
   // TODO: Здесь будет API запрос с search (?), вместо фильтрации "руками"
@@ -109,14 +139,16 @@ export class DialogsListSidebar extends Block {
     );
   }
 
-
   componentDidUpdate(
     oldProps: DialogsListSidebarProps,
     newProps: DialogsListSidebarProps,
   ): boolean {
+    console.log(oldProps.dialogs, newProps.dialogs, "--------------------------")
     if (JSON.stringify(oldProps.dialogs) !== JSON.stringify(newProps.dialogs)) {
       this.setChildren({ sidebarBody: this.getChats(newProps) });
     }
+    // this.children.sidebarBody =  this.getChats(newProps)
+    // this.setChildren({ sidebarBody: this.getChats(newProps) });
     return true;
   }
 

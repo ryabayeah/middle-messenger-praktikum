@@ -28,12 +28,15 @@ export type Chat = {
 };
 
 enum CHAT_API_PATH {
-  GET_CHATS = '/chats',
+  CHATS = '/chats',
 }
 
 class ChatAPI extends BaseAPI {
   async getChats(): Promise<Chat[]> {
-    return yandexApi.get(CHAT_API_PATH.GET_CHATS);
+    return yandexApi.get(CHAT_API_PATH.CHATS);
+  }
+  async createChat(title: string) {
+    return yandexApi.post(CHAT_API_PATH.CHATS, {data: {title}});
   }
 }
 

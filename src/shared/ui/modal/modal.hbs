@@ -3,15 +3,18 @@
         <div class="modal__header">
             <h3>{{title}}</h3>
         </div>
-        {{#if body}}
-        <div class="modal__content">
-            {{{body}}}
-        </div>
-        {{/if}}
 
-        <div class="modal__buttons">
-            {{{buttons}}}
-        </div>
+        <form>
+            {{#if body}}
+            <div class="modal__content">
+                {{{body}}}
+            </div>
+            {{/if}}
+
+            <div class="modal__buttons">
+                {{{buttons}}}
+            </div>
+        </form>
     </section>
 
     <div class="overlay"></div>

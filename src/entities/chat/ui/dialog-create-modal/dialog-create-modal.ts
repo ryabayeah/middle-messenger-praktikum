@@ -1,0 +1,65 @@
+import { Button, FormInput, Modal } from '../../../../shared/ui';
+import { chatController } from '../../controller';
+
+import './dialog-create-modal.scss';
+
+interface DialogCreateModalProps extends CompileOptions {
+  onClose: VoidFunction;
+  onApply: () => void;
+}
+
+export class DialogCreateModal extends Modal {
+  constructor({ onClose, onApply }: DialogCreateModalProps) {
+    const createButton = new Button({
+      text: 'Создать',
+      variant: 'primary',
+      class: 'w-full',
+      type: 'submit',
+      // onClick: (e: Event) => this.__handleApply(e, onApply),
+    });
+    const altButton = new Button({
+      text: 'Отмена',
+      variant: 'secondary',
+      class: 'w-full',
+      type: 'button',
+      onClick: () => this.__handleClose(onClose),
+    });
+
+    const loginInput = new FormInput({
+      id: 'dialog_name',
+      name: 'dialog_name',
+      placeholder: 'Введите название нового диалога',
+      validateOn: ['blur'],
+      // validator: loginValidator,
+    });
+
+    super({
+      hide: false,
+      title: 'Создание диалога',
+      body: loginInput,
+      buttons: [createButton, altButton],
+      class: 'dialog-delete-user-modal',
+      onSubmit: (e: Event) => this.__handleApply(e, onApply)
+    });
+  }
+
+  reset() {
+    const input = this.children.body as FormInput;
+    input.setProps({ value: '', isInvalid: false });
+  }
+
+  private __handleApply(e: Event, callback: VoidFunction) {
+    const target = this.element!.querySelector('form');
+    console.log(target)
+    if (target){
+      const formData = new FormData(target)
+      const title = formData.get('dialog_name')?.toString()
+      chatController.createChat(title || '')
+    }
+    callback();
+  }
+
+  private __handleClose(callback: VoidFunction) {
+    callback();
+  }
+}

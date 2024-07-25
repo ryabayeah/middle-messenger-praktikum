@@ -8,8 +8,19 @@ export class ChatController {
     await chatApi
       .getChats()
       .then((dialogs) => {
-        console.log(dialogs, "-------------d")
         store.set('dialogs', dialogs as Dialog[]);
+      })
+      .catch((error: ApiError) => {
+        // if (error.reason === 'User already in system') {
+        //   router.go(APP_PATH.CHATS);
+        // }
+      });
+  }
+  async createChat(title: string) {
+    await chatApi
+      .createChat(title)
+      .then(() => {
+        this.getChats()
       })
       .catch((error: ApiError) => {
         // if (error.reason === 'User already in system') {
