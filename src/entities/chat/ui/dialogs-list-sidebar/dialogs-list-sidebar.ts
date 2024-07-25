@@ -1,10 +1,11 @@
 import template from './dialogs-list-sidebar.hbs?raw';
+import './dialogs-list-sidebar.scss';
 import { Block } from '../../../../shared/lib';
 import { ChatDialogShort, Dialog } from '../../lib';
 import { APP_PATH } from '../../../../shared/constants';
 import { DialogCard } from '../dialog-card';
 import { DialogSearch } from '../dialog-search';
-import { Link } from '../../../../shared/ui';
+import { Button, Link } from '../../../../shared/ui';
 import { NoDialogsMessage } from '../no-dialogs-message';
 
 interface DialogsListSidebarProps extends CompileOptions {
@@ -18,17 +19,24 @@ export class DialogsListSidebar extends Block {
     const linkProfile = new Link({
       text: 'Профиль  >',
       href: APP_PATH.PROFILE,
-      class: 'text-secondary profile-link',
+      class: 'text-secondary ',
     });
 
     const dialogSearch = new DialogSearch({
       onChange: (value: string) => this.handleDialogCardSearch(value),
     });
 
+    const createButton = new Button({
+      text: 'Создать диалог',
+      class: 'create-dialog-btn',
+      variant: 'secondary'
+    });
+
     super({
       dialogs,
       linkProfile,
-      sidebarHeader: dialogSearch,
+      createButton, 
+      searchInput: dialogSearch,
       sidebarBody: new NoDialogsMessage(),
       onSelectDialog,
     });
