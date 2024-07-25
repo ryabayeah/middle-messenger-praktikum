@@ -116,7 +116,7 @@ export class Block {
     }
   }
 
-  componentDidMount(_oldProps?: unknown[]) {}
+  componentDidMount(_oldProps?: unknown) {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -264,7 +264,7 @@ export class Block {
 
     Object.entries(this.children).forEach(([key, child]) => {
       if (isArrayOfBlock(child)) {
-        propsAndStubs[key] = ``;
+        propsAndStubs[key] = '';
         child.forEach((c) => {
           const data = `<div data-id="${c._id}"></div>`;
           propsAndStubs[key] += data;

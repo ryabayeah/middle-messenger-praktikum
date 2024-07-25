@@ -1,4 +1,4 @@
-import { isEqual, render } from '../utils';
+import { isEqualString, render } from '../utils';
 import { Block } from './block';
 
 export class Route {
@@ -32,7 +32,7 @@ export class Route {
   }
 
   match(pathname: string) {
-    return isEqual(pathname, this._pathname);
+    return isEqualString(pathname, this._pathname);
   }
 
   render() {

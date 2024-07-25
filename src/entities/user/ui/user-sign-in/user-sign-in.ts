@@ -3,12 +3,12 @@ import { Ref } from '../../../../shared/model';
 import { FormInput, Button } from '../../../../shared/ui';
 import { emptyValidator, redirect } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
-import { authApi } from '../../api';
-import { SignInData, SignUpData } from '../../api/auth-api';
+import { authController } from '../../controller';
 import {
   SIGN_IN_FORM_FIELDS,
   SIGN_IN_FORM_FIELDS_NAME,
 } from '../../lib/constants';
+import { SignInData } from '../../model';
 
 // TODO: Подумать над уровнями доступа методов
 export class UserSignInForm extends FormAuth {
@@ -78,12 +78,9 @@ export class UserSignInForm extends FormAuth {
       result[key] = value;
     });
 
-    // Если все поля валидны, то выходим из режима редактирования
+    // Если все поля валидны, то выполняем вход
     if (!isAnyInvalid) {
-      this.setProps({ isEditable: false });
+      authController.signIn(result as SignInData)
     }
-
-
-    console.log('SIGN_IN_FORM: ', result);
   }
 }

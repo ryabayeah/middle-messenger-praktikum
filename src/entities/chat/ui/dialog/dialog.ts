@@ -15,7 +15,7 @@ import { DialogDeleteDialogModal } from '../dialog-delete-dialog';
 
 interface DialogProps extends CompileOptions {
   id: number;
-  name: string;
+  title: string;
   avatar?: string;
   messages?: ChatDialogMessage[];
   // В телеге есть интересный функционал, когда пишешь с мобилки и набираемый текст отображается в любом клиенте телеграма
@@ -30,7 +30,7 @@ export const getDialogData = (id: number): ChatDialog | undefined => {
 };
 
 export class Dialog extends Block {
-  constructor({ id, name, avatar }: DialogProps) {
+  constructor({ id, title, avatar }: DialogProps) {
     const dialogData = getDialogData(id);
 
     // Header

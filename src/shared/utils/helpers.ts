@@ -1,4 +1,4 @@
-export const isEqual = (lhs: string, rhs: string): boolean => {
+export const isEqualString = (lhs: string, rhs: string): boolean => {
   return lhs === rhs;
 };
 
@@ -46,50 +46,53 @@ export const merge = (lhs: Indexed, rhs: Indexed): Indexed => {
   return lhs;
 };
 
-
-
-type PlainObject<T = unknown> = {
+export type PlainObject<T = unknown> = {
   [k in string]: T;
 };
 
-function isPlainObject(value: unknown): value is PlainObject {
-  return typeof value === 'object'
-      && value !== null
-      && value.constructor === Object
-      && Object.prototype.toString.call(value) === '[object Object]';
-}
+export const isPlainObject = (value: unknown): value is PlainObject => {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    value.constructor === Object &&
+    Object.prototype.toString.call(value) === '[object Object]'
+  );
+};
 
-function isArray(value: unknown): value is [] {
+export const isArray = (value: unknown): value is [] => {
   return Array.isArray(value);
-}
+};
 
-function isArrayOrObject(value: unknown): value is [] | PlainObject {
+export const isArrayOrObject = (value: unknown): value is [] | PlainObject => {
   return isPlainObject(value) || isArray(value);
-}
+};
 
-// function isEqual(lhs: PlainObject, rhs: PlainObject) {
-//   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
-//       return false;
-//   }
+export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
+  if (Object.keys(lhs).length !== Object.keys(rhs).length) {
+    return false;
+  }
 
-//   for (const [key, value] of Object.entries(lhs)) {
-//       const rightValue = rhs[key];
-//       if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-//           if (isEqual(value, rightValue)) {
-//               continue;
-//           }
-//           return false;
-//       }
+  for (const [key, value] of Object.entries(lhs)) {
+    const rightValue = rhs[key];
+    if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+      if (
+        isEqual(
+          value as PlainObject<unknown>,
+          rightValue as PlainObject<unknown>,
+        )
+      ) {
+        continue;
+      }
+      return false;
+    }
 
-//       if (value !== rightValue) {
-//           return false;
-//       }
-//   }
+    if (value !== rightValue) {
+      return false;
+    }
+  }
 
-//   return true;
-// }
-
-
+  return true;
+};
 
 // export const cloneDeep = <T extends object = object>(obj: T) => {
 //   return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {

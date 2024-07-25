@@ -5,20 +5,21 @@ import { Avatar } from '../../../../shared/ui';
 
 interface DialogCardProps extends CompileOptions {
   id: number;
-  avatarSrc: string;
-  name: string;
+  avatar: string;
+  title: string;
   isActive?: boolean;
   isLastMe?: boolean;
+  lastMessageName?: string
   lastMessage?: string;
   lastMessageTime?: string;
-  messageCount?: number;
+  unread_count: number;
   onClick: (id?: number) => void;
 }
 
 export class DialogCard extends Block {
-  constructor({ avatarSrc, onClick, ...props }: DialogCardProps) {
+  constructor({ avatar, onClick, ...props }: DialogCardProps) {
     const userAvatar = new Avatar({
-      src: avatarSrc,
+      src: avatar,
       class: 'dialog-card__avatar',
     });
     super({

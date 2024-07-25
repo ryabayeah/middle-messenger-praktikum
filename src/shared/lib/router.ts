@@ -37,14 +37,8 @@ export class Router {
 
     this._onRoute(window.location.pathname);
   }
-  // start() {
-  //   window.onpopstate = event => {
-  //     this._onRoute(event.currentTarget.location.pathname);
-  //   };
 
-  //   this._onRoute(window.location.pathname);
-  // }
-
+  checkCurrentUser() {}
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
 
@@ -57,8 +51,8 @@ export class Router {
     }
 
     this._currentRoute = route;
-    route.render();
-    // route.render(route, pathname);
+
+    route!.render();
   }
 
   go(pathname: string) {
