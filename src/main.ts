@@ -20,16 +20,21 @@ const initialStateApp = async () => {
   try {
     user = await authController.getUser();
     if (user) {
+      if (store.getState().user?.id !== user.id){
+        store.set('user', user)
+      }
       router.go(APP_PATH.CHATS);
     }
   } catch (error) {
-    router.go(APP_PATH.LOGIN);
-  }
+    if (router.getCurrentRoutePath() !== APP_PATH.LOGIN){
+      router.go(APP_PATH.LOGIN);
+    }
+
+    }
   store.set('user', user);
-  // await updateChats();
 };
 
-// initialStateApp();
+initialStateApp();
 
 router
   .use(APP_PATH.LOGIN, SignInPage)

@@ -2,15 +2,12 @@ import './chat.scss';
 import template from './chat.hbs?raw';
 import { Block } from '../../../../shared/lib';
 import { Avatar, Button, Input } from '../../../../shared/ui';
-import { DialogNoLayout } from '../dialog-no-layout';
-import { DIALOG_ICONS, DIALOG_MESSAGE, DIALOGS } from '../../lib/constants';
+import { DIALOG_ICONS, DIALOGS } from '../../lib/constants';
 import { DialogActions } from '../dialog-actions';
 import { DialogAddUserModal } from '../dialog-add-user-modal';
 import { DialogDeleteUserModal } from '../dialog-delete-user-modal';
 import { DialogAttachments } from '../dialog-attachments';
-import { MessageBubble } from '../message-bubble';
-import { ChatDialog, ChatDialogMessage } from '../../lib/models';
-import { MessagesGroup } from '../messages-group';
+import { ChatDialog } from '../../lib/models';
 import { DialogDeleteDialogModal } from '../dialog-delete-dialog';
 
 interface DialogProps extends CompileOptions {

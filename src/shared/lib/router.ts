@@ -20,6 +20,10 @@ export class Router {
     Router.__instance = this;
   }
 
+  getCurrentRoutePath() {
+    return this._currentRoute!.pathname
+  }
+
   use(pathname: string, block: typeof Block) {
     const route = new Route(pathname, block, { rootQuery: this._rootQuery });
     this.routes.push(route);

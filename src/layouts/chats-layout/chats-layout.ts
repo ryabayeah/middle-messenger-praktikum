@@ -64,6 +64,8 @@ export class ChatsLayout extends Block {
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
     if (selectedDialog) {
+      chatController.connectToChat(selectedDialog?.id)
+
       const ChatConnected = withSelectedDialog(Chat as typeof Block);
       body = new ChatConnected({
         id: selectedDialog.id,

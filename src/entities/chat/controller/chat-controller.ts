@@ -1,4 +1,5 @@
 import { ApiError } from '../../../shared/api';
+import { Socket } from '../../../shared/lib';
 import { store } from '../../../shared/store/store';
 import { chatApi } from '../api';
 import { Dialog } from '../lib';
@@ -44,6 +45,22 @@ export class ChatController {
 
   selectChat(dialog?: Dialog){
     store.set('selectedDialog', JSON.parse(JSON.stringify(dialog)));
+  }
+
+  async connectToChat(chatId: number) {
+    await chatApi
+      .getChatToken(chatId)
+      .then((resp) => {
+        const {token}  = resp as {token: string}
+        if (token){
+          const socket = new Socket({chatId, token: token.toString()})
+          console.log(socket.getOldMessages())
+          store.set('dialogSocket', socket)
+          
+        }
+      })
+      .catch(() => {
+      });
   }
 }
 

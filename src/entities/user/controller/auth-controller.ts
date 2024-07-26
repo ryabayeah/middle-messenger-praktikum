@@ -10,12 +10,8 @@ export class AuthController {
     await authApi
       .signin(data)
       .then(() => {
-        // localStorage.setItem(
-        //   LOCAL_STORAGE_KEY.CURRENT_USER,
-        //   (response as number).toString(),
-        // );
-        // this.getUser();
-        // router.go(APP_PATH.CHATS);
+
+        router.go(APP_PATH.CHATS);
       })
       .catch((error: ApiError) => {
         if (error.reason === 'User already in system') {
