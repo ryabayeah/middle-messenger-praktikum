@@ -1,6 +1,6 @@
 export { DialogCard } from './dialog-card';
 export { DialogSearch } from './dialog-search';
-export { Dialog } from './dialog';
+export { Chat } from './chat';
 export { DialogNoLayout } from './dialog-no-layout';
 export { DialogActions } from './dialog-actions';
 export { DialogAddUserModal } from './dialog-add-user-modal';

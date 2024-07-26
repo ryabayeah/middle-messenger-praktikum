@@ -5,7 +5,7 @@ import { ChatDialogShort, Dialog } from '../../lib';
 import { APP_PATH } from '../../../../shared/constants';
 import { DialogCard } from '../dialog-card';
 import { DialogSearch } from '../dialog-search';
-import { Button, Link } from '../../../../shared/ui';
+import { Button, Input, Link } from '../../../../shared/ui';
 import { NoDialogsMessage } from '../no-dialogs-message';
 import { DialogCreateModal } from '../dialog-create-modal';
 import { chatController } from '../../controller';
@@ -13,9 +13,17 @@ import { chatController } from '../../controller';
 interface DialogsListSidebarProps extends CompileOptions {
   dialogs?: Dialog[];
   selectedDialogId?: number;
-  onSelectDialog?: (id?: number) => void;
+  onSelectDialog?: (selectedDialog?: Dialog) => void;
+}
+interface DialogsListSidebarChildren extends CompileOptions {
+  linkProfile: Link;
+  createButton: Button;
+  searchInput: Input;
+  sidebarBody: NoDialogsMessage;
+  createDialogModal: DialogCreateModal;
 }
 
+// TODO: Сделать isLoading загрузки данных
 export class DialogsListSidebar extends Block {
   constructor({ dialogs = [], onSelectDialog = () => {} }) {
     const linkProfile = new Link({
@@ -33,7 +41,6 @@ export class DialogsListSidebar extends Block {
       class: 'create-dialog-btn',
       variant: 'secondary',
       onClick: () => {
-        console.log('-');
         this.__openCreateDialog();
       },
     });
@@ -44,21 +51,38 @@ export class DialogsListSidebar extends Block {
     });
     createDialogModal.hide();
 
-    super({
-      dialogs,
+    const components: DialogsListSidebarChildren = {
       linkProfile,
       createButton,
       searchInput: dialogSearch,
       sidebarBody: new NoDialogsMessage(),
       createDialogModal,
+    };
+
+    const props: DialogsListSidebarProps = {
+      dialogs,
+      selectedDialogId: undefined,
       onSelectDialog,
+    };
+
+    super({
+      ...components,
+      ...props,
     });
   }
 
-  handleCreateApply() {
-    chatController.getChats();
-    this.__closeCreateDialog();
+  componentDidUpdate(
+    oldProps: DialogsListSidebarProps,
+    newProps: DialogsListSidebarProps,
+  ): boolean {
+    const isDialogsEqual = JSON.stringify(oldProps.dialogs) === JSON.stringify(newProps.dialogs)
+    const isSelectedDialogIdEqual = oldProps.selectedDialogId === newProps.selectedDialogId
+    if (!isDialogsEqual || !isSelectedDialogIdEqual) {
+      this.setChildren({ sidebarBody: this.renderDialogs({...newProps}) });
+    }
+    return true;
   }
+
   private __closeCreateDialog() {
     const createDialogModal = this.children
       .createDialogModal as DialogCreateModal;
@@ -68,88 +92,48 @@ export class DialogsListSidebar extends Block {
   private __openCreateDialog() {
     const createDialogModal = this.children
       .createDialogModal as DialogCreateModal;
-    console.log(createDialogModal);
     createDialogModal.show();
   }
 
-  // TODO: Здесь будет API запрос с search (?), вместо фильтрации "руками"
-  getFilteredChatDialogs(title: string) {
-    return (this.props.dialogs as ChatDialogShort[]).filter((dialog) =>
-      dialog.title.includes(title),
-    );
+  handleCreateApply() {
+    chatController.getChats();
+    this.__closeCreateDialog();
   }
-
   handleDialogCardSearch(value: string) {
-    const filteredDialogs = this.getFilteredChatDialogs(value);
-    this.setProps({ searchQuery: value, dialogs: filteredDialogs });
-    this.renderDialogCards(
-      filteredDialogs,
-      this.props.selectedDialogId as number | undefined,
-    );
+    chatController.getChats({ title: value });
+  }
+  handleDialogCardClick(dialog?: Dialog) {
+    const { onSelectDialog } = this.props as DialogsListSidebarProps;
+    if (onSelectDialog) {
+      onSelectDialog(dialog);
+    }
+    this.setProps({selectedDialogId: dialog?.id})
   }
 
-  handleDialogCardClick(id?: number) {
-    this.setProps({ selectedDialogId: id });
-    // TODO: Указать в URL ID выбранного чата
-    this.getChats(this.props as DialogsListSidebarProps);
-    // this.renderBody(id);
-  }
-
-  renderDialogCards(dialogs: ChatDialogShort[], activeId: number | undefined) {
-    this.setChildren({
-      sidebarBody: dialogs.map(
-        ({ id, avatar, title, last_message, unread_count }) =>
-          new DialogCard({
-            id,
-            avatar,
-            title,
-            isLastMe: false,
-            lastMessageName: last_message?.user.first_name,
-            lastMessage: last_message?.content,
-            lastMessageTime: last_message?.time,
-            unread_count,
-            isActive: id === activeId,
-            onClick: (id?: number) => this.handleDialogCardClick(id),
-          }),
-      ),
-    });
-  }
-
-  getChats(newProps: DialogsListSidebarProps) {
-    const { dialogs } = newProps;
+  renderDialogs(props: DialogsListSidebarProps) {
+    const { dialogs, selectedDialogId } = props;
     if (!dialogs || dialogs.length === 0) {
       return new NoDialogsMessage();
     }
 
-    return (dialogs || []).map(
-      ({ id, avatar, title, last_message, unread_count }) =>
-        new DialogCard({
-          id,
-          avatar,
-          title,
+    return ([...dialogs] || []).map(
+      (dialog) =>{
+        
+        return new DialogCard({
+          id: dialog.id,
+          avatar: dialog.avatar,
+          title: dialog.title,
           isLastMe: false,
-          lastMessageName: last_message?.user.first_name,
-          lastMessage: last_message?.content,
-          lastMessageTime: last_message?.time,
-          unread_count,
+          lastMessageName: dialog.last_message?.user.first_name,
+          lastMessage: dialog.last_message?.content,
+          lastMessageTime: dialog.last_message?.time,
+          unread_count: dialog.unread_count,
 
-          isActive: id === this.props.selectedDialogId,
-          onClick: this.handleDialogCardClick,
-        }),
+          isActive: dialog.id === selectedDialogId,
+          onClick: () => this.handleDialogCardClick(dialog),
+        })
+      }
     );
-  }
-
-  componentDidUpdate(
-    oldProps: DialogsListSidebarProps,
-    newProps: DialogsListSidebarProps,
-  ): boolean {
-    console.log(oldProps.dialogs, newProps.dialogs, "--------------------------")
-    if (JSON.stringify(oldProps.dialogs) !== JSON.stringify(newProps.dialogs)) {
-      this.setChildren({ sidebarBody: this.getChats(newProps) });
-    }
-    // this.children.sidebarBody =  this.getChats(newProps)
-    // this.setChildren({ sidebarBody: this.getChats(newProps) });
-    return true;
   }
 
   render() {

@@ -1,5 +1,5 @@
-import './dialog.scss';
-import template from './dialog.hbs?raw';
+import './chat.scss';
+import template from './chat.hbs?raw';
 import { Block } from '../../../../shared/lib';
 import { Avatar, Button, Input } from '../../../../shared/ui';
 import { DialogNoLayout } from '../dialog-no-layout';
@@ -14,25 +14,22 @@ import { MessagesGroup } from '../messages-group';
 import { DialogDeleteDialogModal } from '../dialog-delete-dialog';
 
 interface DialogProps extends CompileOptions {
-  id: number;
-  title: string;
+  id?: number;
+  title?: string;
   avatar?: string;
-  messages?: ChatDialogMessage[];
+  // messages?: ChatDialogMessage[];
   // В телеге есть интересный функционал, когда пишешь с мобилки и набираемый текст отображается в любом клиенте телеграма
   currentInputMessage?: string;
 }
 
-const CURRENT_USER_ID = 1;
 // TODO: Запрос на получение диалога
 export const getDialogData = (id: number): ChatDialog | undefined => {
   const dialog = DIALOGS.find(dialog => dialog.id === id);
   return dialog;
 };
 
-export class Dialog extends Block {
-  constructor({ id, title, avatar }: DialogProps) {
-    const dialogData = getDialogData(id);
-
+export class Chat extends Block {
+  constructor({ id=0, title='', avatar }: DialogProps) {
     // Header
     const dialogAvatar = new Avatar({
       src: avatar,
@@ -102,44 +99,44 @@ export class Dialog extends Block {
     deleteDialogModal.hide();
 
     // Body
-    let body;
-    let errorBody;
-    if (!dialogData) {
-      errorBody = new DialogNoLayout({
-        message: DIALOG_MESSAGE.NO_DIALOG_DATA,
-      });
-    } else if (!dialogData?.messages?.length) {
-      errorBody = new DialogNoLayout({
-        message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
-      });
-    } else {
-      const messages = (dialogData.messages as ChatDialogMessage[]).map(
-        ({ message, senderId, isRead, attachment }) => {
-          return new MessageBubble({
-            message,
-            time: '12:45',
-            attachment: attachment,
-            isRead,
-            isOuter: senderId !== CURRENT_USER_ID,
-          });
-        },
-      );
-      // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
-      body = new MessagesGroup({
-        date: '19 июня',
-        messages,
-      });
-    }
+    // let body;
+    // let errorBody;
+    // if (!dialogData) {
+    //   errorBody = new DialogNoLayout({
+    //     message: DIALOG_MESSAGE.NO_DIALOG_DATA,
+    //   });
+    // } else if (!dialogData?.messages?.length) {
+    //   errorBody = new DialogNoLayout({
+    //     message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
+    //   });
+    // } else {
+    //   const messages = (dialogData.messages as ChatDialogMessage[]).map(
+    //     ({ message, senderId, isRead, attachment }) => {
+    //       return new MessageBubble({
+    //         message,
+    //         time: '12:45',
+    //         attachment: attachment,
+    //         isRead,
+    //         isOuter: senderId !== CURRENT_USER_ID,
+    //       });
+    //     },
+    //   );
+    //   // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
+    //   body = new MessagesGroup({
+    //     date: '19 июня',
+    //     messages,
+    //   });
+    // }
 
     super({
       id,
-      name: dialogData?.name || name,
+      title,
       avatar: dialogAvatar,
       actionsButton,
       actions,
 
-      body,
-      errorBody,
+      // body,
+      // errorBody,
 
       messageInput,
       attachButton,

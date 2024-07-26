@@ -1,10 +1,12 @@
+import { chatController } from '../../entities/chat/controller';
 import {
   DIALOG_CARDS,
   DIALOG_MESSAGE,
   ChatDialogShort,
+  Dialog,
 } from '../../entities/chat/lib';
 import {
-  Dialog,
+  Chat,
   DialogNoLayout,
   DialogsListSidebar,
 } from '../../entities/chat/ui';
@@ -19,21 +21,26 @@ interface ChatsLayoutProps extends CompileOptions {
   selectedDialogId?: number;
 }
 
-
-const withDialogs = withStore(state => {
-  return { dialogs: [...(state.dialogs || [])] }
+const withDialogs = withStore((state) => {
+  return { dialogs: [...(state.dialogs || [])] };
 });
-// TODO: Подумать над уровнями доступа методов
+const withSelectedDialog = withStore((state) => {
+  return { ...state.selectedDialog };
+});
+
 export class ChatsLayout extends Block {
   constructor({
     dialogs = DIALOG_CARDS,
     selectedDialogId,
     ...props
   }: ChatsLayoutProps) {
-    const DialogsListSidebarConnected = withDialogs(DialogsListSidebar as typeof Block)
+    const DialogsListSidebarConnected = withDialogs(
+      DialogsListSidebar as typeof Block,
+    );
     const sidebar = new DialogsListSidebarConnected({
       dialogs: [],
-      onSelectDialog: () => {},
+      onSelectDialog: (selectedDialog?: Dialog) =>
+        this.handleSelectDialog(selectedDialog),
     });
 
     const body = new DialogNoLayout({
@@ -51,31 +58,26 @@ export class ChatsLayout extends Block {
     });
   }
 
-  renderNoDataMessage() {
-    return new DialogNoLayout({
+  handleSelectDialog(selectedDialog?: Dialog) {
+    chatController.selectChat(selectedDialog);
+    let body = new DialogNoLayout({
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
-  }
-
-  renderBody(id?: number) {
-    let body;
-    if (id) {
-      const dialogs = this.props.dialogs as ChatDialogShort[];
-      const shortDialog = dialogs.find((d) => d.id === id);
-      if (shortDialog) {
-        body = new Dialog({
-          id,
-          title: shortDialog.title,
-          avatar: shortDialog.avatar,
-        });
-      }
-    } else {
-      body = new DialogNoLayout({
-        message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
+    if (selectedDialog) {
+      const ChatConnected = withSelectedDialog(Chat as typeof Block);
+      body = new ChatConnected({
+        id: selectedDialog.id,
+        title: selectedDialog.title,
+        avatar: selectedDialog.avatar,
       });
     }
 
     this.setChildren({ body });
+  }
+  renderNoDataMessage() {
+    return new DialogNoLayout({
+      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
+    });
   }
 
   render() {

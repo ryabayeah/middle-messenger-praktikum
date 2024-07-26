@@ -3,19 +3,17 @@ import { EventBus } from '../lib';
 import { AppStore, Indexed } from '../model';
 import { merge } from '../utils';
 
-export interface State {
-  currentUserId?: number;
-}
 
 export enum StoreEvents {
   Updated = 'updated',
 }
 
-export const set = function (
+export const set = (
   object: Indexed | unknown,
   path: string,
   value: unknown,
-): Indexed | unknown {
+): Indexed | unknown => {
+
   if (typeof object !== 'object' || object === null) {
     return object;
   }

@@ -1,4 +1,4 @@
-import { ChatDialogShort, Dialog } from '../../entities/chat/lib';
+import { Dialog } from '../../entities/chat/lib';
 import { User } from '../../entities/user/model';
 
 export type Indexed<T = unknown> = {
@@ -8,4 +8,5 @@ export type Indexed<T = unknown> = {
 export type AppStore = {
   user?: User;
   dialogs?: Dialog[]
+  selectedDialog?: Dialog
 };

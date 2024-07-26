@@ -1,5 +1,6 @@
 import { yandexApi } from '../../../shared/api';
 import { BaseAPI } from '../../../shared/lib';
+import { GetChatsParams } from '../model/api';
 
 type User = {
     id: number;
@@ -27,13 +28,16 @@ export type Chat = {
   last_message?: Message | null;
 };
 
+
+
 enum CHAT_API_PATH {
   CHATS = '/chats',
 }
 
+
 class ChatAPI extends BaseAPI {
-  async getChats(): Promise<Chat[]> {
-    return yandexApi.get(CHAT_API_PATH.CHATS);
+  async getChats(params?: GetChatsParams): Promise<Chat[]> {
+    return yandexApi.get(CHAT_API_PATH.CHATS, {data: {...params}});
   }
   async createChat(title: string) {
     return yandexApi.post(CHAT_API_PATH.CHATS, {data: {title}});

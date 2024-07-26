@@ -94,8 +94,8 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
   return true;
 };
 
-// export const cloneDeep = <T extends object = object>(obj: T) => {
-//   return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
+// export function cloneDeep(obj: Record<string, unknown | any>): Record<string, unknown | any> {
+//   return (function _cloneDeep(item: any): Record<string, unknown | any> {
 //       // Handle:
 //       // * null
 //       // * undefined
@@ -104,7 +104,7 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
 //       // * string
 //       // * symbol
 //       // * function
-//       if (item === null || typeof item !== "object") {
+//       if (item === null || typeof item !== 'object') {
 //           return item;
 //       }
 
@@ -117,7 +117,7 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
 //       // Handle:
 //       // * Array
 //       if (item instanceof Array) {
-//           const copy: unknown[] = [];
+//           const copy: any = [];
 
 //           item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])));
 
@@ -127,9 +127,9 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
 //       // Handle:
 //       // * Set
 //       if (item instanceof Set) {
-//           const copy: Set<T> = new Set();
+//           const copy = new Set();
 
-//           item.forEach(v => copy.add(_cloneDeep(v)));
+//           item.forEach((v) => copy.add(_cloneDeep(v)));
 
 //           return copy;
 //       }
@@ -137,7 +137,7 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
 //       // Handle:
 //       // * Map
 //       if (item instanceof Map) {
-//           let copy = new Map();
+//           const copy = new Map();
 
 //           item.forEach((v, k) => copy.set(k, _cloneDeep(v)));
 
@@ -147,21 +147,21 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
 //       // Handle:
 //       // * Object
 //       if (item instanceof Object) {
-//           let copy: object = {};
+//           const copy: any = {};
 
 //           // Handle:
 //           // * Object.symbol
-//           Object.getOwnPropertySymbols(item).forEach(s => (copy[s] = _cloneDeep(item[s])));
+//           Object.getOwnPropertySymbols(item).forEach((s) => (copy[s] = _cloneDeep(item[s])));
 
 //           // Handle:
 //           // * Object.name (other)
-//           Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k])));
+//           Object.keys(item).forEach((k) => (copy[k] = _cloneDeep(item[k])));
 
 //           return copy;
 //       }
 
 //       throw new Error(`Unable to copy object: ${item}`);
-//   })(obj);
+//   }(obj));
 // }
 
 // type StringIndexed = Record<string, any>;
