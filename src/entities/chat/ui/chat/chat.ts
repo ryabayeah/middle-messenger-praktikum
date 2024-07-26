@@ -19,12 +19,6 @@ interface DialogProps extends CompileOptions {
   currentInputMessage?: string;
 }
 
-// TODO: Запрос на получение диалога
-export const getDialogData = (id: number): ChatDialog | undefined => {
-  const dialog = DIALOGS.find(dialog => dialog.id === id);
-  return dialog;
-};
-
 export class Chat extends Block {
   constructor({ id=0, title='', avatar }: DialogProps) {
     // Header
@@ -78,6 +72,7 @@ export class Chat extends Block {
     actions.hide();
 
     const addUserModal = new DialogAddUserModal({
+      dialogId: id,
       onApply: () => this.__closeAddUser(),
       onClose: () => this.__closeAddUser(),
     });

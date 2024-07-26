@@ -1,21 +1,23 @@
 import { FIELDS } from '../../../../shared/constants';
 import { Button, FormInput, Modal } from '../../../../shared/ui';
 import { loginValidator } from '../../../../shared/utils';
+import { chatController } from '../../controller';
 import './dialog-add-user-modal.scss';
 
 interface DialogAddUserModalProps extends CompileOptions {
+  dialogId: number
   onClose: VoidFunction;
   onApply: VoidFunction;
 }
 
+// Features
 export class DialogAddUserModal extends Modal {
-  constructor({ onClose, onApply }: DialogAddUserModalProps) {
+  constructor({ dialogId, onClose, onApply }: DialogAddUserModalProps) {
     const saveButton = new Button({
       text: 'Добавить',
       variant: 'primary',
       class: 'w-full',
-      type: 'button',
-      onClick: (e: Event) => this.__handleApply(e, onApply),
+      type: 'submit',
     });
     const altButton = new Button({
       text: 'Отмена',
@@ -38,6 +40,7 @@ export class DialogAddUserModal extends Modal {
       body: loginInput,
       buttons: [saveButton, altButton],
       class: 'dialog-add-user-modal',
+      onSubmit: () => this.__handleApply(dialogId, onApply)
     });
   }
 
@@ -46,11 +49,17 @@ export class DialogAddUserModal extends Modal {
     input.setProps({ value: '', isInvalid: false });
   }
 
-  private __handleApply(e: Event, callback: VoidFunction) {
-    const target = e.target as HTMLInputElement;
-    console.log('DIALOG_ADD_USER: ', target.value);
-    this.reset();
+  private __handleApply(dialogId: number, callback: VoidFunction) {
+    const target = this.element!.querySelector('form');
+    if (target){
+      const formData = new FormData(target)
+      const login = formData.get('login')?.toString()
+      if (!login) return
+      chatController.addUserToChat(login, dialogId)
+    }
+
     callback();
+    this.reset();
   }
 
   private __handleClose(callback: VoidFunction) {

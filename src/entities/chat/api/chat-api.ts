@@ -31,6 +31,7 @@ export type Chat = {
 enum CHAT_API_PATH {
   CHATS = '/chats',
   TOKEN = '/chats/token/',
+  USERS = '/chats/users',
 }
 
 class ChatAPI extends BaseAPI {
@@ -42,6 +43,11 @@ class ChatAPI extends BaseAPI {
   }
   async getChatToken(id: number) {
     return yandexApi.post(`${CHAT_API_PATH.TOKEN}${id}`);
+  }
+  async addUser(ids: number[], chatId: number) {
+    return yandexApi.put(`${CHAT_API_PATH.USERS}`, {
+      data: { users: ids, chatId },
+    });
   }
 }
 

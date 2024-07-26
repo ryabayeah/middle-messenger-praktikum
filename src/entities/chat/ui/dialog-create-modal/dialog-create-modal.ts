@@ -48,9 +48,8 @@ export class DialogCreateModal extends Modal {
     input.setProps({ value: '', isInvalid: false });
   }
 
-  private __handleApply(e: Event, callback: VoidFunction) {
+  private __handleApply(_: Event, callback: VoidFunction) {
     const target = this.element!.querySelector('form');
-    console.log(target)
     if (target){
       const formData = new FormData(target)
       const title = formData.get('dialog_name')?.toString()

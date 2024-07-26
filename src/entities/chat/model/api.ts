@@ -3,3 +3,8 @@ export type GetChatsParams = {
   limit?: number;
   title?: string;
 };
+
+export type AddUserToChatParams = {
+  users: number[];
+  chatId: 0;
+};
