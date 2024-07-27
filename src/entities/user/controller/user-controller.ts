@@ -1,6 +1,5 @@
 import { ApiError } from '../../../shared/api';
 import { userApi } from '../api';
-import { User } from '../model';
 
 export class UserController {
   async search(login: string) {

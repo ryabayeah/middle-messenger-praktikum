@@ -9,6 +9,7 @@ import { Button, Input, Link } from '../../../../shared/ui';
 import { NoDialogsMessage } from '../no-dialogs-message';
 import { DialogCreateModal } from '../dialog-create-modal';
 import { chatController } from '../../controller';
+import { store } from '../../../../shared/store/store';
 
 interface DialogsListSidebarProps extends CompileOptions {
   dialogs?: Dialog[];
@@ -112,22 +113,33 @@ export class DialogsListSidebar extends Block {
 
   renderDialogs(props: DialogsListSidebarProps) {
     const { dialogs, selectedDialogId } = props;
+    const {user} = store.getState()
     if (!dialogs || dialogs.length === 0) {
       return new NoDialogsMessage();
     }
 
     return ([...dialogs] || []).map(
       (dialog) =>{
-        
+        const {id, avatar, title, last_message, unread_count} = dialog
+        let isLastMe, lastMessageTime;
+        if (last_message){
+          isLastMe = user?.login === last_message?.user.login;
+
+          // Если сегодняшний день, то время (14: 54)
+          // Если в диапазоне трех дней, то день недели (Пт)
+          // Иначе дату (27 июля)
+          const date = new Date(last_message.time)
+          lastMessageTime = `${date.getHours()}:${date.getMinutes()}`
+        }
         return new DialogCard({
-          id: dialog.id,
-          avatar: dialog.avatar,
-          title: dialog.title,
-          isLastMe: false,
-          lastMessageName: dialog.last_message?.user.first_name,
-          lastMessage: dialog.last_message?.content,
-          lastMessageTime: dialog.last_message?.time,
-          unread_count: dialog.unread_count,
+          id,
+          avatar,
+          title,
+          isLastMe,
+          lastMessageName: last_message?.user.first_name,
+          lastMessage: last_message?.content,
+          lastMessageTime,
+          unread_count: unread_count,
 
           isActive: dialog.id === selectedDialogId,
           onClick: () => this.handleDialogCardClick(dialog),

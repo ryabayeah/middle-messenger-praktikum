@@ -1,8 +1,6 @@
 import { chatController } from '../../entities/chat/controller';
 import {
-  DIALOG_CARDS,
   DIALOG_MESSAGE,
-  ChatDialogShort,
   Dialog,
 } from '../../entities/chat/lib';
 import {
@@ -17,7 +15,7 @@ import './chats-layout.scss';
 
 interface ChatsLayoutProps extends CompileOptions {
   searchQuery?: string;
-  dialogs?: ChatDialogShort[];
+  dialogs?: Dialog[];
   selectedDialogId?: number;
 }
 
@@ -30,7 +28,7 @@ const withSelectedDialog = withStore((state) => {
 
 export class ChatsLayout extends Block {
   constructor({
-    dialogs = DIALOG_CARDS,
+    dialogs,
     selectedDialogId,
     ...props
   }: ChatsLayoutProps) {

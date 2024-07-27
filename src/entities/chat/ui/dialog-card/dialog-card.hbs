@@ -7,8 +7,7 @@
                 {{#if lastMessage}}
                 <span class="text-secondary dialog-card__message-last">
                     
-                    {{#if lastMessageName}} <span class="text-primary">{{lastMessageName}}:</span>  {{/if}}
-                    {{#if isLastMe}} <span class="text-primary">Вы:</span> {{/if}}
+                     <span class="text-primary">{{#if isLastMe}}Вы {{else}} {{lastMessageName}}{{/if}}:</span>
                     {{lastMessage}}
                 </span>
                 {{/if}}

@@ -12,6 +12,6 @@ export type AppStore = {
   dialogs?: Dialog[]
   selectedDialog?: Dialog
   selectedDialogMessages?: []
+  lastDialogMessage?: []
   dialogSocket?: Socket
-
 };

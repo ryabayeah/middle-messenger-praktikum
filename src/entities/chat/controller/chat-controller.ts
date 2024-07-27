@@ -49,10 +49,9 @@ export class ChatController {
     await chatApi
       .getChatToken(chatId)
       .then((resp) => {
-        const {token}  = resp as {token: string}
+        const { token }  = resp as {token: string}
         if (token){
           const socket = new Socket({chatId, token: token.toString()})
-          console.log(socket.getOldMessages())
           store.set('dialogSocket', socket)
         }
       })

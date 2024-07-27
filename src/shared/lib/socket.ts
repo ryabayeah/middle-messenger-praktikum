@@ -1,4 +1,4 @@
-import { chatController } from '../../entities/chat/controller';
+import { chatController, messageController } from '../../entities/chat/controller';
 import { store } from '../store/store';
 
 const URL = 'wss://ya-praktikum.tech/ws/chats';
@@ -48,7 +48,7 @@ export class Socket {
     this.socket.addEventListener('message', async (event: MessageEvent) => {
       try {
         console.log('NEW', JSON.parse(event.data));
-        // await chatController.setMessages(JSON.parse(event.data));
+        await messageController.setMessages(JSON.parse(event.data));
       } catch (error) {
         // handleError(error);
       }
@@ -67,8 +67,8 @@ export class Socket {
       }),
     );
 
-    // await chatsController.getAllChats();
-    store.set('chat.last_message', {
+    await chatController.getChats();
+    store.set('lastMessage', {
       user: store.getState().user,
       time: new Date(),
       content,

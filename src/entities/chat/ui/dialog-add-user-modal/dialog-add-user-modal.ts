@@ -58,8 +58,8 @@ export class DialogAddUserModal extends Modal {
       chatController.addUserToChat(login, dialogId)
     }
 
-    callback();
     this.reset();
+    callback();
   }
 
   private __handleClose(callback: VoidFunction) {

@@ -26,12 +26,7 @@ export type Dialog =  {
 }
 
 export type ChatDialogShort = {
-  // avatarSrc: string;
-  // title: string;
   isLastMe: boolean;
-  // lastMessage?: string;
-  // lastMessageTime?: string;
-  // messageCount?: number;
 
   
   id: number;

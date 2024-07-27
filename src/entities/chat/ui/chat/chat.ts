@@ -9,6 +9,8 @@ import { DialogDeleteUserModal } from '../dialog-delete-user-modal';
 import { DialogAttachments } from '../dialog-attachments';
 import { ChatDialog } from '../../lib/models';
 import { DialogDeleteDialogModal } from '../dialog-delete-dialog';
+import { store } from '../../../../shared/store/store';
+import { messageController } from '../../controller';
 
 interface DialogProps extends CompileOptions {
   id?: number;
@@ -147,7 +149,11 @@ export class Chat extends Block {
   }
 
   private __handleSendMessage() {
-    console.log('SEND_MESSAGE: ', this.props.currentInputMessage);
+    const {currentInputMessage} = this.props  as DialogProps
+    messageController.sendMessage(currentInputMessage || '')
+    console.log(messageController.getOldMessages())
+
+
   }
 
   private __handleDialogSettingsClick() {
