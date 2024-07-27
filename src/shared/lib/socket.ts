@@ -75,10 +75,10 @@ export class Socket {
     });
   }
 
-  getOldMessages() {
+  getMessages(offset: number = 0) {
     this.socket.send(
       JSON.stringify({
-        content: '0',
+        content: offset,
         type: 'get old',
       }),
     );

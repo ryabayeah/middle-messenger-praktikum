@@ -1,21 +1,23 @@
 import { FIELDS } from '../../../../shared/constants';
 import { Button, FormInput, Modal } from '../../../../shared/ui';
 import { loginValidator } from '../../../../shared/utils';
+import { chatController } from '../../controller';
 import './dialog-delete-user-modal.scss';
 
 interface DialogDeleteUserModalProps extends CompileOptions {
+  dialogId: number
   onClose: VoidFunction;
   onApply: () => void;
 }
 
 export class DialogDeleteUserModal extends Modal {
-  constructor({ onClose, onApply }: DialogDeleteUserModalProps) {
+  constructor({ dialogId, onClose, onApply }: DialogDeleteUserModalProps) {
     const saveButton = new Button({
       text: 'Удалить',
       variant: 'primary',
       class: 'w-full',
       type: 'button',
-      onClick: (e: Event) => this.__handleApply(e, onApply),
+      onClick: () => this.__handleApply(dialogId, onApply),
     });
     const altButton = new Button({
       text: 'Отмена',
@@ -45,9 +47,16 @@ export class DialogDeleteUserModal extends Modal {
     input.setProps({ value: '', isInvalid: false });
   }
 
-  private __handleApply(e: Event, callback: VoidFunction) {
-    const target = e.target as HTMLInputElement;
-    console.log('DELETE_DIALOG_USER: ', target.value);
+  private __handleApply(dialogId: number, callback: VoidFunction) {
+    const target = this.element!.querySelector('form');
+    if (target){
+      const formData = new FormData(target)
+      const login = formData.get('login')?.toString()
+      if (!login) return
+      chatController.deleteUserFromChat(login, dialogId)
+    }
+
+    this.reset();
     callback();
   }
 

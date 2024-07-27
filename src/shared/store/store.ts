@@ -33,9 +33,7 @@ export const set = (
 
 class Store extends EventBus {
   static _instance: Store;
-  private __state: AppStore = {
-
-  };
+  private __state: AppStore = {};
 
   async init() {
     await authController.getUser();

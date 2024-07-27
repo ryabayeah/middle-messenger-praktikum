@@ -2,14 +2,12 @@ import './chat.scss';
 import template from './chat.hbs?raw';
 import { Block } from '../../../../shared/lib';
 import { Avatar, Button, Input } from '../../../../shared/ui';
-import { DIALOG_ICONS, DIALOGS } from '../../lib/constants';
+import { DIALOG_ICONS } from '../../lib/constants';
 import { DialogActions } from '../dialog-actions';
 import { DialogAddUserModal } from '../dialog-add-user-modal';
 import { DialogDeleteUserModal } from '../dialog-delete-user-modal';
 import { DialogAttachments } from '../dialog-attachments';
-import { ChatDialog } from '../../lib/models';
 import { DialogDeleteDialogModal } from '../dialog-delete-dialog';
-import { store } from '../../../../shared/store/store';
 import { messageController } from '../../controller';
 
 interface DialogProps extends CompileOptions {
@@ -151,9 +149,6 @@ export class Chat extends Block {
   private __handleSendMessage() {
     const {currentInputMessage} = this.props  as DialogProps
     messageController.sendMessage(currentInputMessage || '')
-    console.log(messageController.getOldMessages())
-
-
   }
 
   private __handleDialogSettingsClick() {

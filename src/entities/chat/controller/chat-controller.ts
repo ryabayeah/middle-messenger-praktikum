@@ -5,6 +5,7 @@ import { userController } from '../../user/controller';
 import { chatApi } from '../api';
 import { Dialog } from '../lib';
 import { GetChatsParams } from '../model/api';
+import { messageController } from './messages-controller';
 
 export class ChatController {
   async getChats(body?: GetChatsParams) {
@@ -53,6 +54,7 @@ export class ChatController {
         if (token){
           const socket = new Socket({chatId, token: token.toString()})
           store.set('dialogSocket', socket)
+          // store.set('selectedDialogMessages', messageController.getOldMessages())
         }
       })
       .catch(() => {
@@ -63,7 +65,17 @@ export class ChatController {
     const users = await userController.search(login)
     if (users.length === 1){
       
-      await chatApi.addUser([users[0].id], chatId).then(()=>{
+      await chatApi.addUsers([users[0].id], chatId).then(()=>{
+
+      }).catch(() => {})
+    }
+  }
+
+  async deleteUserFromChat(login: string, chatId: number){
+    const users = await userController.search(login)
+    if (users.length === 1){
+      
+      await chatApi.deleteUsers([users[0].id], chatId).then(()=>{
 
       }).catch(() => {})
     }

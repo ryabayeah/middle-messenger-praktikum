@@ -37,7 +37,7 @@ export type ChatDialogShort = {
   last_message: Message | null;
 };
 
-type Message = {
+export type Message = {
   user: User;
   time: string;
   content: string;

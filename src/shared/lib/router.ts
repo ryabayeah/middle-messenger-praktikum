@@ -1,3 +1,7 @@
+import { authController } from '../../entities/user/controller';
+import { User } from '../../entities/user/model';
+import { APP_PATH } from '../constants';
+import { store } from '../store/store';
 import { Block } from './block';
 import { Route } from './route';
 
@@ -42,13 +46,13 @@ export class Router {
     this._onRoute(window.location.pathname);
   }
 
-  checkCurrentUser() {}
-  _onRoute(pathname: string) {
+  async _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
 
     if (!route) {
       return;
     }
+
 
     if (this._currentRoute) {
       this._currentRoute.leave();
@@ -56,7 +60,10 @@ export class Router {
 
     this._currentRoute = route;
 
-    route!.render();
+    // const isCanRender = await this.checkPage(pathname)
+    // if (isCanRender){
+      route!.render();
+    // }
   }
 
   go(pathname: string) {
@@ -73,7 +80,13 @@ export class Router {
   }
 
   getRoute(pathname: string) {
-    return this.routes.find((route) => route.match(pathname));
+    const route =  this.routes.find((route) => route.match(pathname));
+
+    if (!route) {
+      return this.routes.find((route) => route.match(APP_PATH.NOT_FOUND));
+    }
+
+    return route;
   }
 }
 

@@ -7,14 +7,8 @@ export class MessageController {
     if (!content) {
       return;
     }
-    console.log(content, state, "----")
     state.dialogSocket?.sendMessage(content)
   }
-
-  getOldMessages(){
-    store.getState().dialogSocket?.getOldMessages()
-  }
-
   async setMessages(data: Record<string, unknown> | Record<string, unknown>[]) {
     const state = store.getState()
     if (Array.isArray(data)) {
@@ -31,6 +25,23 @@ export class MessageController {
 
     await chatController.getChats();
   }
+
+  getMessages(): void {
+    // if (this._allMessage) {
+    //     return;
+    // }
+    // if (this._offset) {
+    //     Store.set('isLoadingOldMsg', true);
+    // }
+
+    store.getState().dialogSocket?.getMessages(0)
+
+    // this.socket?.send(JSON.stringify({
+    //     content: this._offset,
+    //     type: 'get old',
+    // }));
+    // this._offset += 20;
+}
 }
 
 export const messageController = new MessageController();

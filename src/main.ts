@@ -20,30 +20,28 @@ const initialStateApp = async () => {
   try {
     user = await authController.getUser();
     if (user) {
-      if (store.getState().user?.id !== user.id){
-        store.set('user', user)
-      }
       router.go(APP_PATH.CHATS);
     }
   } catch (error) {
     if (router.getCurrentRoutePath() !== APP_PATH.LOGIN){
       router.go(APP_PATH.LOGIN);
     }
-
-    }
+  }
   store.set('user', user);
 };
 
-initialStateApp();
 
-router
-  .use(APP_PATH.LOGIN, SignInPage)
-  .use(APP_PATH.REGISTER, SignUpPage)
-  .use(APP_PATH.ERROR, ServerErrorPage)
-  .use(APP_PATH.NOT_FOUND, NotFoundPage)
-  .use(APP_PATH.PROFILE, ProfilePage)
-  .use(APP_PATH.CHANGE_PASSWORD, PasswordChangePage)
-  .use(APP_PATH.CHATS, ChatsPage)
+document.addEventListener('DOMContentLoaded', () => {
+  initialStateApp();
 
-  .use(APP_PATH.NAV, TempNavPage)
-  .start();
+  router
+    .use(APP_PATH.LOGIN, SignInPage)
+    .use(APP_PATH.REGISTER, SignUpPage)
+    .use(APP_PATH.ERROR, ServerErrorPage)
+    .use(APP_PATH.NOT_FOUND, NotFoundPage)
+    .use(APP_PATH.PROFILE, ProfilePage)
+    .use(APP_PATH.CHANGE_PASSWORD, PasswordChangePage)
+    .use(APP_PATH.CHATS, ChatsPage)
+    .use(APP_PATH.NAV, TempNavPage)
+    .start();
+});

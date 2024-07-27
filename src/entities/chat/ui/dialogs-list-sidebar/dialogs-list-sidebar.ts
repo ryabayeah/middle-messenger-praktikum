@@ -10,6 +10,7 @@ import { NoDialogsMessage } from '../no-dialogs-message';
 import { DialogCreateModal } from '../dialog-create-modal';
 import { chatController } from '../../controller';
 import { store } from '../../../../shared/store/store';
+import { getMessageTime } from '../../lib/utils';
 
 interface DialogsListSidebarProps extends CompileOptions {
   dialogs?: Dialog[];
@@ -124,12 +125,15 @@ export class DialogsListSidebar extends Block {
         let isLastMe, lastMessageTime;
         if (last_message){
           isLastMe = user?.login === last_message?.user.login;
-
-          // Если сегодняшний день, то время (14: 54)
-          // Если в диапазоне трех дней, то день недели (Пт)
-          // Иначе дату (27 июля)
+          lastMessageTime = getMessageTime(last_message.time)
+          
           const date = new Date(last_message.time)
-          lastMessageTime = `${date.getHours()}:${date.getMinutes()}`
+          const currentDate = new Date()
+          console.log(date.getDate(), currentDate.getDate())
+          if (date.getTime() === currentDate.getTime()){
+              lastMessageTime = `${date.getHours()}:${date.getMinutes() < 10? `0${date.getMinutes()}` : date.getMinutes()}`
+          }
+          
         }
         return new DialogCard({
           id,
