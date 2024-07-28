@@ -1,5 +1,5 @@
 import { APP_PATH } from '../../../../shared/constants';
-import { Block } from '../../../../shared/lib';
+import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
 import { emptyValidator, redirect } from '../../../../shared/utils';
@@ -12,6 +12,7 @@ import template from './user-profile-form.hbs?raw';
 interface UserProfileFormProps extends CompileOptions {
   isEditable?: boolean;
   user?: User;
+  isLoadingUser?: boolean
 }
 
 // TODO: Подумать над уровнями доступа методов
@@ -25,7 +26,7 @@ interface InternalUserProfileFormProps extends UserProfileFormProps {
 }
 
 export class UserProfileForm extends Block {
-  constructor({ user, ...props }: UserProfileFormProps) {
+  constructor({ user, isLoadingUser=false, ...props }: UserProfileFormProps) {
     const refs: Ref = {
       [PROFILE_FIELDS_NAME.EMAIL]: null,
       [PROFILE_FIELDS_NAME.LOGIN]: null,
@@ -94,7 +95,7 @@ export class UserProfileForm extends Block {
       class: 'p-0',
 
       onClick: () => {
-        redirect(APP_PATH.CHANGE_PASSWORD);
+        router.go(APP_PATH.CHANGE_PASSWORD);
       },
     });
 
@@ -128,6 +129,7 @@ export class UserProfileForm extends Block {
       ...props,
       ...extraProps,
       ...buttons,
+      isLoadingUser,
       avatar,
       formFields,
       userAvatarModal,
@@ -195,7 +197,6 @@ export class UserProfileForm extends Block {
       result[key] = value;
     });
 
-    // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
       userController
         .updateUser({
@@ -213,6 +214,7 @@ export class UserProfileForm extends Block {
   }
 
   render() {
+    console.log(this.props.isLoadingUser)
     return this.compile(template, { ...this.props });
   }
 }

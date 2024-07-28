@@ -1,7 +1,7 @@
 import { ApiError } from '../../../shared/api';
 import { store } from '../../../shared/lib';
 import { userApi } from '../api';
-import { UpdateUserData, User } from '../model';
+import { UpdateUserData, UpdateUserPasswordData, User } from '../model';
 
 export class UserController {
   async search(login: string): Promise<User[]> {
@@ -33,6 +33,13 @@ export class UserController {
         store.set('user', user)
         return user;
       })
+      .catch((error: ApiError) => {
+        throw new Error(error.reason);
+      });
+  }
+  async updatePassword(data: UpdateUserPasswordData) {
+    return await userApi
+      .updateUserPassword(data)
       .catch((error: ApiError) => {
         throw new Error(error.reason);
       });

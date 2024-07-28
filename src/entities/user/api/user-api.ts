@@ -7,6 +7,7 @@ enum USER_API_PATH {
   SEARCH = '/user/search',
   UPDATE = '/user/profile',
   UPDATE_AVATAR = '/user/profile/avatar',
+  UPDATE_PASSWORD = '/user/password',
 }
 
 class UserAPI extends BaseAPI {
@@ -20,7 +21,7 @@ class UserAPI extends BaseAPI {
     return yandexApi.put(USER_API_PATH.UPDATE_AVATAR, { data: file });
   }
   async updateUserPassword(data: UpdateUserPasswordData) {
-    return yandexApi.put(USER_API_PATH.UPDATE, { data });
+    return yandexApi.put(USER_API_PATH.UPDATE_PASSWORD, { data });
   }
 }
 

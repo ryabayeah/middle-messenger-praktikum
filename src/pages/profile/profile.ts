@@ -6,12 +6,15 @@ import { withStore } from '../../shared/hoc';
 import { Block, store } from '../../shared/lib';
 
 const withUser = withStore((state) => {
-  return { ...state.user };
+  return {
+    user: { ...state.user },
+    isLoadingUser: state.isLoading.isLoadingUser,
+  };
 });
 
 export class ProfilePage extends ProfileLayout {
   constructor() {
-    const ConnectedUserProfileForm = withUser(UserProfileForm as typeof Block)
+    const ConnectedUserProfileForm = withUser(UserProfileForm as typeof Block);
     const userProfileForm = new ConnectedUserProfileForm({
       user: store.getState().user as User,
     });

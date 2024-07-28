@@ -1,5 +1,5 @@
 import { APP_PATH } from '../../../../shared/constants';
-import { Block } from '../../../../shared/lib';
+import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { FormInput, Button } from '../../../../shared/ui';
 import {
@@ -8,6 +8,7 @@ import {
   redirect,
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
+import { userController } from '../../controller';
 import {
   CHANGE_PASSWORD_FIELDS_NAME,
   CHANGE_PASSWORD_FIELDS,
@@ -76,7 +77,7 @@ export class UserPasswordChange extends Block {
     const target = e.target as HTMLFormElement;
 
     const formData = new FormData(target);
-    Object.values(CHANGE_PASSWORD_FIELDS_NAME).forEach(key => {
+    Object.values(CHANGE_PASSWORD_FIELDS_NAME).forEach((key) => {
       const value = (formData.get(key) || '')?.toString();
       const { validator } = CHANGE_PASSWORD_FIELDS[key];
 
@@ -106,7 +107,13 @@ export class UserPasswordChange extends Block {
 
     // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
-      this.setProps({ isEditable: false });
+      userController.updatePassword({
+        oldPassword: result.old_password,
+        newPassword: result.new_password,
+      }).then(()=>{
+        alert('Пароль успешно изменен');
+        router.go(APP_PATH.PROFILE)
+      })
     }
     console.log('PASSWORD_CHANGE_FORM: ', result);
   }

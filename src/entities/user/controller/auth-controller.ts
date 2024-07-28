@@ -19,13 +19,18 @@ export class AuthController {
   }
 
   async getUser(): Promise<User> {
+    store.set('isLoading.isLoadingUser', true)
     return await authApi
       .getCurrentUser()
       .then((user) => {
+        store.set('isLoading.isLoadingUser', false)
+
         store.set('user', user);
         return user as User;
       })
       .catch((error: ApiError) => {
+        store.set('isLoading.isLoadingUser', false)
+
         store.set('user', null);
         throw new Error(error.reason);
       });
