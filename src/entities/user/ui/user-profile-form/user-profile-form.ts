@@ -3,7 +3,7 @@ import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
 import { emptyValidator, redirect } from '../../../../shared/utils';
-import { userController } from '../../controller';
+import { authController, userController } from '../../controller';
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
 import { User } from '../../model';
 import { UserAvatarModal } from '../user-avatar-modal';
@@ -107,8 +107,7 @@ export class UserProfileForm extends Block {
       class: 'p-0',
 
       onClick: () => {
-        this.setProps({ ...this.props, isEditable: true });
-        redirect(APP_PATH.LOGIN);
+        authController.logout()
       },
     });
 
