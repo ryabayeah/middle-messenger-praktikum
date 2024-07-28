@@ -1,6 +1,6 @@
 import { ApiError } from '../../../shared/api';
 import { Socket } from '../../../shared/lib';
-import { store } from '../../../shared/store/store';
+import { store } from '../../../shared/lib/store';
 import { userController } from '../../user/controller';
 import { chatApi } from '../api';
 import { Dialog } from '../lib';

@@ -11,7 +11,6 @@ import {
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
 import { authApi, userApi } from '../../api';
-import { SignUpData } from '../../api/auth-api';
 import {
   SIGN_UP_FORM_FIELDS,
   SIGN_UP_FORM_FIELDS_NAME,
@@ -60,7 +59,6 @@ export class UserSignUpForm extends FormAuth {
       type: 'button',
       onClick: () => {
         redirect(APP_PATH.LOGIN);
-        // TODO: Редиркет на sign-in
       },
     });
 
@@ -75,7 +73,7 @@ export class UserSignUpForm extends FormAuth {
   }
 
   getCurrentUserData = async () => {
-    await userApi
+    await authApi
       .getCurrentUser()
       .then((respp) => console.log('get-me-respp:', respp))
       .catch((err: { reason: string }) => console.log('get-me:', err));

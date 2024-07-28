@@ -20,7 +20,7 @@ export class EventBus {
     }
 
     this.listeners[event] = this.listeners[event].filter(
-      listener => listener !== callback,
+      (listener) => listener !== callback,
     );
   }
 
@@ -30,22 +30,8 @@ export class EventBus {
       throw new Error(`Нет события: ${event}`);
     }
 
-    this.listeners[event].forEach(listener => {
+    this.listeners[event].forEach((listener) => {
       listener(...(args as []));
     });
   }
 }
-
-//   const eventBus = new EventBus();
-
-//   const callback = () => {
-//     console.count('Event emitted');
-//   }
-
-//   eventBus.on('myEvent', callback);
-//   eventBus.on('myEvent', callback);
-//   eventBus.on('myEvent', callback);
-
-//   eventBus.emit('myEvent'); // обработчик будет вызван 3 раза
-
-//   eventBus.off('myEvent', callback); // удалятся все три копии обработчика

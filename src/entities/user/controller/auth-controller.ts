@@ -1,16 +1,14 @@
 import { ApiError } from '../../../shared/api';
 import { APP_PATH } from '../../../shared/constants';
-import { router } from '../../../shared/lib';
+import { router, store } from '../../../shared/lib';
 import { authApi } from '../api';
-import { SignInData, User } from '../model';
-
+import { SignInData, SignUpData, User } from '../model';
 
 export class AuthController {
   async signIn(data: SignInData) {
     await authApi
       .signin(data)
       .then(() => {
-
         router.go(APP_PATH.CHATS);
       })
       .catch((error: ApiError) => {
@@ -19,41 +17,43 @@ export class AuthController {
         }
       });
   }
-  async getUser() {
+
+  async getUser(): Promise<User> {
     return await authApi
       .getCurrentUser()
       .then((user) => {
+        store.set('user', user);
         return user as User;
+      })
+      .catch((error: ApiError) => {
+        store.set('user', null);
+        throw new Error(error.reason);
+      });
+  }
+
+  async singUp(data: SignUpData) {
+    await authApi
+      .signup(data)
+      .then(() => {
+        router.go(APP_PATH.CHATS);
+      })
+      .catch((error: ApiError) => {
+        if (error.reason === 'User already in system') {
+          router.go(APP_PATH.CHATS);
+        }
+      });
+  }
+
+  async logout() {
+    await authApi
+      .logout()
+      .then(() => {
+        router.go(APP_PATH.LOGIN);
       })
       .catch((error: ApiError) => {
         throw new Error(error.reason);
       });
   }
-  //   async singUp(data: SignupData) {
-  //     const isValid = submitValidation(data);
-  //     if (isValid) {
-  //       const response = await this.api.signup(data);
-  //       try {
-  //         errorHandling(response);
-  //         router.go(Routes.Messenger);
-  //       } catch (e) {
-  //         if (e === 'User already in system') router.go(Routes.Messenger);
-  //         else alert(e);
-  //       }
-  //     }
-  //   }
-
-  // async logout() {
-  //   const response = await this.api.logout();
-  //   try {
-  //     errorHandling(response);
-  //     MessageController.closeAll();
-
-  //     router.go(Routes.Index);
-  //   } catch (e) {
-  //     alert(e);
-  //   }
-  // }
 }
 
 export const authController = new AuthController();

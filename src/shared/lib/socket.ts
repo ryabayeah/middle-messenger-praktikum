@@ -1,5 +1,5 @@
 import { chatController, messageController } from '../../entities/chat/controller';
-import { store } from '../store/store';
+import { store } from './store';
 
 const URL = 'wss://ya-praktikum.tech/ws/chats';
 

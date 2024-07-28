@@ -9,7 +9,7 @@ import { Button, Input, Link } from '../../../../shared/ui';
 import { NoDialogsMessage } from '../no-dialogs-message';
 import { DialogCreateModal } from '../dialog-create-modal';
 import { chatController } from '../../controller';
-import { store } from '../../../../shared/store/store';
+import { store } from '../../../../shared/lib/store';
 import { getMessageTime } from '../../lib/utils';
 
 interface DialogsListSidebarProps extends CompileOptions {

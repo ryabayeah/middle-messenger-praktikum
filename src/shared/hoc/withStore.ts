@@ -1,6 +1,6 @@
 import { Block } from '../lib';
 import { AppStore, Indexed } from '../model';
-import { store, StoreEvents } from '../store/store';
+import { store, StoreEvents } from '../lib/store';
 import { isEqual } from '../utils';
 
 export const withStore = (mapStateToProps: (state: AppStore) => Indexed) => {

@@ -1,7 +1,7 @@
 import { authController } from '../../entities/user/controller';
 import { User } from '../../entities/user/model';
 import { APP_PATH } from '../constants';
-import { store } from '../store/store';
+import { store } from './store';
 import { Block } from './block';
 import { Route } from './route';
 
@@ -24,8 +24,8 @@ export class Router {
     Router.__instance = this;
   }
 
-  getCurrentRoutePath() {
-    return this._currentRoute!.pathname
+  getCurrentRoutePath(): APP_PATH {
+    return this._currentRoute!.pathname as APP_PATH
   }
 
   use(pathname: string, block: typeof Block) {
@@ -46,6 +46,23 @@ export class Router {
     this._onRoute(window.location.pathname);
   }
 
+
+  init = async (pathname: string) => {
+    // const currPath = router.getCurrentRoutePath()
+    await authController
+      .getUser()
+      .then(() => {
+        if ([APP_PATH.LOGIN, APP_PATH.REGISTER].includes(pathname as APP_PATH)){
+          router.go(APP_PATH.CHATS);
+        }
+      })
+      .catch(() => {
+        if (pathname !== APP_PATH.LOGIN) {
+          router.go(APP_PATH.LOGIN);
+        }
+      });
+  };
+
   async _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
 
@@ -59,11 +76,9 @@ export class Router {
     }
 
     this._currentRoute = route;
-
-    // const isCanRender = await this.checkPage(pathname)
-    // if (isCanRender){
+    this.init(pathname).then(()=>{
       route!.render();
-    // }
+    })
   }
 
   go(pathname: string) {

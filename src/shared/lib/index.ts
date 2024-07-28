@@ -5,3 +5,4 @@ export { Route } from './route';
 export { BaseAPI } from './base-api';
 export { router, Router } from './router';
 export { Socket } from './socket';
+export { store, Store } from './store';

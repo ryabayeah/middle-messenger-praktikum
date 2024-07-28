@@ -7,16 +7,6 @@ export type BaseUserModel = {
   phone: string;
 };
 
-export type UserProfileData = {
-  email: string;
-  login: string;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  phone: string;
-  avatar: string;
-};
-
 export type User = {
   id: number;
   email: string;

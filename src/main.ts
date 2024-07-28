@@ -1,6 +1,4 @@
 import './main.scss';
-import { SignInPage } from './pages/sign-in';
-import { NotFoundPage } from './pages/not-found';
 import {
   ChatsPage,
   PasswordChangePage,
@@ -8,32 +6,31 @@ import {
   ServerErrorPage,
   SignUpPage,
   TempNavPage,
+  SignInPage,
+  NotFoundPage,
 } from './pages';
 import { APP_PATH } from './shared/constants';
-import { router } from './shared/lib';
-import { store } from './shared/store/store';
+import { router, Store } from './shared/lib';
 import { authController } from './entities/user/controller';
-import { User } from './entities/user/model';
 
-const initialStateApp = async () => {
-  let user: User | null = null;
-  try {
-    user = await authController.getUser();
-    if (user) {
-      router.go(APP_PATH.CHATS);
-    }
-  } catch (error) {
-    if (router.getCurrentRoutePath() !== APP_PATH.LOGIN){
-      router.go(APP_PATH.LOGIN);
-    }
-  }
-  store.set('user', user);
-};
+// const init = async () => {
+//   const currPath = router.getCurrentRoutePath()
+//   await authController
+//     .getUser()
+//     .then(() => {
+//       if ([APP_PATH.LOGIN, APP_PATH.REGISTER].includes(currPath)){
+//         router.go(APP_PATH.CHATS);
+//       }
+//     })
+//     .catch((err) => {
+//       if (currPath !== APP_PATH.LOGIN) {
+//         router.go(APP_PATH.LOGIN);
+//       }
+//     });
+// };
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  initialStateApp();
-
   router
     .use(APP_PATH.LOGIN, SignInPage)
     .use(APP_PATH.REGISTER, SignUpPage)
@@ -44,4 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     .use(APP_PATH.CHATS, ChatsPage)
     .use(APP_PATH.NAV, TempNavPage)
     .start();
+
+    // new Store()
+    // init();
 });
+
