@@ -7,14 +7,15 @@ import { Button } from '../../../../shared/ui/button';
 import {
   emptyValidator,
   getPasswordRepeatedValidator,
-  redirect,
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
 import { authApi, userApi } from '../../api';
+import { authController } from '../../controller';
 import {
   SIGN_UP_FORM_FIELDS,
   SIGN_UP_FORM_FIELDS_NAME,
 } from '../../lib/constants';
+import { SignUpData } from '../../model';
 
 // TODO: Подумать над уровнями доступа методов
 export class UserSignUpForm extends FormAuth {
@@ -58,7 +59,7 @@ export class UserSignUpForm extends FormAuth {
       variant: 'secondary',
       type: 'button',
       onClick: () => {
-        redirect(APP_PATH.LOGIN);
+        router.go(APP_PATH.LOGIN);
       },
     });
 
@@ -126,23 +127,7 @@ export class UserSignUpForm extends FormAuth {
 
     // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
-      await authApi
-        .signup(result)
-        .then(() => {
-          userApi
-            .getCurrentUser()
-            .then(() => router.go(APP_PATH.CHATS))
-            .catch((_: ApiError) => {
-              // TODO: Показать тост с ошибкой пользователю
-            });
-        })
-        .catch((_: ApiError) => {
-          // TODO: Показать тост с ошибкой пользователю
-        });
-
-      this.setProps({ isEditable: false });
+      await authController.signUp(result);
     }
-
-    console.log('SIGN_UP_FORM: ', result);
   }
 }

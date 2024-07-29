@@ -1,7 +1,8 @@
 import { APP_PATH } from '../../../../shared/constants';
+import { router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { FormInput, Button } from '../../../../shared/ui';
-import { emptyValidator, redirect } from '../../../../shared/utils';
+import { emptyValidator } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
 import { authController } from '../../controller';
 import {
@@ -35,11 +36,11 @@ export class UserSignInForm extends FormAuth {
       variant: 'primary',
     });
     const buttonAlt = new Button({
-      type: 'reset',
+      type: 'button',
       text: 'Нет аккаунта?',
       variant: 'secondary',
       onClick: () => {
-        redirect(APP_PATH.REGISTER);
+        router.go(APP_PATH.REGISTER);
       },
     });
 

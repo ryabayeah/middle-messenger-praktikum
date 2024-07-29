@@ -15,28 +15,32 @@ export class AuthController {
         if (error.reason === 'User already in system') {
           router.go(APP_PATH.CHATS);
         }
+        if (error.reason === 'Login or password is incorrect') {
+          alert('Некорректный логин или пароль.')
+        }
+       
       });
   }
 
   async getUser(): Promise<User> {
-    store.set('isLoading.isLoadingUser', true)
+    store.set('isLoading.isLoadingUser', true);
     return await authApi
       .getCurrentUser()
       .then((user) => {
-        store.set('isLoading.isLoadingUser', false)
+        store.set('isLoading.isLoadingUser', false);
 
         store.set('user', user);
         return user as User;
       })
       .catch((error: ApiError) => {
-        store.set('isLoading.isLoadingUser', false)
+        store.set('isLoading.isLoadingUser', false);
 
         store.set('user', null);
         throw new Error(error.reason);
       });
   }
 
-  async singUp(data: SignUpData) {
+  async signUp(data: SignUpData) {
     await authApi
       .signup(data)
       .then(() => {
@@ -45,6 +49,10 @@ export class AuthController {
       .catch((error: ApiError) => {
         if (error.reason === 'User already in system') {
           router.go(APP_PATH.CHATS);
+        }
+
+        if (error.reason === 'Login already exists') {
+          alert('Пользователь с таким логином уже существует.');
         }
       });
   }

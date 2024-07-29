@@ -4,8 +4,7 @@ import { Ref } from '../../../../shared/model';
 import { FormInput, Button } from '../../../../shared/ui';
 import {
   emptyValidator,
-  getPasswordRepeatedValidator,
-  redirect,
+  getPasswordRepeatedValidator
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
 import { userController } from '../../controller';
@@ -53,7 +52,7 @@ export class UserPasswordChange extends Block {
       text: 'Отмена',
       variant: 'secondary',
       onClick: () => {
-        redirect(APP_PATH.PROFILE);
+        router.go(APP_PATH.PROFILE);
       },
     });
 

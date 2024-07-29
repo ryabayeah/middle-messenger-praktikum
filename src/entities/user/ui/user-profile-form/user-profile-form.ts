@@ -2,7 +2,7 @@ import { APP_PATH } from '../../../../shared/constants';
 import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
-import { emptyValidator, redirect } from '../../../../shared/utils';
+import { emptyValidator } from '../../../../shared/utils';
 import { authController, userController } from '../../controller';
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
 import { User } from '../../model';
