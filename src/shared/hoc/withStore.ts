@@ -6,7 +6,6 @@ import { isEqual } from '../utils';
 export const withStore = (mapStateToProps: (state: AppStore) => Indexed) => {
   return (Component: typeof Block) => {
     const oldState = mapStateToProps(store.getState());
-
     return class extends Component {
       constructor(props: AppStore | Indexed) {
         super({ ...props, ...mapStateToProps(store.getState()) });

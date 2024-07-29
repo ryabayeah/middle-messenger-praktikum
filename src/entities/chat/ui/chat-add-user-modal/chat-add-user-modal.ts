@@ -5,14 +5,14 @@ import { chatController } from '../../controller';
 import './chat-add-user-modal.scss';
 
 interface DialogAddUserModalProps extends CompileOptions {
-  dialogId: number
+  chatId: number
   onClose: VoidFunction;
   onApply: VoidFunction;
 }
 
 // Features
 export class ChatAddUserModal extends Modal {
-  constructor({ dialogId, onClose, onApply }: DialogAddUserModalProps) {
+  constructor({ chatId, onClose, onApply }: DialogAddUserModalProps) {
     const saveButton = new Button({
       text: 'Добавить',
       variant: 'primary',
@@ -40,7 +40,7 @@ export class ChatAddUserModal extends Modal {
       body: loginInput,
       buttons: [saveButton, altButton],
       class: 'dialog-add-user-modal',
-      onSubmit: () => this.__handleApply(dialogId, onApply)
+      onSubmit: () => this.__handleApply(chatId, onApply)
     });
   }
 
@@ -49,13 +49,13 @@ export class ChatAddUserModal extends Modal {
     input.setProps({ value: '', isInvalid: false });
   }
 
-  private __handleApply(dialogId: number, callback: VoidFunction) {
+  private __handleApply(chatId: number, callback: VoidFunction) {
     const target = this.element!.querySelector('form');
     if (target){
       const formData = new FormData(target)
       const login = formData.get('login')?.toString()
       if (!login) return
-      chatController.addUserToChat(login, dialogId)
+      chatController.addUserToChat(login, chatId)
     }
 
     this.reset();

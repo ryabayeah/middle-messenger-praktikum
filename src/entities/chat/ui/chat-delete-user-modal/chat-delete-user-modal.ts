@@ -5,19 +5,19 @@ import { chatController } from '../../controller';
 import './chat-delete-user-modal.scss';
 
 interface ChatDeleteUserModalProps extends CompileOptions {
-  dialogId: number
+  chatId: number
   onClose: VoidFunction;
   onApply: () => void;
 }
 
 export class ChatDeleteUserModal extends Modal {
-  constructor({ dialogId, onClose, onApply }: ChatDeleteUserModalProps) {
+  constructor({ chatId, onClose, onApply }: ChatDeleteUserModalProps) {
     const saveButton = new Button({
       text: 'Удалить',
       variant: 'primary',
       class: 'w-full',
       type: 'button',
-      onClick: () => this.__handleApply(dialogId, onApply),
+      onClick: () => this.__handleApply(chatId, onApply),
     });
     const altButton = new Button({
       text: 'Отмена',

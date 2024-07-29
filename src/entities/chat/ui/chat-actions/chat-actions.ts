@@ -3,65 +3,100 @@ import template from './chat-actions.hbs?raw';
 import { Block } from '../../../../shared/lib';
 import { Button } from '../../../../shared/ui';
 import { DIALOG_ICONS } from '../../lib/constants';
-import { chatController } from '../../controller';
 import { ChatDeleteUserModal } from '../chat-delete-user-modal';
 import { ChatDeleteModal } from '../chat-delete-modal';
+import { ChatAddUserModal } from '../chat-add-user-modal';
 
 interface ChatActionsProps extends CompileOptions {
-  chatId: number
-  onUserAdd: (e: Event) => void;
-  onUserDelete: (e: Event) => void;
+  chatId: number;
 }
 
 // TODO: Сделать общим компонентом с DialogAttachments
 export class ChatActions extends Block {
-  constructor({ chatId, onUserAdd, onUserDelete }: ChatActionsProps) {
+  constructor({ chatId }: ChatActionsProps) {
     const buttonAddUser = new Button({
       text: 'Добавить пользователя',
       variant: 'secondary',
       icon: DIALOG_ICONS.ADD,
-      onClick: onUserAdd,
+      onClick: () => this.__openAddUser(),
     });
     const buttonDeleteUser = new Button({
       text: 'Удалить пользователя',
       variant: 'secondary',
       icon: DIALOG_ICONS.DELETE,
-      onClick: onUserDelete,
+      onClick: () => this.__openDeleteUser(),
     });
     const buttonDeleteDialog = new Button({
       text: 'Удалить диалог',
       variant: 'secondary',
       icon: DIALOG_ICONS.DELETE,
-      onClick: ()=>this.__openDeleteDialog(),
+      onClick: () => this.__openDelete(),
     });
 
     const deleteChatModal = new ChatDeleteModal({
       chatId,
-      onApply: () => this.__closeDeleteDialog(),
-      onClose: () => this.__closeDeleteDialog(),
+      onApply: () => this.__closeDelete(),
+      onClose: () => this.__closeDelete(),
     });
     deleteChatModal.hide();
-  
+
+    const addUserModal = new ChatAddUserModal({
+      chatId,
+      onApply: () => this.__closeAddUser(),
+      onClose: () => this.__closeAddUser(),
+    });
+    addUserModal.hide();
+
+    const deleteUserModal = new ChatDeleteUserModal({
+      chatId,
+      onApply: () => this.__closeDeleteUser(),
+      onClose: () => this.__closeDeleteUser(),
+    });
+    deleteUserModal.hide();
+
     super({
       buttonAddUser,
       buttonDeleteUser,
       buttonDeleteDialog,
 
       deleteChatModal,
+      addUserModal,
+      deleteUserModal,
     });
   }
 
-  
-  private __openDeleteDialog() {
-    const deleteChatModal = this.children
-      .deleteChatModal as ChatDeleteUserModal;
-      deleteChatModal.show();
+  private __openAddUser() {
+    const addUserModal = this.children.addUserModal as ChatAddUserModal;
+    addUserModal.show();
   }
 
-  private __closeDeleteDialog() {
+  private __closeAddUser() {
+    const addUserModal = this.children.addUserModal as ChatAddUserModal;
+    addUserModal.hide();
+  }
+
+  private __closeDeleteUser() {
+    const deleteUserModal = this.children
+      .deleteUserModal as ChatDeleteUserModal;
+    deleteUserModal.hide();
+  }
+
+  private __openDeleteUser() {
+    const deleteUserModal = this.children
+      .deleteUserModal as ChatDeleteUserModal;
+    deleteUserModal.show();
+  }
+
+  private __openDelete() {
     const deleteChatModal = this.children
       .deleteChatModal as ChatDeleteUserModal;
-      deleteChatModal.hide();
+    deleteChatModal.show();
+  }
+
+  private __closeDelete() {
+    const deleteChatModal = this.children
+      .deleteChatModal as ChatDeleteUserModal;
+    deleteChatModal.hide();
   }
 
   toggleVisibility() {

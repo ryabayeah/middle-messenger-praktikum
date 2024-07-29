@@ -1,13 +1,6 @@
 import { chatController } from '../../entities/chat/controller';
-import {
-  DIALOG_MESSAGE,
-  Dialog,
-} from '../../entities/chat/lib';
-import {
-  Chat,
-  ChatErrorLayout,
-  ChatList,
-} from '../../entities/chat/ui';
+import { Dialog } from '../../entities/chat/lib';
+import { Chat, ChatList } from '../../entities/chat/ui';
 import { withStore } from '../../shared/hoc';
 import { Block } from '../../shared/lib';
 import template from './chats-layout.hbs?raw';
@@ -27,21 +20,15 @@ const withSelectedDialog = withStore((state) => {
 });
 
 export class ChatsLayout extends Block {
-  constructor({
-    dialogs,
-    selectedDialogId,
-    ...props
-  }: ChatsLayoutProps) {
-    const ChatListConnected = withDialogs(
-      ChatList as typeof Block,
-    );
+  constructor({ dialogs, selectedDialogId, ...props }: ChatsLayoutProps) {
+    const ChatListConnected = withDialogs(ChatList as typeof Block);
     const sidebar = new ChatListConnected({
       dialogs: [],
       onSelectDialog: (selectedDialog?: Dialog) =>
-        this.handleSelectDialog(selectedDialog),
+        chatController.selectChat(selectedDialog),
     });
-    const ChatConnected = withSelectedDialog(Chat as typeof Block);
 
+    const ChatConnected = withSelectedDialog(Chat as typeof Block);
     const body = new ChatConnected({});
 
     super({
@@ -53,25 +40,6 @@ export class ChatsLayout extends Block {
       sidebar,
       body,
     });
-  }
-
-  handleSelectDialog(selectedDialog?: Dialog) {
-    chatController.selectChat(selectedDialog);
-    // let body = new ChatErrorLayout({
-    //   message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
-    // });
-    // if (selectedDialog) {
-    //   chatController.connectToChat(selectedDialog?.id)
-
-    //   const ChatConnected = withSelectedDialog(Chat as typeof Block);
-    //   body = new ChatConnected({
-    //     id: selectedDialog.id,
-    //     title: selectedDialog.title,
-    //     avatar: selectedDialog.avatar,
-    //   });
-    // }
-
-    // this.setChildren({ body });
   }
 
   render() {

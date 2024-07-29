@@ -65,32 +65,13 @@ export class Chat extends Block {
       onClick: () => this.__handleDialogSettingsClick(),
     });
 
+    const noDialog = new ChatErrorLayout({
+      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
+    });
     const actions = new ChatActions({
       chatId: id,
-      onUserAdd: () => this.__handleAddUserClick(),
-      onUserDelete: () => this.__handleDeleteUserClick(),
     });
     actions.hide();
-
-    const addUserModal = new ChatAddUserModal({
-      dialogId: id,
-      onApply: () => this.__closeAddUser(),
-      onClose: () => this.__closeAddUser(),
-    });
-    addUserModal.hide();
-
-    const deleteUserModal = new ChatDeleteUserModal({
-      dialogId: id,
-      onApply: () => this.__closeDeleteUser(),
-      onClose: () => this.__closeDeleteUser(),
-    });
-    deleteUserModal.hide();
-
-    // const deleteDialogModal = new ChatDeleteModal({
-    //   onApply: () => this.__closeDeleteDialog(),
-    //   onClose: () => this.__closeDeleteDialog(),
-    // });
-    // deleteDialogModal.hide();
 
     // Body
     // let body;
@@ -122,11 +103,6 @@ export class Chat extends Block {
     //   });
     // }
 
-    
-    const noDialog = new ChatErrorLayout({
-      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
-    });
-
     super({
       id,
       title,
@@ -142,10 +118,7 @@ export class Chat extends Block {
       attachments,
       sendButton,
 
-      addUserModal,
-      deleteUserModal,
       noDialog,
-      // deleteDialogModal,
     });
   }
 
@@ -163,31 +136,6 @@ export class Chat extends Block {
     (this.children.actions as ChatActions).toggleVisibility();
   }
 
-  private __handleAddUserClick() {
-    const addUserModal = this.children.addUserModal as ChatAddUserModal;
-    addUserModal.show();
-  }
-
-  private __closeAddUser() {
-    const addUserModal = this.children.addUserModal as ChatAddUserModal;
-    addUserModal.hide();
-  }
-
-  private __closeDeleteUser() {
-    const deleteUserModal = this.children
-      .deleteUserModal as ChatDeleteUserModal;
-    deleteUserModal.hide();
-  }
-
-
-  private __handleDeleteUserClick() {
-    const deleteUserModal = this.children
-      .deleteUserModal as ChatDeleteUserModal;
-    deleteUserModal.show();
-  }
-
-
-
   private __handleAttachButtonClick() {
     (this.children.attachments as ChatActions).toggleVisibility();
   }
@@ -199,19 +147,19 @@ export class Chat extends Block {
     attachments.toggleVisibility();
   }
 
-  componentDidMount(oldProps: ChatProps): void {
-    this.setProps({noDialog:  Boolean(oldProps.id)}) 
+  componentDidMount(oldProps?: ChatProps): void {
+    this.setProps({ noDialog: Boolean(oldProps?.id || 0) });
   }
 
   componentDidUpdate(oldProps: ChatProps, newProps: ChatProps): boolean {
-    if (oldProps.id !== newProps.id){
-      this.setProps({noDialog:  Boolean(newProps.id)}) 
+    if (oldProps.id !== newProps.id) {
+      this.setProps({ noDialog: Boolean(newProps.id) });
     }
-    return true
+    return true;
   }
-  
+
   render() {
-console.log(this.props)
+    console.log(this.props);
     return this.compile(template, { ...this.props });
   }
 }
