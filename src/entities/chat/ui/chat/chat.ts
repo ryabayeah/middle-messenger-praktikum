@@ -3,11 +3,11 @@ import template from './chat.hbs?raw';
 import { Block } from '../../../../shared/lib';
 import { Avatar, Button, Input } from '../../../../shared/ui';
 import { DIALOG_ICONS } from '../../lib/constants';
-import { DialogActions } from '../dialog-actions';
-import { DialogAddUserModal } from '../dialog-add-user-modal';
-import { DialogDeleteUserModal } from '../dialog-delete-user-modal';
-import { DialogAttachments } from '../dialog-attachments';
-import { DialogDeleteDialogModal } from '../dialog-delete-dialog';
+import { ChatActions } from '../chat-actions';
+import { ChatAddUserModal } from '../chat-add-user-modal';
+import { ChatDeleteUserModal } from '../chat-delete-user-modal';
+import { ChatAddAttachment } from '../chat-add-attachment';
+import { ChatDeleteModal } from '../chat-delete-modal';
 import { messageController } from '../../controller';
 
 interface DialogProps extends CompileOptions {
@@ -23,7 +23,7 @@ export class Chat extends Block {
   constructor({ id=0, title='', avatar }: DialogProps) {
     // Header
     const dialogAvatar = new Avatar({
-      src: avatar,
+      srcPath: avatar,
       class: 'user-avatar',
     });
 
@@ -43,7 +43,7 @@ export class Chat extends Block {
       onClick: () => this.__handleAttachButtonClick(),
     });
 
-    const attachments = new DialogAttachments({
+    const attachments = new ChatAddAttachment({
       onAttach: (file: File) => this.__handleAttachFile(file),
     });
     attachments.hide();
@@ -64,27 +64,28 @@ export class Chat extends Block {
       onClick: () => this.__handleDialogSettingsClick(),
     });
 
-    const actions = new DialogActions({
+    const actions = new ChatActions({
       onUserAdd: () => this.__handleAddUserClick(),
       onUserDelete: () => this.__handleDeleteUserClick(),
       onDialogDelete: () => this.__handleDeleteDialogClick(),
     });
     actions.hide();
 
-    const addUserModal = new DialogAddUserModal({
+    const addUserModal = new ChatAddUserModal({
       dialogId: id,
       onApply: () => this.__closeAddUser(),
       onClose: () => this.__closeAddUser(),
     });
     addUserModal.hide();
 
-    const deleteUserModal = new DialogDeleteUserModal({
+    const deleteUserModal = new ChatDeleteUserModal({
+      dialogId: id,
       onApply: () => this.__closeDeleteUser(),
       onClose: () => this.__closeDeleteUser(),
     });
     deleteUserModal.hide();
 
-    const deleteDialogModal = new DialogDeleteDialogModal({
+    const deleteDialogModal = new ChatDeleteModal({
       onApply: () => this.__closeDeleteDialog(),
       onClose: () => this.__closeDeleteDialog(),
     });
@@ -152,51 +153,51 @@ export class Chat extends Block {
   }
 
   private __handleDialogSettingsClick() {
-    (this.children.actions as DialogActions).toggleVisibility();
+    (this.children.actions as ChatActions).toggleVisibility();
   }
 
   private __handleAddUserClick() {
-    const addUserModal = this.children.addUserModal as DialogAddUserModal;
+    const addUserModal = this.children.addUserModal as ChatAddUserModal;
     addUserModal.show();
   }
 
   private __closeAddUser() {
-    const addUserModal = this.children.addUserModal as DialogAddUserModal;
+    const addUserModal = this.children.addUserModal as ChatAddUserModal;
     addUserModal.hide();
   }
 
   private __closeDeleteUser() {
     const deleteUserModal = this.children
-      .deleteUserModal as DialogDeleteUserModal;
+      .deleteUserModal as ChatDeleteUserModal;
     deleteUserModal.hide();
   }
 
   private __closeDeleteDialog() {
     const deleteDialogModal = this.children
-      .deleteDialogModal as DialogDeleteUserModal;
+      .deleteDialogModal as ChatDeleteUserModal;
     deleteDialogModal.hide();
   }
 
   private __handleDeleteUserClick() {
     const deleteUserModal = this.children
-      .deleteUserModal as DialogDeleteUserModal;
+      .deleteUserModal as ChatDeleteUserModal;
     deleteUserModal.show();
   }
 
   private __handleDeleteDialogClick() {
     const deleteDialogModal = this.children
-      .deleteDialogModal as DialogDeleteUserModal;
+      .deleteDialogModal as ChatDeleteUserModal;
     deleteDialogModal.show();
   }
 
   private __handleAttachButtonClick() {
-    (this.children.attachments as DialogActions).toggleVisibility();
+    (this.children.attachments as ChatActions).toggleVisibility();
   }
 
   private __handleAttachFile(file: File) {
     console.log('SEND_ATTACHMENT: ', file.name, '---');
     // TODO: Отправка файла в диалог
-    const attachments = this.children.attachments as DialogActions;
+    const attachments = this.children.attachments as ChatActions;
     attachments.toggleVisibility();
   }
 

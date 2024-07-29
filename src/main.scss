@@ -2,18 +2,6 @@
 @import './app/assets/styles/base';
 @import './app/assets/styles/scroll';
 
-@import './pages/temp-nav/temp-nav';
-
-@import './shared/ui/modal/modal';
-
-@import './entities/chat/ui/dialog-card/dialog-card';
-@import './entities/auth/ui/form-auth/form-auth';
-@import './entities/user/ui/user-profile-form/user-profile-form';
-
-@import './layouts/auth-layout/auth-layout';
-@import './layouts/error-layout/error-layout';
-@import './layouts/profile-layout/profile-layout';
-
 :root {
   @include colors;
   @include text;

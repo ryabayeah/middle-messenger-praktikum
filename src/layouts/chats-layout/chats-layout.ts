@@ -5,8 +5,8 @@ import {
 } from '../../entities/chat/lib';
 import {
   Chat,
-  DialogNoLayout,
-  DialogsListSidebar,
+  ChatErrorLayout,
+  ChatList,
 } from '../../entities/chat/ui';
 import { withStore } from '../../shared/hoc';
 import { Block } from '../../shared/lib';
@@ -32,16 +32,16 @@ export class ChatsLayout extends Block {
     selectedDialogId,
     ...props
   }: ChatsLayoutProps) {
-    const DialogsListSidebarConnected = withDialogs(
-      DialogsListSidebar as typeof Block,
+    const ChatListConnected = withDialogs(
+      ChatList as typeof Block,
     );
-    const sidebar = new DialogsListSidebarConnected({
+    const sidebar = new ChatListConnected({
       dialogs: [],
       onSelectDialog: (selectedDialog?: Dialog) =>
         this.handleSelectDialog(selectedDialog),
     });
 
-    const body = new DialogNoLayout({
+    const body = new ChatErrorLayout({
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
 
@@ -58,7 +58,7 @@ export class ChatsLayout extends Block {
 
   handleSelectDialog(selectedDialog?: Dialog) {
     chatController.selectChat(selectedDialog);
-    let body = new DialogNoLayout({
+    let body = new ChatErrorLayout({
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
     if (selectedDialog) {
@@ -75,7 +75,7 @@ export class ChatsLayout extends Block {
     this.setChildren({ body });
   }
   renderNoDataMessage() {
-    return new DialogNoLayout({
+    return new ChatErrorLayout({
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
   }

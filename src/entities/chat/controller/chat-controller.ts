@@ -5,7 +5,6 @@ import { userController } from '../../user/controller';
 import { chatApi } from '../api';
 import { Dialog } from '../lib';
 import { GetChatsParams } from '../model/api';
-import { messageController } from './messages-controller';
 
 export class ChatController {
   async getChats(body?: GetChatsParams) {
@@ -15,9 +14,7 @@ export class ChatController {
         store.set('dialogs', dialogs as Dialog[]);
       })
       .catch((error: ApiError) => {
-        // if (error.reason === 'User already in system') {
-        //   router.go(APP_PATH.CHATS);
-        // }
+        throw new Error(error.reason)
       });
   }
   async createChat(title: string) {
@@ -27,9 +24,7 @@ export class ChatController {
         this.getChats()
       })
       .catch((error: ApiError) => {
-        // if (error.reason === 'User already in system') {
-        //   router.go(APP_PATH.CHATS);
-        // }
+        throw new Error(error.reason)
       });
   }
   async getChatUsers(title: string) {
@@ -39,9 +34,7 @@ export class ChatController {
         this.getChats()
       })
       .catch((error: ApiError) => {
-        // if (error.reason === 'User already in system') {
-        //   router.go(APP_PATH.CHATS);
-        // }
+        throw new Error(error.reason)
       });
   }
 
