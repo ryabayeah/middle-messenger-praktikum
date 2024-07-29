@@ -1,19 +1,21 @@
 import { Button, FormInput, Modal } from '../../../../shared/ui';
+import { chatController } from '../../controller';
 import './chat-delete-modal.scss';
 
 interface ChatDeleteModalProps extends CompileOptions {
+  chatId: number
   onClose: VoidFunction;
   onApply: () => void;
 }
 
 export class ChatDeleteModal extends Modal {
-  constructor({ onClose, onApply }: ChatDeleteModalProps) {
+  constructor({ chatId, onClose, onApply }: ChatDeleteModalProps) {
     const saveButton = new Button({
       text: 'Удалить',
       variant: 'primary',
       class: 'w-full',
       type: 'button',
-      onClick: () => this.__handleApply(onApply),
+      onClick: () => this.__handleApply(chatId, onApply),
     });
     const altButton = new Button({
       text: 'Отмена',
@@ -36,8 +38,11 @@ export class ChatDeleteModal extends Modal {
     input.setProps({ value: '', isInvalid: false });
   }
 
-  private __handleApply(callback: VoidFunction) {
-    callback();
+  private __handleApply(id: number, callback: VoidFunction) {
+    chatController.deleteChat(id).then(() => {
+      chatController.selectChat();
+      callback();
+    });
   }
 
   private __handleClose(callback: VoidFunction) {

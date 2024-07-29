@@ -19,7 +19,6 @@ export class Avatar extends Block {
     ...props
   }: AvatarProps) {
     let src = DEFAULT_AVATAR_SRC
-    console.log(srcPath, "--")
     if (srcPath){
       src = `${RESOURCES_URL}${srcPath}`
     }

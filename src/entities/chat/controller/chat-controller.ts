@@ -27,6 +27,16 @@ export class ChatController {
         throw new Error(error.reason)
       });
   }
+  async deleteChat(id: number) {
+    return await chatApi
+      .deleteChat(id)
+      .then(() => {
+        this.getChats()
+      })
+      .catch((error: ApiError) => {
+        throw new Error(error.reason)
+      });
+  }
   async getChatUsers(title: string) {
     await chatApi
       .createChat(title)
@@ -76,7 +86,7 @@ export class ChatController {
 
   
   selectChat(dialog?: Dialog){
-    store.set('selectedDialog', JSON.parse(JSON.stringify(dialog)));
+    store.set('selectedDialog', dialog? JSON.parse(JSON.stringify(dialog)): undefined);
   }
 }
 

@@ -2,15 +2,16 @@ import './chat.scss';
 import template from './chat.hbs?raw';
 import { Block } from '../../../../shared/lib';
 import { Avatar, Button, Input } from '../../../../shared/ui';
-import { DIALOG_ICONS } from '../../lib/constants';
+import { DIALOG_ICONS, DIALOG_MESSAGE } from '../../lib/constants';
 import { ChatActions } from '../chat-actions';
 import { ChatAddUserModal } from '../chat-add-user-modal';
 import { ChatDeleteUserModal } from '../chat-delete-user-modal';
 import { ChatAddAttachment } from '../chat-add-attachment';
 import { ChatDeleteModal } from '../chat-delete-modal';
 import { messageController } from '../../controller';
+import { ChatErrorLayout } from '../chat-error-layout';
 
-interface DialogProps extends CompileOptions {
+interface ChatProps extends CompileOptions {
   id?: number;
   title?: string;
   avatar?: string;
@@ -20,7 +21,7 @@ interface DialogProps extends CompileOptions {
 }
 
 export class Chat extends Block {
-  constructor({ id=0, title='', avatar }: DialogProps) {
+  constructor({ id = 0, title = '', avatar }: ChatProps) {
     // Header
     const dialogAvatar = new Avatar({
       srcPath: avatar,
@@ -65,9 +66,9 @@ export class Chat extends Block {
     });
 
     const actions = new ChatActions({
+      chatId: id,
       onUserAdd: () => this.__handleAddUserClick(),
       onUserDelete: () => this.__handleDeleteUserClick(),
-      onDialogDelete: () => this.__handleDeleteDialogClick(),
     });
     actions.hide();
 
@@ -85,11 +86,11 @@ export class Chat extends Block {
     });
     deleteUserModal.hide();
 
-    const deleteDialogModal = new ChatDeleteModal({
-      onApply: () => this.__closeDeleteDialog(),
-      onClose: () => this.__closeDeleteDialog(),
-    });
-    deleteDialogModal.hide();
+    // const deleteDialogModal = new ChatDeleteModal({
+    //   onApply: () => this.__closeDeleteDialog(),
+    //   onClose: () => this.__closeDeleteDialog(),
+    // });
+    // deleteDialogModal.hide();
 
     // Body
     // let body;
@@ -121,6 +122,11 @@ export class Chat extends Block {
     //   });
     // }
 
+    
+    const noDialog = new ChatErrorLayout({
+      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
+    });
+
     super({
       id,
       title,
@@ -138,7 +144,8 @@ export class Chat extends Block {
 
       addUserModal,
       deleteUserModal,
-      deleteDialogModal,
+      noDialog,
+      // deleteDialogModal,
     });
   }
 
@@ -148,8 +155,8 @@ export class Chat extends Block {
   }
 
   private __handleSendMessage() {
-    const {currentInputMessage} = this.props  as DialogProps
-    messageController.sendMessage(currentInputMessage || '')
+    const { currentInputMessage } = this.props as ChatProps;
+    messageController.sendMessage(currentInputMessage || '');
   }
 
   private __handleDialogSettingsClick() {
@@ -172,11 +179,6 @@ export class Chat extends Block {
     deleteUserModal.hide();
   }
 
-  private __closeDeleteDialog() {
-    const deleteDialogModal = this.children
-      .deleteDialogModal as ChatDeleteUserModal;
-    deleteDialogModal.hide();
-  }
 
   private __handleDeleteUserClick() {
     const deleteUserModal = this.children
@@ -184,11 +186,7 @@ export class Chat extends Block {
     deleteUserModal.show();
   }
 
-  private __handleDeleteDialogClick() {
-    const deleteDialogModal = this.children
-      .deleteDialogModal as ChatDeleteUserModal;
-    deleteDialogModal.show();
-  }
+
 
   private __handleAttachButtonClick() {
     (this.children.attachments as ChatActions).toggleVisibility();
@@ -201,7 +199,19 @@ export class Chat extends Block {
     attachments.toggleVisibility();
   }
 
+  componentDidMount(oldProps: ChatProps): void {
+    this.setProps({noDialog:  Boolean(oldProps.id)}) 
+  }
+
+  componentDidUpdate(oldProps: ChatProps, newProps: ChatProps): boolean {
+    if (oldProps.id !== newProps.id){
+      this.setProps({noDialog:  Boolean(newProps.id)}) 
+    }
+    return true
+  }
+  
   render() {
+console.log(this.props)
     return this.compile(template, { ...this.props });
   }
 }

@@ -213,7 +213,6 @@ export class UserProfileForm extends Block {
   }
 
   render() {
-    console.log(this.props.isLoadingUser)
     return this.compile(template, { ...this.props });
   }
 }

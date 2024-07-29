@@ -15,7 +15,6 @@ export class Socket {
     this._token = token;
     this.socket = this._createConnection();
 
-    console.log(this._userId)
     this._start();
   }
 

@@ -6,6 +6,6 @@ export class ChatsPage extends ChatsLayout {
     this. uploadChats();
   }
   async uploadChats() {
-    await chatController.getChats();
+    await chatController.getChats({limit: 10, offset: 0});
   }
 }

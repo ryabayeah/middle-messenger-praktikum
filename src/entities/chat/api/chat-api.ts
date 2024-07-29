@@ -41,6 +41,9 @@ class ChatAPI extends BaseAPI {
   async createChat(title: string) {
     return yandexApi.post(CHAT_API_PATH.CHATS, { data: { title } });
   }
+  async deleteChat(chatId : number) {
+    return yandexApi.delete(CHAT_API_PATH.CHATS, { data: { chatId  } });
+  }
   async getChatToken(id: number) {
     return yandexApi.post(`${CHAT_API_PATH.TOKEN}${id}`);
   }

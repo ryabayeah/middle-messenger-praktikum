@@ -40,10 +40,9 @@ export class ChatsLayout extends Block {
       onSelectDialog: (selectedDialog?: Dialog) =>
         this.handleSelectDialog(selectedDialog),
     });
+    const ChatConnected = withSelectedDialog(Chat as typeof Block);
 
-    const body = new ChatErrorLayout({
-      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
-    });
+    const body = new ChatConnected({});
 
     super({
       ...props,
@@ -58,26 +57,21 @@ export class ChatsLayout extends Block {
 
   handleSelectDialog(selectedDialog?: Dialog) {
     chatController.selectChat(selectedDialog);
-    let body = new ChatErrorLayout({
-      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
-    });
-    if (selectedDialog) {
-      chatController.connectToChat(selectedDialog?.id)
+    // let body = new ChatErrorLayout({
+    //   message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
+    // });
+    // if (selectedDialog) {
+    //   chatController.connectToChat(selectedDialog?.id)
 
-      const ChatConnected = withSelectedDialog(Chat as typeof Block);
-      body = new ChatConnected({
-        id: selectedDialog.id,
-        title: selectedDialog.title,
-        avatar: selectedDialog.avatar,
-      });
-    }
+    //   const ChatConnected = withSelectedDialog(Chat as typeof Block);
+    //   body = new ChatConnected({
+    //     id: selectedDialog.id,
+    //     title: selectedDialog.title,
+    //     avatar: selectedDialog.avatar,
+    //   });
+    // }
 
-    this.setChildren({ body });
-  }
-  renderNoDataMessage() {
-    return new ChatErrorLayout({
-      message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
-    });
+    // this.setChildren({ body });
   }
 
   render() {

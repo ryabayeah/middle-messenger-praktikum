@@ -129,7 +129,6 @@ export class ChatList extends Block {
           
           const date = new Date(last_message.time)
           const currentDate = new Date()
-          console.log(date.getDate(), currentDate.getDate())
           if (date.getTime() === currentDate.getTime()){
               lastMessageTime = `${date.getHours()}:${date.getMinutes() < 10? `0${date.getMinutes()}` : date.getMinutes()}`
           }
