@@ -18,6 +18,30 @@ export const getWeekDayName = (date: Date):string => {
     return SHORT_WEEK_NAMES[day]
 }
 
+export const getMonthName = (date: Date):string => {
+    const month = date.getMonth()
+    const MONTHS_NAMES: Record<number, string> = {
+        0: 'Январь',
+        1: 'Февраль',
+        2: 'Март',
+        3: 'Апрель',
+        4: 'Май',
+        5: 'Июнь',
+        6: 'Июль',
+        7: 'Август',
+        8: 'Сентябрь',
+        9: 'Октябрь',
+        10: 'Ноябрь',
+        11: 'Декабрь',
+    }
+    return MONTHS_NAMES[month]
+}
+
+export const getDayMonth = (date: Date):string => {
+    const day = date.getDate()
+    return `${day} ${getMonthName(date)}`
+}
+
 export const isDatesEqual = (dateOne: Date, dateTwo: Date, includeTime?: boolean):boolean => {
     if (includeTime){
         return dateOne.getTime() === dateTwo.getTime()

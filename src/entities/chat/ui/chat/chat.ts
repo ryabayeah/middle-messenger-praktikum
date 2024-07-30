@@ -1,15 +1,18 @@
 import './chat.scss';
 import template from './chat.hbs?raw';
-import { Block } from '../../../../shared/lib';
+import { Block, store } from '../../../../shared/lib';
 import { Avatar, Button, Input } from '../../../../shared/ui';
 import { DIALOG_ICONS, DIALOG_MESSAGE } from '../../lib/constants';
 import { ChatActions } from '../chat-actions';
-import { ChatAddUserModal } from '../chat-add-user-modal';
-import { ChatDeleteUserModal } from '../chat-delete-user-modal';
 import { ChatAddAttachment } from '../chat-add-attachment';
-import { ChatDeleteModal } from '../chat-delete-modal';
 import { messageController } from '../../controller';
 import { ChatErrorLayout } from '../chat-error-layout';
+import { Message } from '../../lib';
+import { isEqual } from '../../../../shared/utils';
+import { MessageBubble } from '../message-bubble';
+import { userController } from '../../../user/controller';
+import { MessagesGroup } from '../messages-group';
+import { getDayMonth, getMessageTime, isDatesEqual } from '../../lib/utils';
 
 interface ChatProps extends CompileOptions {
   id?: number;
@@ -18,10 +21,11 @@ interface ChatProps extends CompileOptions {
   // messages?: ChatDialogMessage[];
   // В телеге есть интересный функционал, когда пишешь с мобилки и набираемый текст отображается в любом клиенте телеграма
   currentInputMessage?: string;
+  messages?: Message[];
 }
 
 export class Chat extends Block {
-  constructor({ id = 0, title = '', avatar }: ChatProps) {
+  constructor({ id = 0, title = '', avatar, messages }: ChatProps) {
     // Header
     const dialogAvatar = new Avatar({
       srcPath: avatar,
@@ -122,6 +126,21 @@ export class Chat extends Block {
     });
   }
 
+  componentDidMount(oldProps?: ChatProps): void {
+    this.setProps({ noDialog: Boolean(oldProps?.id || 0) });
+  }
+
+  componentDidUpdate(oldProps: ChatProps, newProps: ChatProps): boolean {
+    if (
+      JSON.stringify(oldProps.messages) !== JSON.stringify(newProps.messages)
+    ) {
+      this.setChildren({
+        body: this.renderMessagesBlock(newProps.messages || []),
+      });
+    }
+    return true;
+  }
+
   private __handleChangeMessageInput(e: Event) {
     const target = e.target as HTMLInputElement;
     this.setProps({ currentInputMessage: target.value });
@@ -147,19 +166,53 @@ export class Chat extends Block {
     attachments.toggleVisibility();
   }
 
-  componentDidMount(oldProps?: ChatProps): void {
-    this.setProps({ noDialog: Boolean(oldProps?.id || 0) });
-  }
+  renderMessagesBlock(messages: Message[]) {
+    const currUser = store.getState().user;
+    const messagesByDate: Record<string, MessageBubble[]> = {}
 
-  componentDidUpdate(oldProps: ChatProps, newProps: ChatProps): boolean {
-    if (oldProps.id !== newProps.id) {
-      this.setProps({ noDialog: Boolean(newProps.id) });
-    }
-    return true;
-  }
+    messages.forEach(({ id, type, content, time, is_read, user_id })=>{
+      const messageDate = new Date(time)
+      const key = getDayMonth(messageDate)
+      const messageComponent = new MessageBubble({
+        id,
+        content,
+        time: getMessageTime(time),
+        type,
+        // attachment: attachment,
+        isRead: is_read,
+        isOuter: currUser ? currUser.id !== user_id : false,
+      });
+      if (Object.keys(messagesByDate).includes(key)){
+        messagesByDate[key].push(messageComponent)
+      } else {
+        messagesByDate[key] = [messageComponent]
+      }
+    })
 
+    
+    // console.log(messagesByDate, "---")
+    // const renderMessages = messages.map(
+    //   ({ id, type, content, time, is_read, user_id }) => {
+    //     return new MessageBubble({
+    //       id,
+    //       content,
+    //       time: getMessageTime(time),
+    //       type,
+    //       // attachment: attachment,
+    //       isRead: is_read,
+    //       isOuter: currUser ? currUser.id !== user_id : false,
+    //     });
+    //   },
+    // );
+    // // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
+    return Object.keys(messagesByDate).map((day)=>{
+      return new MessagesGroup({
+        date: day,
+        messages: messagesByDate[day],
+      })
+    });
+  }
   render() {
-    console.log(this.props);
     return this.compile(template, { ...this.props });
   }
 }

@@ -1,4 +1,4 @@
-import { Dialog } from '../../entities/chat/lib';
+import { Dialog, Message } from '../../entities/chat/lib';
 import { User } from '../../entities/user/model';
 import { Socket } from '../lib';
 
@@ -11,10 +11,9 @@ export type AppStore = {
 
   dialogs?: Dialog[]
   selectedDialog?: Dialog
-  selectedDialogMessages?: []
+  messages?: Message[]
   lastDialogMessage?: []
   dialogSocket?: Socket
-
 
   isLoading: {
     isLoadingUser?: boolean

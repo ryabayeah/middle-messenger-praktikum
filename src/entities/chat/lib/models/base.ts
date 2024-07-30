@@ -21,7 +21,7 @@ export type Dialog =  {
   title: string;
   avatar: string;
   unread_count: number;
-  last_message: Message | null;
+  last_message: LastMessage | null;
   created_by: number;
 }
 
@@ -34,15 +34,25 @@ export type ChatDialogShort = {
   avatar: string;
   unread_count: number;
   // created_by: number;
-  last_message: Message | null;
+  last_message: LastMessage | null;
 };
 
-export type Message = {
+export type LastMessage = {
   user: User;
   time: string;
   content: string;
 };
 
+export type Message = {
+  chat_id:  number
+  content:  string 
+  file: string
+  id: number
+  is_read: boolean 
+  time: string
+  type: "message"
+  user_id: number
+}
 
 type User = {
   id: number;
@@ -61,5 +71,5 @@ export type Chat = {
   avatar: string;
   unread_count: number;
   created_by: number;
-  last_message: Message | null;
+  last_message: LastMessage | null;
 };

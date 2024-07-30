@@ -119,7 +119,7 @@ export class ChatList extends Block {
       return new NoChatsMessage();
     }
 
-    return ([...dialogs] || []).map(
+    return dialogs.map(
       (dialog) =>{
         const {id, avatar, title, last_message, unread_count} = dialog
         let isLastMe, lastMessageTime;

@@ -3,8 +3,9 @@ import { Socket } from '../../../shared/lib';
 import { store } from '../../../shared/lib/store';
 import { userController } from '../../user/controller';
 import { chatApi } from '../api';
-import { Dialog } from '../lib';
+import { Dialog, Message } from '../lib';
 import { GetChatsParams } from '../model/api';
+import { messageController } from './messages-controller';
 
 export class ChatController {
   async getChats(body?: GetChatsParams) {
@@ -56,8 +57,17 @@ export class ChatController {
         const { token }  = resp as {token: string}
         if (token){
           const socket = new Socket({chatId, token: token.toString()})
+          socket.open(()=>{
+            socket.getMessages()
+            setInterval(() => {
+              socket.pingPong();
+          }, 5000);
+          })
+          socket.message((event)=>{
+            const messages: Message[] = JSON.parse(event.data)
+            messageController.setMessages(messages)
+          })
           store.set('dialogSocket', socket)
-          // store.set('selectedDialogMessages', messageController.getOldMessages())
         }
       })
       .catch(() => {

@@ -1,4 +1,3 @@
-import { ApiError } from '../../../../shared/api';
 import { APP_PATH } from '../../../../shared/constants';
 import { router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
@@ -9,7 +8,6 @@ import {
   getPasswordRepeatedValidator,
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
-import { authApi, userApi } from '../../api';
 import { authController } from '../../controller';
 import {
   SIGN_UP_FORM_FIELDS,
@@ -73,16 +71,6 @@ export class UserSignUpForm extends FormAuth {
     });
   }
 
-  getCurrentUserData = async () => {
-    await authApi
-      .getCurrentUser()
-      .then((respp) => console.log('get-me-respp:', respp))
-      .catch((err: { reason: string }) => console.log('get-me:', err));
-  };
-
-  componentDidMount(_oldProps?: unknown[]): void {
-    this.getCurrentUserData();
-  }
   private async __handleSubmit(e: Event) {
     const result: SignUpData = {
       first_name: '',

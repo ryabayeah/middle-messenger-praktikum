@@ -16,7 +16,7 @@ const withDialogs = withStore((state) => {
   return { dialogs: [...(state.dialogs || [])] };
 });
 const withSelectedDialog = withStore((state) => {
-  return { ...state.selectedDialog };
+  return { ...state.selectedDialog, messages: state.messages };
 });
 
 export class ChatsLayout extends Block {
@@ -25,7 +25,12 @@ export class ChatsLayout extends Block {
     const sidebar = new ChatListConnected({
       dialogs: [],
       onSelectDialog: (selectedDialog?: Dialog) =>
-        chatController.selectChat(selectedDialog),
+        {
+          if (selectedDialog){
+            chatController.connectToChat(selectedDialog.id)
+          }
+          chatController.selectChat(selectedDialog)
+        },
     });
 
     const ChatConnected = withSelectedDialog(Chat as typeof Block);

@@ -1,4 +1,5 @@
 import { store } from '../../../shared/lib/store';
+import { Message } from '../lib';
 import { chatController } from './chat-controller';
 
 export class MessageController {
@@ -9,13 +10,13 @@ export class MessageController {
     }
     state.dialogSocket?.sendMessage(content)
   }
-  async setMessages(data: Record<string, unknown> | Record<string, unknown>[]) {
+  async setMessages(data: Message[] | Message) {
     const state = store.getState()
     if (Array.isArray(data)) {
-      store.set('selectedDialogMessages', data.reverse());
+      store.set('messages', data.reverse());
     } else {
       if (data.type === 'message') {
-        store.set('selectedDialogMessages', [...state.selectedDialogMessages || [], data]);
+        store.set('messages', [...state.messages || [], data]);
 
         if (data.user_id === state.user?.id) {
           return;
@@ -29,9 +30,6 @@ export class MessageController {
   getMessages(): void {
     // if (this._allMessage) {
     //     return;
-    // }
-    // if (this._offset) {
-    //     Store.set('isLoadingOldMsg', true);
     // }
 
     store.getState().dialogSocket?.getMessages(0)
