@@ -1,6 +1,7 @@
 import { Block } from '../../shared/lib';
 import { Button } from '../../shared/ui/button';
 import template from './profile-layout.hbs?raw';
+import './profile-layout.scss';
 
 interface ProfileLayoutProps extends CompileOptions {
   backPath: string;

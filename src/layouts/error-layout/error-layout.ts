@@ -1,6 +1,7 @@
 import { Block } from '../../shared/lib';
 import { Button } from '../../shared/ui';
 import template from './error-layout.hbs?raw';
+import './error-layout.scss';
 
 interface ErrorLayoutProps extends CompileOptions {
   code: string;

@@ -189,22 +189,6 @@ export class Chat extends Block {
       }
     })
 
-    
-    // console.log(messagesByDate, "---")
-    // const renderMessages = messages.map(
-    //   ({ id, type, content, time, is_read, user_id }) => {
-    //     return new MessageBubble({
-    //       id,
-    //       content,
-    //       time: getMessageTime(time),
-    //       type,
-    //       // attachment: attachment,
-    //       isRead: is_read,
-    //       isOuter: currUser ? currUser.id !== user_id : false,
-    //     });
-    //   },
-    // );
-    // // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
     return Object.keys(messagesByDate).map((day)=>{
       return new MessagesGroup({
         date: day,

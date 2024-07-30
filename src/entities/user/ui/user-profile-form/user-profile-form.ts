@@ -8,11 +8,12 @@ import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
 import { User } from '../../model';
 import { UserAvatarModal } from '../user-avatar-modal';
 import template from './user-profile-form.hbs?raw';
+import './user-profile-form.scss';
 
 interface UserProfileFormProps extends CompileOptions {
   isEditable?: boolean;
   user?: User;
-  isLoadingUser?: boolean
+  isLoadingUser?: boolean;
 }
 
 // TODO: Подумать над уровнями доступа методов
@@ -26,7 +27,7 @@ interface InternalUserProfileFormProps extends UserProfileFormProps {
 }
 
 export class UserProfileForm extends Block {
-  constructor({ user, isLoadingUser=false, ...props }: UserProfileFormProps) {
+  constructor({ user, isLoadingUser = false, ...props }: UserProfileFormProps) {
     const refs: Ref = {
       [PROFILE_FIELDS_NAME.EMAIL]: null,
       [PROFILE_FIELDS_NAME.LOGIN]: null,
@@ -107,7 +108,7 @@ export class UserProfileForm extends Block {
       class: 'p-0',
 
       onClick: () => {
-        authController.logout()
+        authController.logout();
       },
     });
 
@@ -161,7 +162,8 @@ export class UserProfileForm extends Block {
   }
 
   private __handleAvatarClick() {
-    const userAvatarModalChild = this.children.userAvatarModal as UserAvatarModal;
+    const userAvatarModalChild = this.children
+      .userAvatarModal as UserAvatarModal;
     userAvatarModalChild.show();
   }
 
