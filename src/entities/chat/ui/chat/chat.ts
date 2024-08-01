@@ -17,6 +17,10 @@ import { MessagesList } from './messages-list';
 
 interface ChatProps extends CompileOptions {
   selectedDialog?: Dialog;
+  id?: number
+  title?: string
+  avatar?: string
+
   currentInputMessage?: string;
   isLoadingOldMsg?: boolean;
 }
@@ -29,13 +33,13 @@ const withMessages = withStore(
 
 export class Chat extends Block {
   constructor({
-    // id = 0, title = '', avatar
-    selectedDialog,
+    id = 0, title = '', avatar
+    // selectedDialog,
   }: ChatProps) {
     // Header
     const dialogAvatar = new Avatar({
-      // srcPath: avatar,
-      srcPath: selectedDialog?.avatar,
+      srcPath: avatar,
+      // srcPath: selectedDialog?.avatar,
       class: 'user-avatar',
     });
 
@@ -80,7 +84,7 @@ export class Chat extends Block {
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
     const actions = new ChatActions({
-      chatId: selectedDialog?.id || 0,
+      chatId: id
     });
     actions.hide();
 
@@ -90,7 +94,9 @@ export class Chat extends Block {
     });
 
     super({
-      selectedDialog,
+      // selectedDialog,
+      id,
+      title,
       avatar: dialogAvatar,
       actionsButton,
       actions,

@@ -37,6 +37,7 @@ export class UserController {
         throw new Error(error.reason);
       });
   }
+  // TODO: Как разрешат, то добавить md5 для хэша
   async updatePassword(data: UpdateUserPasswordData) {
     return await userApi
       .updateUserPassword(data)

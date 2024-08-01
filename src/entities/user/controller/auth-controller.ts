@@ -5,6 +5,7 @@ import { authApi } from '../api';
 import { SignInData, SignUpData, User } from '../model';
 
 export class AuthController {
+  // TODO: Как разрешат, то добавить md5 для хэша пароля
   async signIn(data: SignInData) {
     await authApi
       .signin(data)
@@ -40,6 +41,7 @@ export class AuthController {
       });
   }
 
+  // TODO: Как разрешат, то добавить md5 для хэша пароля
   async signUp(data: SignUpData) {
     await authApi
       .signup(data)

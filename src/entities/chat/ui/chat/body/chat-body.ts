@@ -12,20 +12,19 @@ export class ChatBody extends Block {
     super({
       ...props,
       events: {
-        scroll: () => {
-          const node = this.getContent();
-          const blockHeight = node.clientHeight;
-          const scrollPositionY = node.scrollHeight + node.scrollTop - 20;
-          if (blockHeight > scrollPositionY) {
-            messageController.getMessages();
-          }
-
-          console.log(blockHeight > scrollPositionY);
-        },
+        scroll: () => this.handleScroll(),
       },
     });
   }
 
+  handleScroll() {
+    const node = this.getContent();
+    const blockHeight = node.clientHeight;
+    const scrollPositionY = node.scrollHeight + node.scrollTop - 20;
+    if (blockHeight > scrollPositionY) {
+      messageController.getMessages();
+    }
+  }
   render() {
     return this.compile(template, { ...this.props });
   }

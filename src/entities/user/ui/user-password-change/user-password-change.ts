@@ -114,7 +114,6 @@ export class UserPasswordChange extends Block {
         router.go(APP_PATH.PROFILE)
       })
     }
-    console.log('PASSWORD_CHANGE_FORM: ', result);
   }
 
   render() {

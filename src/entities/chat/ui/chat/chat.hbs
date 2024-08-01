@@ -1,5 +1,5 @@
 <section class="chat-body {{#if isLoadingOldMsg}}loader{{/if}}">
-  {{#if selectedDialog}}
+  {{#if id}}
   <div class='dialog'>
     <div class='dialog__header'>
       <div class='dialog__header-data'>
@@ -19,13 +19,6 @@
       {{{noMembersData}}}
     {{else}}
       {{{body}}}
-      {{!-- <div class='dialog__body'>
-        <div class='dialog_messages__wrapper'>
-          <div class='dialog_messages'>
-            {{{body}}}
-          </div>
-        </div>
-      </div> --}}
       <div class='dialog__footer'>
         <div class='dialog-separator'></div>
         <div class='dialog__footer-data'>

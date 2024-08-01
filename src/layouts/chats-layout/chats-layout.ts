@@ -17,10 +17,11 @@ const withChats = withStore(({ selectedDialog, dialogs }) => {
     dialogs: [...(dialogs || [])],
   };
 });
-const withSelectedChat = withStore(({ selectedDialog, isLoadingMsg }) => {
+const withSelectedChat = withStore(({ selectedDialog }) => {
   return {
-    selectedDialog: selectedDialog ? { ...selectedDialog } : undefined,
-    isLoadingMsg,
+    // selectedDialog: selectedDialog ? 
+     ...selectedDialog 
+    // : undefined,
   };
 });
 
