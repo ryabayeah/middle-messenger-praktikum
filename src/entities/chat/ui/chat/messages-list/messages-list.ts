@@ -84,7 +84,6 @@ export class MessagesList extends Block {
   }
 
   render() {
-    console.log('----ml')
     return this.compile(template, { ...this.props });
   }
 }

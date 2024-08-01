@@ -24,20 +24,20 @@ export class MessageController {
             this.getMessages();
 
             setInterval(() => {
-              this.socket?.send(JSON.stringify({
+              this.socket?.send(
+                JSON.stringify({
                   content: '',
                   type: '',
-              }));
-          }, 20000);
-
+                }),
+              );
+            }, 20000);
           });
           this.socket.message(({ data }) => {
-            
             const messages: Message[] = JSON.parse(data);
             messageController.setMessages(messages);
           });
           this.socket.close(() => {
-            console.log('Connection closed')
+            console.log('Connection closed');
 
             if (!this.socket) return;
             clearInterval(this._ping);
@@ -45,15 +45,14 @@ export class MessageController {
             this._ping = undefined;
             this._offset = 0;
             this.socket = null;
-
           });
           this.socket.error(() => {
-            console.log('Connection error')});
+            console.log('Connection error');
+          });
         }
       })
       .catch(() => {});
   }
-
 
   async setMessages(data: Message[] | Message) {
     const state = store.getState();
