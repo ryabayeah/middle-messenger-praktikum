@@ -15,7 +15,6 @@ export const withStore = (mapStateToProps: (state: AppStore) => Indexed) => {
           if (!isEqual(oldState, newState)) {
             this.setProps({ ...mapStateToProps(store.getState()) });
             oldState = this.props;
-
           }
         });
       }

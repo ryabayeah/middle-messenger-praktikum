@@ -16,19 +16,21 @@ import { withStore } from '../../../../shared/hoc';
 import { MessagesList } from './messages-list';
 
 interface ChatProps extends CompileOptions {
-  selectedDialog?: Dialog 
+  selectedDialog?: Dialog;
   currentInputMessage?: string;
+  isLoadingOldMsg?: boolean;
 }
 
-
-const withMessages = withStore((state) => {
-  return { messages: [...(state.messages || [])], isLoadingOldMsg: state.isLoadingOldMsg };
-});
+const withMessages = withStore(
+  ({ messages, isLoadingOldMsg, isLoadingMsg }) => {
+    return { messages: [...(messages || [])].reverse(), isLoadingOldMsg, isLoadingMsg };
+  },
+);
 
 export class Chat extends Block {
-  constructor({ 
+  constructor({
     // id = 0, title = '', avatar
-    selectedDialog
+    selectedDialog,
   }: ChatProps) {
     // Header
     const dialogAvatar = new Avatar({
@@ -82,9 +84,11 @@ export class Chat extends Block {
     });
     actions.hide();
 
-    const MessagesListConnected = withMessages(MessagesList as typeof Block)
-    const body = new ChatBody({messages: new MessagesListConnected({}) as MessagesList})
-      
+    const MessagesListConnected = withMessages(MessagesList as typeof Block);
+    const body = new ChatBody({
+      messages: new MessagesListConnected({}) as MessagesList,
+    });
+
     super({
       selectedDialog,
       avatar: dialogAvatar,
@@ -109,16 +113,15 @@ export class Chat extends Block {
 
   private __handleSendMessage() {
     const { currentInputMessage } = this.props as ChatProps;
-    if (!currentInputMessage?.length){
-      alert('Сообщение не может быть пустым')
-      return
+    if (!currentInputMessage?.length) {
+      alert('Сообщение не может быть пустым');
+      return;
     }
 
-    const messageInput = this.children.messageInput as Input
-    messageInput.setProps({value: ''})
+    const messageInput = this.children.messageInput as Input;
+    messageInput.setProps({ value: '' });
     this.setProps({ currentInputMessage: '' });
     messageController.sendMessage(currentInputMessage || '');
-
   }
 
   private __handleDialogSettingsClick() {
@@ -137,17 +140,17 @@ export class Chat extends Block {
   }
 
   renderMessagesBlock(messages: Message[]) {
-    if (!messages.length){
+    if (!messages.length) {
       return new ChatErrorLayout({
-          message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
-        });
+        message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
+      });
     }
     const currUser = store.getState().user;
-    const messagesByDate: Record<string, MessageBubble[]> = {}
+    const messagesByDate: Record<string, MessageBubble[]> = {};
 
-    messages.forEach(({ id, type, content, time, is_read, user_id })=>{
-      const messageDate = new Date(time)
-      const key = getDayMonth(messageDate)
+    messages.forEach(({ id, type, content, time, is_read, user_id }) => {
+      const messageDate = new Date(time);
+      const key = getDayMonth(messageDate);
       const messageComponent = new MessageBubble({
         id,
         content,
@@ -157,18 +160,18 @@ export class Chat extends Block {
         isRead: is_read,
         isOuter: currUser ? currUser.id !== user_id : false,
       });
-      if (Object.keys(messagesByDate).includes(key)){
-        messagesByDate[key].push(messageComponent)
+      if (Object.keys(messagesByDate).includes(key)) {
+        messagesByDate[key].push(messageComponent);
       } else {
-        messagesByDate[key] = [messageComponent]
+        messagesByDate[key] = [messageComponent];
       }
-    })
+    });
 
-    return Object.keys(messagesByDate).map((day)=>{
+    return Object.keys(messagesByDate).map((day) => {
       return new MessagesGroup({
         date: day,
         messages: messagesByDate[day],
-      })
+      });
     });
   }
 

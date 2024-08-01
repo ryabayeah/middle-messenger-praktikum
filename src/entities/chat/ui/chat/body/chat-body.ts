@@ -18,11 +18,6 @@ export class ChatBody extends Block {
           const scrollPositionY = node.scrollHeight + node.scrollTop - 20;
           if (blockHeight > scrollPositionY) {
             messageController.getMessages();
-            //   const lastMessage = node.querySelector('.last')?.clientHeight
-            //   if (lastMessage){
-            //     this.getContent().scrollBy(0, lastMessage)
-            //   }
-            node.scrollBy(0, 100);
           }
 
           console.log(blockHeight > scrollPositionY);

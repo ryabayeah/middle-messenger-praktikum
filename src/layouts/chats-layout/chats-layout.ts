@@ -17,8 +17,11 @@ const withChats = withStore(({ selectedDialog, dialogs }) => {
     dialogs: [...(dialogs || [])],
   };
 });
-const withSelectedChat = withStore(({ selectedDialog }) => {
-  return { selectedDialog: selectedDialog ? { ...selectedDialog } : undefined };
+const withSelectedChat = withStore(({ selectedDialog, isLoadingMsg }) => {
+  return {
+    selectedDialog: selectedDialog ? { ...selectedDialog } : undefined,
+    isLoadingMsg,
+  };
 });
 
 export class ChatsLayout extends Block {

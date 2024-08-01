@@ -31,7 +31,6 @@ export const set = (
 export class Store extends EventBus {
   static __instance: Store;
   private __state: AppStore = {
-    isLoading:{}
   };
 
   constructor() {

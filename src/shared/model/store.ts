@@ -13,6 +13,6 @@ export type AppStore = {
   lastDialogMessage?: []
 
   messages?: Message[]
+  isLoadingMsg?: boolean
   isLoadingOldMsg?: boolean
-
 };

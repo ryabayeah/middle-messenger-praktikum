@@ -59,14 +59,14 @@ export class MessageController {
 
     if (Array.isArray(data) && data.length < 20) {
       this._isAllMessage = true;
-      store.set('isLoading', false);
+      store.set('isLoadingMsg', false);
       store.set('isLoadingOldMsg', false);
     }
 
     if (Array.isArray(data) && data.length) {
       if (data[0].id === 1) {
         store.set('messages', [...data]);
-        store.set('isLoading', false);
+        store.set('isLoadingMsg', false);
       } else {
         const oldMessages = state.messages || [];
         store.set('messages', [...oldMessages, ...data]);
@@ -90,6 +90,8 @@ export class MessageController {
     }
     if (this._offset) {
       store.set('isLoadingOldMsg', true);
+    } else {
+      store.set('isLoadingMsg', true);
     }
     this.socket!.send(
       JSON.stringify({
