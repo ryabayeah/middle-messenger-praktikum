@@ -1,12 +1,14 @@
 @import './app/assets/styles/colors';
 @import './app/assets/styles/base';
 @import './app/assets/styles/scroll';
+@import './app/assets/styles/loader';
 
 :root {
   @include colors;
   @include text;
   @include font-weight;
   @include base;
+  @include loader;
 }
 
 body {

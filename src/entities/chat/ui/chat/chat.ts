@@ -7,28 +7,33 @@ import { ChatActions } from '../chat-actions';
 import { ChatAddAttachment } from '../chat-add-attachment';
 import { messageController } from '../../controller';
 import { ChatErrorLayout } from '../chat-error-layout';
-import { Message } from '../../lib';
-import { isEqual } from '../../../../shared/utils';
+import { Dialog, Message } from '../../lib';
 import { MessageBubble } from '../message-bubble';
-import { userController } from '../../../user/controller';
 import { MessagesGroup } from '../messages-group';
-import { getDayMonth, getMessageTime, isDatesEqual } from '../../lib/utils';
+import { getDayMonth, getMessageTime } from '../../lib/utils';
+import { ChatBody } from './body';
+import { withStore } from '../../../../shared/hoc';
+import { MessagesList } from './messages-list';
 
 interface ChatProps extends CompileOptions {
-  id?: number;
-  title?: string;
-  avatar?: string;
-  // messages?: ChatDialogMessage[];
-  // В телеге есть интересный функционал, когда пишешь с мобилки и набираемый текст отображается в любом клиенте телеграма
+  selectedDialog?: Dialog 
   currentInputMessage?: string;
-  messages?: Message[];
 }
 
+
+const withMessages = withStore((state) => {
+  return { messages: [...(state.messages || [])], isLoadingOldMsg: state.isLoadingOldMsg };
+});
+
 export class Chat extends Block {
-  constructor({ id = 0, title = '', avatar, messages }: ChatProps) {
+  constructor({ 
+    // id = 0, title = '', avatar
+    selectedDialog
+  }: ChatProps) {
     // Header
     const dialogAvatar = new Avatar({
-      srcPath: avatar,
+      // srcPath: avatar,
+      srcPath: selectedDialog?.avatar,
       class: 'user-avatar',
     });
 
@@ -36,7 +41,7 @@ export class Chat extends Block {
     const messageInput = new Input({
       id: 'message',
       name: 'message',
-      placeholder: 'Введите сообщение',
+      placeholder: 'Написать сообщение...',
       onChange: (e: Event) => this.__handleChangeMessageInput(e),
     });
 
@@ -73,49 +78,20 @@ export class Chat extends Block {
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
     const actions = new ChatActions({
-      chatId: id,
+      chatId: selectedDialog?.id || 0,
     });
     actions.hide();
 
-    // Body
-    // let body;
-    // let errorBody;
-    // if (!dialogData) {
-    //   errorBody = new DialogNoLayout({
-    //     message: DIALOG_MESSAGE.NO_DIALOG_DATA,
-    //   });
-    // } else if (!dialogData?.messages?.length) {
-    //   errorBody = new DialogNoLayout({
-    //     message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
-    //   });
-    // } else {
-    //   const messages = (dialogData.messages as ChatDialogMessage[]).map(
-    //     ({ message, senderId, isRead, attachment }) => {
-    //       return new MessageBubble({
-    //         message,
-    //         time: '12:45',
-    //         attachment: attachment,
-    //         isRead,
-    //         isOuter: senderId !== CURRENT_USER_ID,
-    //       });
-    //     },
-    //   );
-    //   // TODO: Брать из timestamp сообщений дату и делать MessagesGroup по каждому дню
-    //   body = new MessagesGroup({
-    //     date: '19 июня',
-    //     messages,
-    //   });
-    // }
-
+    const MessagesListConnected = withMessages(MessagesList as typeof Block)
+    const body = new ChatBody({messages: new MessagesListConnected({}) as MessagesList})
+      
     super({
-      id,
-      title,
+      selectedDialog,
       avatar: dialogAvatar,
       actionsButton,
       actions,
 
-      // body,
-      // errorBody,
+      body,
 
       messageInput,
       attachButton,
@@ -126,21 +102,6 @@ export class Chat extends Block {
     });
   }
 
-  componentDidMount(oldProps?: ChatProps): void {
-    this.setProps({ noDialog: Boolean(oldProps?.id || 0) });
-  }
-
-  componentDidUpdate(oldProps: ChatProps, newProps: ChatProps): boolean {
-    if (
-      JSON.stringify(oldProps.messages) !== JSON.stringify(newProps.messages)
-    ) {
-      this.setChildren({
-        body: this.renderMessagesBlock(newProps.messages || []),
-      });
-    }
-    return true;
-  }
-
   private __handleChangeMessageInput(e: Event) {
     const target = e.target as HTMLInputElement;
     this.setProps({ currentInputMessage: target.value });
@@ -148,7 +109,16 @@ export class Chat extends Block {
 
   private __handleSendMessage() {
     const { currentInputMessage } = this.props as ChatProps;
+    if (!currentInputMessage?.length){
+      alert('Сообщение не может быть пустым')
+      return
+    }
+
+    const messageInput = this.children.messageInput as Input
+    messageInput.setProps({value: ''})
+    this.setProps({ currentInputMessage: '' });
     messageController.sendMessage(currentInputMessage || '');
+
   }
 
   private __handleDialogSettingsClick() {
@@ -167,6 +137,11 @@ export class Chat extends Block {
   }
 
   renderMessagesBlock(messages: Message[]) {
+    if (!messages.length){
+      return new ChatErrorLayout({
+          message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
+        });
+    }
     const currUser = store.getState().user;
     const messagesByDate: Record<string, MessageBubble[]> = {}
 
@@ -196,6 +171,7 @@ export class Chat extends Block {
       })
     });
   }
+
   render() {
     return this.compile(template, { ...this.props });
   }

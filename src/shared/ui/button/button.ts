@@ -18,11 +18,12 @@ export interface ButtonProps extends CompileOptions {
 }
 
 export class Button extends Block {
-  constructor({ onClick, ...props }: ButtonProps) {
+  constructor({ onClick=()=>{}, ...props }: ButtonProps) {
     super({
       ...props,
       events: {
-        click: (e: Event) => onClick && onClick(e),
+        click: (e: Event) => {
+          onClick(e)},
       },
     });
   }

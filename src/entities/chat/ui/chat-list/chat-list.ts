@@ -14,8 +14,7 @@ import { getMessageTime } from '../../lib/utils';
 
 interface ChatListProps extends CompileOptions {
   dialogs?: Dialog[];
-  selectedDialogId?: number;
-  onSelectDialog?: (selectedDialog?: Dialog) => void;
+  selectedDialog?: Dialog;
 }
 interface ChatListChildren extends CompileOptions {
   linkProfile: Link;
@@ -27,7 +26,7 @@ interface ChatListChildren extends CompileOptions {
 
 // TODO: Сделать isLoading загрузки данных
 export class ChatList extends Block {
-  constructor({ dialogs = [], onSelectDialog = () => {} }) {
+  constructor({ dialogs = [], selectedDialog=undefined}: ChatListProps) {
     const linkProfile = new Link({
       text: 'Профиль  >',
       href: APP_PATH.PROFILE,
@@ -63,8 +62,7 @@ export class ChatList extends Block {
 
     const props: ChatListProps = {
       dialogs,
-      selectedDialogId: undefined,
-      onSelectDialog,
+      selectedDialog,
     };
 
     super({
@@ -78,7 +76,7 @@ export class ChatList extends Block {
     newProps: ChatListProps,
   ): boolean {
     const isDialogsEqual = JSON.stringify(oldProps.dialogs) === JSON.stringify(newProps.dialogs)
-    const isSelectedDialogIdEqual = oldProps.selectedDialogId === newProps.selectedDialogId
+    const isSelectedDialogIdEqual = oldProps.selectedDialog?.id === newProps.selectedDialog?.id
     if (!isDialogsEqual || !isSelectedDialogIdEqual) {
       this.setChildren({ sidebarBody: this.renderDialogs({...newProps}) });
     }
@@ -98,22 +96,19 @@ export class ChatList extends Block {
   }
 
   handleCreateApply() {
-    chatController.getChats();
     this.__closeCreateDialog();
   }
+
   handleChatListCardSearch(value: string) {
     chatController.getChats({ title: value });
   }
+
   handleChatListCardClick(dialog?: Dialog) {
-    const { onSelectDialog } = this.props as ChatListProps;
-    if (onSelectDialog) {
-      onSelectDialog(dialog);
-    }
-    this.setProps({selectedDialogId: dialog?.id})
+    chatController.selectChat(dialog)
   }
 
   renderDialogs(props: ChatListProps) {
-    const { dialogs, selectedDialogId } = props;
+    const { dialogs, selectedDialog } = props;
     const {user} = store.getState()
     if (!dialogs || dialogs.length === 0) {
       return new NoChatsMessage();
@@ -144,8 +139,8 @@ export class ChatList extends Block {
           lastMessageTime,
           unread_count: unread_count,
 
-          isActive: dialog.id === selectedDialogId,
-          onClick: () => this.handleChatListCardClick(dialog),
+          isActive: dialog.id === selectedDialog?.id,
+          onClick: () => this.handleChatListCardClick(dialog.id === selectedDialog?.id?undefined :dialog),
         })
       }
     );

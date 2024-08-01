@@ -1,10 +1,13 @@
-import {
-  chatController,
-  messageController,
-} from '../../entities/chat/controller';
 import { store } from './store';
 
 const URL = 'wss://ya-praktikum.tech/ws/chats';
+
+enum Listeners {
+  OPEN = 'open',
+  CLOSE = 'close',
+  MESSAGE = 'message',
+  ERROR = 'error',
+}
 
 export class Socket {
   socket: WebSocket;
@@ -28,86 +31,33 @@ export class Socket {
   }
 
   open(callBack: () => void) {
-    this.socket?.addEventListener('open', callBack);
+    this.socket?.addEventListener(Listeners.OPEN, callBack);
   }
 
   close(callBack: (event: CloseEvent) => void) {
     const funk = (event: CloseEvent) => {
       callBack(event);
     };
-    this.socket?.addEventListener('close', funk);
+    this.socket?.addEventListener(Listeners.CLOSE, funk);
   }
 
   message(callBack: (event: MessageEvent) => void) {
     const funk = (event: MessageEvent) => {
       callBack(event);
     };
-    this.socket?.addEventListener('message', funk);
+    this.socket?.addEventListener(Listeners.MESSAGE, funk);
   }
 
   error(callBack: (event: Event) => void) {
-    this.socket?.addEventListener('error', callBack);
+    this.socket?.addEventListener(Listeners.ERROR, callBack);
   }
 
-  // private _start() {
-  //   this.socket.addEventListener('open', () => {
-  //     console.log(`${this._chatId}: Соединение установлено`);
 
-  //     this._pingPong.bind(this);
-  //   });
-
-  //   this.socket.addEventListener('close', (event: CloseEvent) => {
-  //     if (event.wasClean) {
-  //       console.log('Соединение закрыто чисто');
-  //     } else {
-  //       console.log('Обрыв соединения');
-
-  //       this.socket = this._createConnection();
-  //       this._start();
-  //     }
-
-  //     console.log(`Код: ${event.code} | Причина: ${event.reason}`);
-  //   });
-
-  //   this.socket.addEventListener('message', async (event: MessageEvent) => {
-  //     try {
-  //       await messageController.setMessages(JSON.parse(event.data));
-  //     } catch (error) {
-  //       // handleError(error);
-  //     }
-  //   });
-
-  //   this.socket.addEventListener('error', (event) =>
-  //     console.error('Ошибка', event),
-  //   );
-  // }
-
-  async sendMessage(content: string) {
-    this.socket.send(
-      JSON.stringify({
-        content,
-        type: 'message',
-      }),
-    );
-
-    await chatController.getChats();
-    store.set('lastMessage', {
-      user: store.getState().user,
-      time: new Date(),
-      content,
-    });
+  send(json: string) {
+    this.socket.send(json);
   }
 
-  getMessages(offset: number = 0) {
-    this.socket.send(
-      JSON.stringify({
-        content: offset,
-        type: 'get old',
-      }),
-    );
-  }
-
- pingPong() {
+  pingPong() {
     setInterval(
       () => this.socket.send(JSON.stringify({ type: 'ping' })),
       10000,

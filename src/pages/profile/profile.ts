@@ -8,7 +8,6 @@ import { Block, store } from '../../shared/lib';
 const withUser = withStore((state) => {
   return {
     user: { ...state.user },
-    isLoadingUser: state.isLoading.isLoadingUser,
   };
 });
 

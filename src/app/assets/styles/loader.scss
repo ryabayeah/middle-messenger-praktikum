@@ -1,0 +1,49 @@
+@mixin loader {
+  .loader {
+    &::after {
+      content: '⠋';
+      animation: change-content 0.8s linear infinite;
+      display: block;
+      font-size: 80px;
+      text-align: center;
+    }
+  }
+}
+
+@keyframes change-content {
+  10% {
+    content: '⠙';
+  }
+
+  20% {
+    content: '⠹';
+  }
+
+  30% {
+    content: '⠸';
+  }
+
+  40% {
+    content: '⠼';
+  }
+
+  50% {
+    content: '⠴';
+  }
+
+  60% {
+    content: '⠦';
+  }
+
+  70% {
+    content: '⠧';
+  }
+
+  80% {
+    content: '⠇';
+  }
+
+  90% {
+    content: '⠏';
+  }
+}

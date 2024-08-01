@@ -1,4 +1,3 @@
-import { chatController } from '../../entities/chat/controller';
 import { Dialog } from '../../entities/chat/lib';
 import { Chat, ChatList } from '../../entities/chat/ui';
 import { withStore } from '../../shared/hoc';
@@ -9,37 +8,32 @@ import './chats-layout.scss';
 interface ChatsLayoutProps extends CompileOptions {
   searchQuery?: string;
   dialogs?: Dialog[];
-  selectedDialogId?: number;
+  selectedDialog?: number;
 }
 
-const withDialogs = withStore((state) => {
-  return { dialogs: [...(state.dialogs || [])] };
+const withChats = withStore(({ selectedDialog, dialogs }) => {
+  return {
+    selectedDialog: selectedDialog ? { ...selectedDialog } : undefined,
+    dialogs: [...(dialogs || [])],
+  };
 });
-const withSelectedDialog = withStore((state) => {
-  return { ...state.selectedDialog, messages: state.messages };
+const withSelectedChat = withStore(({ selectedDialog }) => {
+  return { selectedDialog: selectedDialog ? { ...selectedDialog } : undefined };
 });
 
 export class ChatsLayout extends Block {
-  constructor({ dialogs, selectedDialogId, ...props }: ChatsLayoutProps) {
-    const ChatListConnected = withDialogs(ChatList as typeof Block);
+  constructor({ dialogs = [], ...props }: ChatsLayoutProps) {
+    const ChatListConnected = withChats(ChatList as typeof Block);
     const sidebar = new ChatListConnected({
-      dialogs: [],
-      onSelectDialog: (selectedDialog?: Dialog) =>
-        {
-          if (selectedDialog){
-            chatController.connectToChat(selectedDialog.id)
-          }
-          chatController.selectChat(selectedDialog)
-        },
+      dialogs,
     });
 
-    const ChatConnected = withSelectedDialog(Chat as typeof Block);
+    const ChatConnected = withSelectedChat(Chat as typeof Block);
     const body = new ChatConnected({});
 
     super({
       ...props,
       searchQuery: '',
-      selectedDialogId,
       dialogs,
 
       sidebar,

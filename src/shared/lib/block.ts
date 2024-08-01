@@ -36,6 +36,7 @@ export class Block {
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_RENDER: 'flow:render',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CDR: 'flow:component-did-render',
   };
 
   private _element: HTMLElement | null = null;
@@ -77,6 +78,7 @@ export class Block {
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDR, this._componentDidRender.bind(this));
   }
 
   init() {
@@ -134,6 +136,16 @@ export class Block {
     return true;
   }
 
+  private _componentDidRender(_oldProps?: unknown) {
+    // TODO: Оптимизировать ререндер
+    this.componentDidRender(_oldProps);
+  }
+
+  componentDidRender(_oldProps?: unknown) {
+    return true;
+  }
+
+
   setProps = (newProps: Props) => {
     if (!newProps) {
       return;
@@ -184,6 +196,8 @@ export class Block {
     this._element?.replaceWith(newBlock);
     this._element = newBlock as HTMLElement;
     this._addEvents();
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CDR);
   }
 
   render() {
