@@ -9,6 +9,7 @@ export type AppStore = {
   user?: User;
 
   dialogs?: Dialog[]
+  // dialogUsers?: User[]
   selectedDialog?: Dialog
   lastDialogMessage?: []
 

@@ -7,9 +7,10 @@ import './chat-delete-user-modal.scss';
 interface ChatDeleteUserModalProps extends CompileOptions {
   chatId: number
   onClose: VoidFunction;
-  onApply: () => void;
+  onApply: VoidFunction
 }
 
+// TODO: Выводить список пользователей чата и удалять из этого списка
 export class ChatDeleteUserModal extends Modal {
   constructor({ chatId, onClose, onApply }: ChatDeleteUserModalProps) {
     const saveButton = new Button({

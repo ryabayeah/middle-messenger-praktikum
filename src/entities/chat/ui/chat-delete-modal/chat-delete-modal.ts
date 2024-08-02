@@ -5,7 +5,7 @@ import './chat-delete-modal.scss';
 interface ChatDeleteModalProps extends CompileOptions {
   chatId: number
   onClose: VoidFunction;
-  onApply: () => void;
+  onApply: VoidFunction
 }
 
 export class ChatDeleteModal extends Modal {

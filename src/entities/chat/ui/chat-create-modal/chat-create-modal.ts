@@ -3,7 +3,7 @@ import { chatController } from '../../controller';
 
 interface ChatCreateModalProps extends CompileOptions {
   onClose: VoidFunction;
-  onApply: () => void;
+  onApply: VoidFunction
 }
 
 export class ChatCreateModal extends Modal {
