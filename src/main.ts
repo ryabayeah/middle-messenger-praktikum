@@ -14,11 +14,11 @@ import { authController } from './entities/user/controller';
 import { router } from './shared/lib';
 
 const init = async () => {
-  const currPath = router.getCurrentRoutePath()
+  const currPath = router.getCurrentRoutePath();
   await authController
     .getUser()
     .then(() => {
-      if ([APP_PATH.LOGIN, APP_PATH.REGISTER].includes(currPath as APP_PATH)){
+      if ([APP_PATH.LOGIN, APP_PATH.REGISTER].includes(currPath as APP_PATH)) {
         router.go(APP_PATH.CHATS);
       }
     })
@@ -29,8 +29,7 @@ const init = async () => {
     });
 };
 
-
-init().then(()=>{
+init().then(() => {
   router
     .use(APP_PATH.LOGIN, SignInPage)
     .use(APP_PATH.REGISTER, SignUpPage)
@@ -42,17 +41,3 @@ init().then(()=>{
     .use(APP_PATH.NAV, TempNavPage)
     .start();
 });
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   router
-//     .use(APP_PATH.LOGIN, SignInPage)
-//     .use(APP_PATH.REGISTER, SignUpPage)
-//     .use(APP_PATH.ERROR, ServerErrorPage)
-//     .use(APP_PATH.NOT_FOUND, NotFoundPage)
-//     .use(APP_PATH.PROFILE, ProfilePage)
-//     .use(APP_PATH.CHANGE_PASSWORD, PasswordChangePage)
-//     .use(APP_PATH.CHATS, ChatsPage)
-//     .use(APP_PATH.NAV, TempNavPage)
-//     .start();
-// });
-
