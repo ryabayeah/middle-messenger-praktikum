@@ -1,6 +1,6 @@
-import { UserProfileData } from '../../model/base';
+import { User } from '../../model';
 
-export const userProfileData: UserProfileData = {
+export const userProfileData: Omit<User, 'id'> = {
   first_name: 'Иван',
   second_name: 'Иванов',
   display_name: 'Иван',

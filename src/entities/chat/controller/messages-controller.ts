@@ -1,5 +1,4 @@
-import { Socket } from '../../../shared/lib';
-import { store } from '../../../shared/lib/store';
+import { Socket, store } from '../../../shared/lib';
 import { chatApi } from '../api';
 import { Message } from '../lib';
 import { chatController } from './chat-controller';
@@ -8,7 +7,7 @@ export class MessageController {
   private socket: Socket | null = null;
   private _offset: number = 0;
   private _isAllMessage: boolean = false;
-  private _ping: NodeJS.Timer | undefined;
+  private _ping: unknown | number | undefined;
 
   async connectToChat(chatId: number) {
     await chatApi
@@ -39,7 +38,7 @@ export class MessageController {
           this.socket.close(() => {
             console.log('Connection closed');
             if (!this.socket) return;
-            clearInterval(this._ping);
+            clearInterval(this._ping as number);
             this._isAllMessage = false;
             this._ping = undefined;
             this._offset = 0;
