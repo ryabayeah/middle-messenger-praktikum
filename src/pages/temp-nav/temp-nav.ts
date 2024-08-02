@@ -14,7 +14,7 @@ const LINKS = [
   { href: APP_PATH.CHATS, text: 'Чаты' },
 ];
 
-class TempNav extends Block {
+export class TempNavPage extends Block {
   constructor() {
     super({
       links: LINKS.map(
@@ -29,5 +29,3 @@ class TempNav extends Block {
     return this.compile(template, { ...this.props });
   }
 }
-
-export const TempNavPage = () => new TempNav();

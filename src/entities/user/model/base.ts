@@ -1,13 +1,14 @@
-export interface IUserModel {
+export type BaseUserModel = {
   first_name: string;
   second_name: string;
   login: string;
   email: string;
   password: string;
   phone: string;
-}
+};
 
-export interface UserProfileData {
+export type User = {
+  id: number;
   email: string;
   login: string;
   first_name: string;
@@ -15,4 +16,4 @@ export interface UserProfileData {
   display_name: string;
   phone: string;
   avatar: string;
-}
+};

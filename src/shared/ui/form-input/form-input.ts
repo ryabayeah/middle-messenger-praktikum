@@ -56,7 +56,6 @@ export class FormInput extends Block {
     const feedbackChild = this.children.feedbackError as Block;
 
     if (_oldProps.isInvalid !== isInvalid) {
-      console.log('--1-');
       feedbackChild.setProps({
         class: 'form__feedback',
         isInvalid: isInvalid,

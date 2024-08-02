@@ -16,12 +16,59 @@ export type ChatDialog = {
   messages?: ChatDialogMessage[];
 };
 
-export type ChatDialogShort = {
+export type Dialog = {
   id: number;
-  avatarSrc: string;
-  name: string;
+  title: string;
+  avatar: string;
+  unread_count: number;
+  last_message: LastMessage | null;
+  created_by: number;
+};
+
+export type ChatDialogShort = {
   isLastMe: boolean;
-  lastMessage?: string;
-  lastMessageTime?: string;
-  messageCount?: number;
+
+  id: number;
+  title: string;
+  avatar: string;
+  unread_count: number;
+  // created_by: number;
+  last_message: LastMessage | null;
+};
+
+export type LastMessage = {
+  user: User;
+  time: string;
+  content: string;
+};
+
+export type Message = {
+  chat_id: number;
+  content: string;
+  file: string;
+  id: number;
+  is_read: boolean;
+  time: string;
+  type: 'message';
+  user_id: number;
+};
+
+type User = {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string;
+};
+
+export type Chat = {
+  id: number;
+  title: string;
+  avatar: string;
+  unread_count: number;
+  created_by: number;
+  last_message: LastMessage | null;
 };

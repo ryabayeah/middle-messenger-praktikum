@@ -1,17 +1,19 @@
 import { APP_PATH } from '../../../../shared/constants';
+import { router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { FormInput } from '../../../../shared/ui';
 import { Button } from '../../../../shared/ui/button';
 import {
   emptyValidator,
   getPasswordRepeatedValidator,
-  redirect,
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
+import { authController } from '../../controller';
 import {
   SIGN_UP_FORM_FIELDS,
   SIGN_UP_FORM_FIELDS_NAME,
 } from '../../lib/constants';
+import { SignUpData } from '../../model';
 
 // TODO: Подумать над уровнями доступа методов
 export class UserSignUpForm extends FormAuth {
@@ -55,8 +57,7 @@ export class UserSignUpForm extends FormAuth {
       variant: 'secondary',
       type: 'button',
       onClick: () => {
-        redirect(APP_PATH.LOGIN);
-        // TODO: Редиркет на sign-in
+        router.go(APP_PATH.LOGIN);
       },
     });
 
@@ -70,14 +71,21 @@ export class UserSignUpForm extends FormAuth {
     });
   }
 
-  private __handleSubmit(e: Event) {
-    const result: Record<string, string> = {};
+  private async __handleSubmit(e: Event) {
+    const result: SignUpData = {
+      first_name: '',
+      second_name: '',
+      login: '',
+      email: '',
+      phone: '',
+      password: '',
+    };
     let isAnyInvalid = false;
 
     const target = e.target as HTMLFormElement;
 
     const formData = new FormData(target);
-    Object.values(SIGN_UP_FORM_FIELDS_NAME).forEach(key => {
+    Object.values(SIGN_UP_FORM_FIELDS_NAME).forEach((key) => {
       const refs = this.props.refs as Ref;
       const value = (formData.get(key) || '')?.toString();
       const { validator } = SIGN_UP_FORM_FIELDS[key];
@@ -102,13 +110,12 @@ export class UserSignUpForm extends FormAuth {
         fieldRef.setProps({ isInvalid });
       }
 
-      result[key] = value;
+      result[key as keyof SignUpData] = value;
     });
 
     // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
-      this.setProps({ isEditable: false });
+      await authController.signUp(result);
     }
-    console.log('SIGN_UP_FORM: ', result);
   }
 }

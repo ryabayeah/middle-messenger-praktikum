@@ -1,8 +1,4 @@
 import './main.scss';
-import { render } from './shared/utils/renderDom';
-import { SignInPage } from './pages/sign-in';
-import { Block } from './shared/lib/block';
-import { NotFoundPage } from './pages/not-found';
 import {
   ChatsPage,
   PasswordChangePage,
@@ -10,31 +6,53 @@ import {
   ServerErrorPage,
   SignUpPage,
   TempNavPage,
+  SignInPage,
+  NotFoundPage,
 } from './pages';
 import { APP_PATH } from './shared/constants';
-import { getUrlPathName } from './shared/utils';
+import { authController } from './entities/user/controller';
+import { router } from './shared/lib';
 
-const route = () => {
-  const newPages: Record<string, Block> = {
-    [APP_PATH.LOGIN]: SignInPage(),
-    [APP_PATH.REGISTER]: SignUpPage(),
-    [APP_PATH.NOT_FOUND]: NotFoundPage(),
-    [APP_PATH.ERROR]: ServerErrorPage(),
-    [APP_PATH.PROFILE]: ProfilePage(),
-    [APP_PATH.CHANGE_PASSWORD]: PasswordChangePage(),
-    [APP_PATH.CHATS]: ChatsPage(),
-    [APP_PATH.NAV]: TempNavPage(),
-  };
-
-  const pages = Object.keys(newPages);
-  const currentPath = getUrlPathName() || APP_PATH.NAV;
-  const pageData = pages.includes(currentPath)
-    ? newPages[currentPath as keyof typeof newPages]
-    : newPages[APP_PATH.NOT_FOUND];
-
-  render('#root', pageData);
+const init = async () => {
+  const currPath = router.getCurrentRoutePath()
+  await authController
+    .getUser()
+    .then(() => {
+      if ([APP_PATH.LOGIN, APP_PATH.REGISTER].includes(currPath as APP_PATH)){
+        router.go(APP_PATH.CHATS);
+      }
+    })
+    .catch(() => {
+      if (currPath !== APP_PATH.LOGIN) {
+        router.go(APP_PATH.LOGIN);
+      }
+    });
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  route();
+
+init().then(()=>{
+  router
+    .use(APP_PATH.LOGIN, SignInPage)
+    .use(APP_PATH.REGISTER, SignUpPage)
+    .use(APP_PATH.ERROR, ServerErrorPage)
+    .use(APP_PATH.NOT_FOUND, NotFoundPage)
+    .use(APP_PATH.PROFILE, ProfilePage)
+    .use(APP_PATH.CHANGE_PASSWORD, PasswordChangePage)
+    .use(APP_PATH.CHATS, ChatsPage)
+    .use(APP_PATH.NAV, TempNavPage)
+    .start();
 });
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   router
+//     .use(APP_PATH.LOGIN, SignInPage)
+//     .use(APP_PATH.REGISTER, SignUpPage)
+//     .use(APP_PATH.ERROR, ServerErrorPage)
+//     .use(APP_PATH.NOT_FOUND, NotFoundPage)
+//     .use(APP_PATH.PROFILE, ProfilePage)
+//     .use(APP_PATH.CHANGE_PASSWORD, PasswordChangePage)
+//     .use(APP_PATH.CHATS, ChatsPage)
+//     .use(APP_PATH.NAV, TempNavPage)
+//     .start();
+// });
+

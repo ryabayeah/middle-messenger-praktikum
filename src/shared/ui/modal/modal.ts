@@ -9,12 +9,18 @@ export interface ModalProps extends CompileOptions {
   hide?: boolean;
   isInvalid?: boolean;
   class?: string;
+  onSubmit?: (e: Event) => void
 }
 
 export class Modal extends Block {
-  constructor({ ...props }: ModalProps) {
+  constructor({ onSubmit = () => {}, ...props }: ModalProps) {
     super({
       ...props,
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault()
+          onSubmit(e)
+      }}
     });
   }
   render() {

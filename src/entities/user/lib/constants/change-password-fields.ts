@@ -16,7 +16,9 @@ export const CHANGE_PASSWORD_FIELDS: Record<
     type: 'password',
     label: 'Старый пароль',
     validateOn: ['blur'],
-    feedbackErrorText: 'Некорректный пароль',
+    // TODO: Сделать различающиеся ошибки при разных невалидных параметрах.
+    feedbackErrorText:
+      'Некорректный пароль. Поле должно содержать от 8 до 40 символов и хотя бы одну заглавную букву и цифру.',
     validator: passwordValidator,
   },
   [CHANGE_PASSWORD_FIELDS_NAME.NEW_PASSWORD]: {
@@ -25,7 +27,9 @@ export const CHANGE_PASSWORD_FIELDS: Record<
     type: 'password',
     label: 'Новый пароль',
     validateOn: ['blur'],
-    feedbackErrorText: 'Некорректный пароль',
+    feedbackErrorText:
+    // TODO: Сделать различающиеся ошибки при разных невалидных параметрах.
+      'Некорректный пароль. Поле должно содержать от 8 до 40 символов  и хотя бы одну заглавную букву и цифру.',
     validator: passwordValidator,
   },
   [CHANGE_PASSWORD_FIELDS_NAME.REPEAT_NEW_PASSWORD]: {

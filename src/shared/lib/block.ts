@@ -36,6 +36,7 @@ export class Block {
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_RENDER: 'flow:render',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CDR: 'flow:component-did-render',
   };
 
   private _element: HTMLElement | null = null;
@@ -77,6 +78,7 @@ export class Block {
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDR, this._componentDidRender.bind(this));
   }
 
   init() {
@@ -116,7 +118,7 @@ export class Block {
     }
   }
 
-  componentDidMount(_oldProps?: unknown[]) {}
+  componentDidMount(_oldProps?: unknown) {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -133,6 +135,16 @@ export class Block {
   componentDidUpdate(_: unknown, __: unknown) {
     return true;
   }
+
+  private _componentDidRender(_oldProps?: unknown) {
+    // TODO: Оптимизировать ререндер
+    this.componentDidRender(_oldProps);
+  }
+
+  componentDidRender(_oldProps?: unknown) {
+    return true;
+  }
+
 
   setProps = (newProps: Props) => {
     if (!newProps) {
@@ -184,6 +196,8 @@ export class Block {
     this._element?.replaceWith(newBlock);
     this._element = newBlock as HTMLElement;
     this._addEvents();
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CDR);
   }
 
   render() {
@@ -264,7 +278,7 @@ export class Block {
 
     Object.entries(this.children).forEach(([key, child]) => {
       if (isArrayOfBlock(child)) {
-        propsAndStubs[key] = ``;
+        propsAndStubs[key] = '';
         child.forEach((c) => {
           const data = `<div data-id="${c._id}"></div>`;
           propsAndStubs[key] += data;

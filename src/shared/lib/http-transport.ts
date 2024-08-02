@@ -1,20 +1,3 @@
-enum METHOD {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
-}
-
-type Options = {
-  method: METHOD;
-  data?: never;
-  headers?: Record<string, string>;
-  timeout?: number;
-};
-
-type OptionsWithoutMethod = Omit<Options, 'method'>;
-
 function queryStringify(data: Record<string, unknown>) {
   if (typeof data !== 'object') {
     throw new Error('Data must be object');
@@ -27,76 +10,101 @@ function queryStringify(data: Record<string, unknown>) {
   }, '?');
 }
 
+
+enum METHODS {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+
+type Options = {
+  method: METHODS;
+  data?: Record<string, unknown> | FormData;
+  withCredentials?: boolean;
+  headers?: Record<string, string>;
+  timeout?: number;
+};
+
+type HTTPRequest = <T>(url: string, options: Options) => Promise<T>;
+
+type HTTPMethod = <R = unknown>(
+  url: string,
+  options?: Omit<Options, 'method'>,
+) => Promise<R>;
+
 export class HTTPTransport {
-  get = (url: string, options: OptionsWithoutMethod = {}) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.GET },
-      options.timeout,
-    );
-  };
+  baseUrl?: string;
 
-  post = (url: string, options: OptionsWithoutMethod = {}) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.POST },
-      options.timeout,
-    );
-  };
+  constructor(baseUrl?: string) {
+    this.baseUrl = baseUrl;
+  }
 
-  put = (url: string, options: OptionsWithoutMethod = {}) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.PUT },
-      options.timeout,
-    );
-  };
+  private request: HTTPRequest = (url, options) => {
+    const {
+      method,
+      data,
+      headers = {},
+      withCredentials = true,
+      timeout = 5000,
+    } = options;
 
-  delete = (url: string, options: OptionsWithoutMethod = {}) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.DELETE },
-      options.timeout,
-    );
-  };
-
-  request = (
-    url: string,
-    options: Options = { method: METHOD.GET },
-    timeout: number = 5000,
-  ) => {
-    const { method, data, headers = {} } = options;
-
-    return new Promise(function (resolve, reject) {
-      if (!method) {
-        reject('No method');
-        return;
-      }
-
+    return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      const isGet = method === METHOD.GET;
 
-      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
+      xhr.timeout = timeout;
+
+      let finalUrl = this.baseUrl + url;
+      if (method === METHODS.GET && data) {
+        finalUrl += queryStringify(data as Record<string, unknown>);
+      }
+      xhr.open(method, finalUrl);
 
       Object.keys(headers).forEach(key => {
         xhr.setRequestHeader(key, headers[key]);
       });
 
       xhr.onload = function () {
-        resolve(xhr);
+        const status = xhr.status || 0;
+        try {
+          if (status >= 200 && status < 300) {
+            resolve(
+              xhr.response === 'OK' ? xhr.response : JSON.parse(xhr.response),
+            );
+          } else {
+            reject(JSON.parse(xhr.response));
+          }
+        } catch (e) {
+          console.error(e);
+        }
       };
 
       xhr.onabort = reject;
       xhr.onerror = reject;
-
-      xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
-      if (isGet || !data) {
+      xhr.withCredentials = withCredentials;
+
+      if (method === METHODS.GET || !data) {
         xhr.send();
-      } else {
+      } else if (data instanceof FormData) {
         xhr.send(data);
+      } else {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(data));
       }
     });
   };
+
+  get: HTTPMethod = (url, options = {}) =>
+    this.request(url, { ...options, method: METHODS.GET });
+
+  put: HTTPMethod = (url, options = {}) =>
+    this.request(url, { ...options, method: METHODS.PUT });
+
+  post: HTTPMethod = (url, options = {}) =>
+    this.request(url, { ...options, method: METHODS.POST });
+
+  delete: HTTPMethod = (url, options = {}) =>
+    this.request(url, { ...options, method: METHODS.DELETE });
 }

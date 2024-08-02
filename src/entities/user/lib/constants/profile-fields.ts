@@ -14,7 +14,6 @@ export enum PROFILE_FIELDS_NAME {
   SECOND_NAME = 'second_name',
   DISPLAY_NAME = 'display_name',
   PHONE = 'phone',
-  AVATAR = 'avatar',
 }
 export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
   [PROFILE_FIELDS_NAME.FIRST_NAME]: {
@@ -75,12 +74,5 @@ export const PROFILE_FIELDS: Record<PROFILE_FIELDS_NAME, FormInputProps> = {
     // TODO: Сделать уточнение в UI почему некорректно
     feedbackErrorText: 'Некорректный формат номера телефона',
     validator: phoneValidator,
-  },
-  [PROFILE_FIELDS_NAME.AVATAR]: {
-    id: PROFILE_FIELDS_NAME.AVATAR,
-    name: PROFILE_FIELDS_NAME.AVATAR,
-    type: 'file',
-    label: '',
-    class: 'hidden',
-  },
+  }
 };

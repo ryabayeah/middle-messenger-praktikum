@@ -46,7 +46,6 @@ export class Input extends Block {
               validator,
               (e.target as HTMLInputElement).value,
             );
-            console.log(isValid, '----');
             onValidate && onValidate(isValid);
           }
           onBlur && onBlur(e);

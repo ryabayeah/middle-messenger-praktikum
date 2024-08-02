@@ -4,11 +4,15 @@ import { Block } from '../../../../shared/lib';
 import { MessageAttachmentType } from '../../lib';
 
 interface MessageBubbleProps extends CompileOptions {
-  message?: string;
-  attachment?: { type: MessageAttachmentType; src: string };
+  id: number;
+  content?: string;
   time: string;
-  isOuter?: boolean;
+  type: 'message' | 'object';
   isRead?: boolean;
+  class?: string;
+
+  attachment?: { type: MessageAttachmentType; src: string };
+  isOuter?: boolean;
 }
 
 interface InternalMessageBubbleProps extends MessageBubbleProps {

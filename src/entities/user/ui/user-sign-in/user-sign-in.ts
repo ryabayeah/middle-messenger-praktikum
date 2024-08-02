@@ -1,12 +1,15 @@
 import { APP_PATH } from '../../../../shared/constants';
+import { router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { FormInput, Button } from '../../../../shared/ui';
-import { emptyValidator, redirect } from '../../../../shared/utils';
+import { emptyValidator } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
+import { authController } from '../../controller';
 import {
   SIGN_IN_FORM_FIELDS,
   SIGN_IN_FORM_FIELDS_NAME,
 } from '../../lib/constants';
+import { SignInData } from '../../model';
 
 // TODO: Подумать над уровнями доступа методов
 export class UserSignInForm extends FormAuth {
@@ -33,11 +36,11 @@ export class UserSignInForm extends FormAuth {
       variant: 'primary',
     });
     const buttonAlt = new Button({
-      type: 'reset',
+      type: 'button',
       text: 'Нет аккаунта?',
       variant: 'secondary',
       onClick: () => {
-        redirect(APP_PATH.REGISTER);
+        router.go(APP_PATH.REGISTER);
       },
     });
 
@@ -51,7 +54,7 @@ export class UserSignInForm extends FormAuth {
     });
   }
 
-  private __handleSubmit(e: Event) {
+  private async __handleSubmit(e: Event) {
     const result: Record<string, string> = {};
     let isAnyInvalid = false;
 
@@ -76,10 +79,9 @@ export class UserSignInForm extends FormAuth {
       result[key] = value;
     });
 
-    // Если все поля валидны, то выходим из режима редактирования
+    // Если все поля валидны, то выполняем вход
     if (!isAnyInvalid) {
-      this.setProps({ isEditable: false });
+      authController.signIn(result as SignInData)
     }
-    console.log('SIGN_IN_FORM: ', result);
   }
 }

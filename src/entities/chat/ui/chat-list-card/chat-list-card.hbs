@@ -1,0 +1,22 @@
+<div class="dialog-card-wrapper">
+    <div class="dialog-card {{#if isActive}} active{{/if}}">
+        {{{userAvatar}}}
+        <div class='dialog-card__message'>
+            <div class="dialog-card__message-wrapper left {{#if lastMessage}}last-message{{/if}}">
+                <span class="dialog-card__message-name ">{{title}}</span>
+                {{#if lastMessage}}
+                <span class="text-secondary dialog-card__message-last">
+                    
+                     <span class="text-primary">{{#if isLastMe}}Вы {{else}} {{lastMessageName}}{{/if}}:</span>
+                    {{lastMessage}}
+                </span>
+                {{/if}}
+            </div>
+            <div class="dialog-card__message-wrapper right">
+                <span class="text-secondary dialog-card__message-time">{{lastMessageTime}}</span>
+                {{#if unread_count}}<span class="dialog-card__message-count">{{unread_count}}</span>{{/if}}
+            </div>
+        </div>
+    </div>
+    <div class='separator'></div>
+</div>

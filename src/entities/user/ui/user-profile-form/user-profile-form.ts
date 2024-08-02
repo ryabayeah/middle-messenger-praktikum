@@ -1,16 +1,19 @@
 import { APP_PATH } from '../../../../shared/constants';
-import { Block } from '../../../../shared/lib';
+import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
-import { emptyValidator, getBase64, redirect } from '../../../../shared/utils';
+import { emptyValidator } from '../../../../shared/utils';
+import { authController, userController } from '../../controller';
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
-import { UserProfileData } from '../../model';
+import { User } from '../../model';
 import { UserAvatarModal } from '../user-avatar-modal';
 import template from './user-profile-form.hbs?raw';
+import './user-profile-form.scss';
 
 interface UserProfileFormProps extends CompileOptions {
-  isEditable: boolean;
-  userProfileData: UserProfileData;
+  isEditable?: boolean;
+  user?: User;
+  isLoadingUser?: boolean;
 }
 
 // TODO: Подумать над уровнями доступа методов
@@ -24,11 +27,7 @@ interface InternalUserProfileFormProps extends UserProfileFormProps {
 }
 
 export class UserProfileForm extends Block {
-  constructor({
-    isEditable,
-    userProfileData,
-    ...props
-  }: UserProfileFormProps) {
+  constructor({ user, isLoadingUser = false, ...props }: UserProfileFormProps) {
     const refs: Ref = {
       [PROFILE_FIELDS_NAME.EMAIL]: null,
       [PROFILE_FIELDS_NAME.LOGIN]: null,
@@ -43,7 +42,7 @@ export class UserProfileForm extends Block {
     Object.entries(PROFILE_FIELDS).forEach(([key, fieldValues]) => {
       const field = new FormInput({
         ...fieldValues,
-        value: userProfileData[key as keyof typeof PROFILE_FIELDS],
+        value: user?.[key as keyof typeof PROFILE_FIELDS],
         isDisabled: true,
       });
       refs[key as PROFILE_FIELDS_NAME] = field;
@@ -51,13 +50,13 @@ export class UserProfileForm extends Block {
     });
 
     const userAvatarModal = new UserAvatarModal({
-      onApply: (file: File) => this.__handleAvatarModalApply(file),
+      onApply: () => this.__handleAvatarModalClose(),
       onClose: () => this.__handleAvatarModalClose(),
     });
     userAvatarModal.hide();
 
     const avatar = new Avatar({
-      isEditable: false,
+      srcPath: user?.avatar,
       onClick: () => {
         this.__handleAvatarClick();
       },
@@ -97,7 +96,7 @@ export class UserProfileForm extends Block {
       class: 'p-0',
 
       onClick: () => {
-        redirect(APP_PATH.CHANGE_PASSWORD)
+        router.go(APP_PATH.CHANGE_PASSWORD);
       },
     });
 
@@ -109,8 +108,7 @@ export class UserProfileForm extends Block {
       class: 'p-0',
 
       onClick: () => {
-        this.setProps({ ...this.props, isEditable: true });
-        redirect(APP_PATH.LOGIN)
+        authController.logout();
       },
     });
 
@@ -124,13 +122,14 @@ export class UserProfileForm extends Block {
 
     const extraProps = {
       refs,
-      isEditable,
+      isEditable: false,
     };
 
     super({
       ...props,
       ...extraProps,
       ...buttons,
+      isLoadingUser,
       avatar,
       formFields,
       userAvatarModal,
@@ -148,10 +147,6 @@ export class UserProfileForm extends Block {
     _newProps: InternalUserProfileFormProps,
   ): boolean {
     if (_oldProps.isEditable !== _newProps.isEditable) {
-      const avatarRef = this.children.avatar as Avatar;
-      if (avatarRef) {
-        avatarRef.setProps({ isEditable: _newProps.isEditable });
-      }
       const { refs } = _oldProps;
       Object.entries(PROFILE_FIELDS).forEach(([key, fieldValues]) => {
         const field = refs[key as keyof typeof refs];
@@ -169,37 +164,13 @@ export class UserProfileForm extends Block {
   private __handleAvatarClick() {
     const userAvatarModalChild = this.children
       .userAvatarModal as UserAvatarModal;
-
-    this.props.isEditable && userAvatarModalChild.show();
+    userAvatarModalChild.show();
   }
 
   private __handleAvatarModalClose() {
     const userAvatarModalChild = this.children
       .userAvatarModal as UserAvatarModal;
     userAvatarModalChild.hide();
-  }
-
-  private async __handleAvatarModalApply(file: File) {
-    const refs = this.props.refs as Ref;
-    // TODO: пока не понятно как работать с файлом (подождать апи?)
-    const avatarHiddenRef = refs[PROFILE_FIELDS_NAME.AVATAR];
-    if (avatarHiddenRef) {
-      avatarHiddenRef.setProps({ value: file });
-    }
-
-    //TODO: Возможно временно использоване base64? Мб будет открытый бакет?
-    const avatarRef = this.children[PROFILE_FIELDS_NAME.AVATAR] as Avatar;
-    if (avatarRef) {
-      const base64 = (await getBase64(file)).split(',')[1];
-      //Не могу использовать 
-      // const imgType = base64.split('.').at(-1) || 'png';
-
-      const splitted = base64.split('.')
-      const imgType = splitted[splitted.length-1] || 'png';
-      avatarRef.setProps({ src: `data:image/${imgType};base64, ${base64}` });
-    }
-
-    this.__handleAvatarModalClose();
   }
 
   private __handleSubmit(e: Event) {
@@ -209,7 +180,7 @@ export class UserProfileForm extends Block {
     const target = e.target as HTMLFormElement;
 
     const formData = new FormData(target);
-    Object.values(PROFILE_FIELDS_NAME).forEach(key => {
+    Object.values(PROFILE_FIELDS_NAME).forEach((key) => {
       const value = (formData.get(key) || '')?.toString();
       const { validator } = PROFILE_FIELDS[key];
       const isInvalid =
@@ -227,11 +198,20 @@ export class UserProfileForm extends Block {
       result[key] = value;
     });
 
-    // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
-      this.setProps({ isEditable: false });
+      userController
+        .updateUser({
+          first_name: result.first_name,
+          second_name: result.second_name,
+          display_name: result.display_name,
+          login: result.login,
+          email: result.email,
+          phone: result.phone,
+        })
+        .then(() => {
+          this.setProps({ isEditable: false });
+        });
     }
-    console.log('PROFILE_EDIT_FORM: ', result);
   }
 
   render() {
