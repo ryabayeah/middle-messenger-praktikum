@@ -38,13 +38,13 @@ export class MessageController {
           });
           this.socket.close(() => {
             console.log('Connection closed');
-
             if (!this.socket) return;
             clearInterval(this._ping);
             this._isAllMessage = false;
             this._ping = undefined;
             this._offset = 0;
             this.socket = null;
+            // TODO: почистить листнеры сокета
           });
           this.socket.error(() => {
             console.log('Connection error');

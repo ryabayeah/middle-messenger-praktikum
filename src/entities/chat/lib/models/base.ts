@@ -16,19 +16,18 @@ export type ChatDialog = {
   messages?: ChatDialogMessage[];
 };
 
-export type Dialog =  {
+export type Dialog = {
   id: number;
   title: string;
   avatar: string;
   unread_count: number;
   last_message: LastMessage | null;
   created_by: number;
-}
+};
 
 export type ChatDialogShort = {
   isLastMe: boolean;
 
-  
   id: number;
   title: string;
   avatar: string;
@@ -44,15 +43,15 @@ export type LastMessage = {
 };
 
 export type Message = {
-  chat_id:  number
-  content:  string 
-  file: string
-  id: number
-  is_read: boolean 
-  time: string
-  type: "message"
-  user_id: number
-}
+  chat_id: number;
+  content: string;
+  file: string;
+  id: number;
+  is_read: boolean;
+  time: string;
+  type: 'message';
+  user_id: number;
+};
 
 type User = {
   id: number;

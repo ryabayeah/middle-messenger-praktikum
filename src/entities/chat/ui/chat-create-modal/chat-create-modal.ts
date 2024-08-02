@@ -1,8 +1,6 @@
 import { Button, FormInput, Modal } from '../../../../shared/ui';
 import { chatController } from '../../controller';
 
-import './chat-create-modal.scss';
-
 interface ChatCreateModalProps extends CompileOptions {
   onClose: VoidFunction;
   onApply: () => void;

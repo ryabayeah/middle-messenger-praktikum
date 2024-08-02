@@ -11,7 +11,7 @@ export const withStore = (mapStateToProps: (state: AppStore) => Indexed) => {
         super({ ...props, ...mapStateToProps(store.getState()) });
 
         store.on(StoreEvents.Updated, () => {
-          const newState = mapStateToProps({...store.getState()});
+          const newState = mapStateToProps({ ...store.getState() });
           if (!isEqual(oldState, newState)) {
             this.setProps({ ...mapStateToProps(store.getState()) });
             oldState = this.props;
@@ -21,5 +21,3 @@ export const withStore = (mapStateToProps: (state: AppStore) => Indexed) => {
     };
   };
 };
-
-// TODO: Разобраться почему стейт постоянно ререндерит Chat компонент при скролле сообщений

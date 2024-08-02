@@ -63,6 +63,8 @@ export class AuthController {
     await authApi
       .logout()
       .then(() => {
+        store.reset()
+        // TODO: вырубить сокет
         router.go(APP_PATH.LOGIN);
       })
       .catch((error: ApiError) => {

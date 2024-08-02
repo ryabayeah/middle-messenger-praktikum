@@ -11,6 +11,7 @@ export interface ButtonProps extends CompileOptions {
   class?: string;
   type?: ButtonType;
   variant?: ButtonVariant;
+  disabled?: boolean;
   textPosition?: ButtonTextPosition;
   icon?: string;
   href?: string;
@@ -18,12 +19,13 @@ export interface ButtonProps extends CompileOptions {
 }
 
 export class Button extends Block {
-  constructor({ onClick=()=>{}, ...props }: ButtonProps) {
+  constructor({ onClick = () => {}, ...props }: ButtonProps) {
     super({
       ...props,
       events: {
         click: (e: Event) => {
-          onClick(e)},
+          onClick(e);
+        },
       },
     });
   }

@@ -54,6 +54,7 @@ export class Chat extends Block {
     const attachButton = new Button({
       text: '',
       variant: 'secondary',
+      disabled: true,
       icon: DIALOG_ICONS.ATTACH,
       class: 'buttons',
       onClick: () => this.__handleAttachButtonClick(),

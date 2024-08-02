@@ -1,6 +1,7 @@
 <button
   type='{{type}}'
-  class='button {{variant}} {{class}}'
+  {{#if disabled}} disabled {{/if}}
+  class='button {{variant}} {{class}} {{#if disabled}} disabled {{/if}}'
 >
   <span class='button__text {{textPosition}}'>{{{icon}}} {{text}}</span>
 </button>
