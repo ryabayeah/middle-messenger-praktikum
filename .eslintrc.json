@@ -12,7 +12,7 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "quotes": ["warn", "single"],
-    "eol-last": ["warn", "always"],
+    "eol-last": ["error", "always"],
     "no-unused-vars": "off",
     "no-extra-semi": "error",
     "@typescript-eslint/no-unused-vars": "off",
