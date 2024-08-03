@@ -13,7 +13,7 @@ import './user-profile-form.scss';
 interface UserProfileFormProps extends CompileOptions {
   isEditable?: boolean;
   user?: User;
-  isLoadingUser?: boolean;
+  isLoading?: boolean;
 }
 
 // TODO: Подумать над уровнями доступа методов
@@ -27,7 +27,7 @@ interface InternalUserProfileFormProps extends UserProfileFormProps {
 }
 
 export class UserProfileForm extends Block {
-  constructor({ user, isLoadingUser = false, ...props }: UserProfileFormProps) {
+  constructor({ user, isLoading = false, ...props }: UserProfileFormProps) {
     const refs: Ref = {
       [PROFILE_FIELDS_NAME.EMAIL]: null,
       [PROFILE_FIELDS_NAME.LOGIN]: null,
@@ -56,6 +56,7 @@ export class UserProfileForm extends Block {
     userAvatarModal.hide();
 
     const avatar = new Avatar({
+      isEditable: true,
       srcPath: user?.avatar,
       onClick: () => {
         this.__handleAvatarClick();
@@ -129,7 +130,7 @@ export class UserProfileForm extends Block {
       ...props,
       ...extraProps,
       ...buttons,
-      isLoadingUser,
+      isLoading,
       avatar,
       formFields,
       userAvatarModal,
@@ -199,6 +200,7 @@ export class UserProfileForm extends Block {
     });
 
     if (!isAnyInvalid) {
+      this.setProps({'isLoading':  true})
       userController
         .updateUser({
           first_name: result.first_name,
@@ -209,6 +211,7 @@ export class UserProfileForm extends Block {
           phone: result.phone,
         })
         .then(() => {
+          this.setProps({'isLoading':  false})
           this.setProps({ isEditable: false });
         });
     }
