@@ -4,7 +4,7 @@ import { Ref } from '../../../../shared/model';
 import { FormInput, Button } from '../../../../shared/ui';
 import {
   emptyValidator,
-  getPasswordRepeatedValidator
+  getPasswordRepeatedValidator,
 } from '../../../../shared/utils';
 import { FormAuth } from '../../../auth/ui';
 import { userController } from '../../controller';
@@ -63,6 +63,7 @@ export class UserPasswordChange extends Block {
       buttonAlt: altButton,
       onSubmit: (e: Event) => this.__handleSubmit(e),
     });
+
     super({
       refs,
       userPasswordChangeForm,
@@ -106,13 +107,23 @@ export class UserPasswordChange extends Block {
 
     // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
-      userController.updatePassword({
-        oldPassword: result.old_password,
-        newPassword: result.new_password,
-      }).then(()=>{
-        alert('Пароль успешно изменен');
-        router.go(APP_PATH.PROFILE)
-      })
+      const form = this.children.userPasswordChangeForm as FormAuth
+      userController
+        .updatePassword({
+          oldPassword: result.old_password,
+          newPassword: result.new_password,
+        })
+        .then(() => {
+          // TODO: Заменить на тултип
+          form.setProps({isLoading: false})
+          alert('Пароль успешно изменен');
+          router.go(APP_PATH.PROFILE);
+        })
+        .catch((error: Error) => {
+          // TODO: Заменить на тултип
+          form.setProps({isLoading: false})
+          alert(error.message);
+        });
     }
   }
 

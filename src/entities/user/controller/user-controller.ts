@@ -11,9 +11,7 @@ export class UserController {
       .then((users) => {
         return users;
       })
-      .catch((error: ApiError) => {
-        throw new Error(error.reason);
-      });
+      .catch(apiBaseErrorHandler);
   }
 
   async updateUserAvatar(avatar: FormData): Promise<User> {
@@ -23,9 +21,7 @@ export class UserController {
         store.set('user', user)
         return user;
       })
-      .catch((error: ApiError) => {
-        throw new Error(error.reason);
-      });
+      .catch(apiBaseErrorHandler);
   }
 
   async updateUser(data: UpdateUserData): Promise<User> {
