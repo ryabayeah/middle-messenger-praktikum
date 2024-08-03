@@ -2,7 +2,6 @@ import './chat-actions.scss';
 import template from './chat-actions.hbs?raw';
 import { Block } from '../../../../shared/lib';
 import { Button } from '../../../../shared/ui';
-import { DIALOG_ICONS } from '../../lib/constants';
 import { ChatDeleteUserModal } from '../chat-delete-user-modal';
 import { ChatDeleteModal } from '../chat-delete-modal';
 import { ChatAddUserModal } from '../chat-add-user-modal';
