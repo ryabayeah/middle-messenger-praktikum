@@ -14,14 +14,12 @@ export class AuthController {
         router.go(APP_PATH.CHATS);
       })
       .catch((error: ApiError) => {
-        console.log(error, "-error")
         let errorMessage = '';
         if (error.reason === 'User already in system') {
           router.go(APP_PATH.CHATS);
           return;
         }
         if (error.reason === 'Login or password is incorrect') {
-          console.log("--")
           errorMessage = 'Некорректный логин или пароль';
         }
 
