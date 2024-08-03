@@ -115,7 +115,6 @@ export class Chat extends Block {
     if (oldProps.avatar !== newProps.avatar){
       const avatar = this.children.avatar as Avatar
       if (avatar){
-        console.log('--')
         avatar.setProps({src: getResource(newProps.avatar)})
       }
     }
