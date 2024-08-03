@@ -1,0 +1,25 @@
+<div class="modal-wrapper">
+    <section class="modal {{class}} {{#if isInvalid}} invalid {{/if}}">
+        <div class="modal__header">
+            <h3>{{title}}</h3>
+        </div>
+
+        <form class="modal__body">
+            {{#if body}}
+            <div class="modal__content">
+                {{{body}}}
+            </div>
+            {{/if}}
+
+            <div class="modal__buttons">
+                {{#if isLoading}}
+                    <div class="loader"></div>
+                {{else}}
+                    {{{buttons}}}
+                {{/if}}
+            </div>
+        </form>
+    </section>
+
+    <div class="overlay"></div>
+</div>

@@ -1,0 +1,9 @@
+.link {
+  text-decoration: none;
+  color: var(--blue);
+  cursor: pointer;
+
+  &.underline {
+    text-decoration: underline;
+  }
+}

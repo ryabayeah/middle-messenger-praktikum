@@ -1,0 +1,19 @@
+@import './app/assets/styles/colors';
+@import './app/assets/styles/base';
+@import './app/assets/styles/scroll';
+@import './app/assets/styles/loader';
+
+:root {
+  @include colors;
+  @include text;
+  @include font-weight;
+  @include base;
+  @include loader;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}

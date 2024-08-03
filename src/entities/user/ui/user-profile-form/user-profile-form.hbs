@@ -1,0 +1,31 @@
+<div class='form-profile'>
+  <form class='form-profile__content'>
+    <div class='avatar-section'>
+      <div class='avatar-section__wrapper'>
+        {{{avatar}}}
+        <span class='bold'>{{display_name}}</span>
+      </div>
+    </div>
+    <div class='fields-section'>
+      <div class='form-profile__fields'>
+        {{{formFields}}}
+      </div>
+
+      {{#if isLoading}}
+      <div class="loader"></div>
+      {{else}}
+      <div class='form-profile__buttons '>
+        {{#if isEditable}}
+        {{{saveButton}}}
+        {{{altButton}}}
+        {{else}}
+        {{{editProfileButton}}}
+        {{{editPasswordButton}}}
+        {{{logOutButton}}}
+        {{/if}}
+      </div>
+      {{/if}}
+    </div>
+  </form>
+  {{{userAvatarModal}}}
+</div>
