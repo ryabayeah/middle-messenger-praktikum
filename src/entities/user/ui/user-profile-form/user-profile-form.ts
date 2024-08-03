@@ -1,8 +1,10 @@
+import { RESOURCES_URL } from '../../../../shared/api';
 import { APP_PATH } from '../../../../shared/constants';
+import { withStore } from '../../../../shared/hoc';
 import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
-import { emptyValidator } from '../../../../shared/utils';
+import { emptyValidator, getResource } from '../../../../shared/utils';
 import { authController, userController } from '../../controller';
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
 import { User } from '../../model';
@@ -50,8 +52,8 @@ export class UserProfileForm extends Block {
     });
 
     const userAvatarModal = new UserAvatarModal({
-      onApply: () => this.__handleAvatarModalClose(),
-      onClose: () => this.__handleAvatarModalClose(),
+      onApply: () => this.__handleAvatarClick(),
+      onClose: () => this.__handleAvatarClick(),
     });
     userAvatarModal.hide();
 
@@ -130,6 +132,7 @@ export class UserProfileForm extends Block {
       ...props,
       ...extraProps,
       ...buttons,
+      user,
       isLoading,
       avatar,
       formFields,
@@ -147,7 +150,7 @@ export class UserProfileForm extends Block {
     _oldProps: InternalUserProfileFormProps,
     _newProps: InternalUserProfileFormProps,
   ): boolean {
-    if (_oldProps.isEditable !== _newProps.isEditable) {
+    if (JSON.parse(JSON.stringify(_oldProps.user || {})) !== JSON.parse(JSON.stringify(_newProps.user || {}))) {
       const { refs } = _oldProps;
       Object.entries(PROFILE_FIELDS).forEach(([key, fieldValues]) => {
         const field = refs[key as keyof typeof refs];
@@ -158,6 +161,13 @@ export class UserProfileForm extends Block {
           });
         }
       });
+
+    }
+
+    if (_oldProps.user?.avatar  !== _newProps.user?.avatar){
+      const avatar = this.children.avatar as Avatar
+      const newSrc = _newProps.user?.avatar 
+      avatar.setProps({src: getResource(newSrc)})
     }
     return true;
   }
@@ -165,16 +175,13 @@ export class UserProfileForm extends Block {
   private __handleAvatarClick() {
     const userAvatarModalChild = this.children
       .userAvatarModal as UserAvatarModal;
-    userAvatarModalChild.show();
+    userAvatarModalChild.toggleVisibility();
   }
 
-  private __handleAvatarModalClose() {
-    const userAvatarModalChild = this.children
-      .userAvatarModal as UserAvatarModal;
-    userAvatarModalChild.hide();
-  }
 
   private __handleSubmit(e: Event) {
+    console.log("-")
+
     const result: Record<string, string> = {};
     let isAnyInvalid = false;
 
@@ -200,7 +207,7 @@ export class UserProfileForm extends Block {
     });
 
     if (!isAnyInvalid) {
-      this.setProps({'isLoading':  true})
+      this.setProps({ isLoading: true });
       userController
         .updateUser({
           first_name: result.first_name,
@@ -211,8 +218,11 @@ export class UserProfileForm extends Block {
           phone: result.phone,
         })
         .then(() => {
-          this.setProps({'isLoading':  false})
-          this.setProps({ isEditable: false });
+          this.setProps({ isLoading: false, isEditable: false });
+        })
+        .catch((error: Error) => {
+          this.setProps({isLoading: false})
+          alert(error.message);
         });
     }
   }

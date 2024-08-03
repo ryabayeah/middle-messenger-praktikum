@@ -12,7 +12,11 @@
             {{/if}}
 
             <div class="modal__buttons">
-                {{{buttons}}}
+                {{#if isLoading}}
+                    <div class="loader"></div>
+                {{else}}
+                    {{{buttons}}}
+                {{/if}}
             </div>
         </form>
     </section>

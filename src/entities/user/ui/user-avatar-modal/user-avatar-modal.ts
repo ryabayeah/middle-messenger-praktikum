@@ -5,6 +5,7 @@ import { userController } from '../../controller';
 
 interface UserAvatarModalProps extends CompileOptions {
   isInvalid?: boolean;
+  isLoading?: boolean
   onClose: VoidFunction;
   onApply: VoidFunction;
 }
@@ -17,7 +18,7 @@ export class UserAvatarModal extends Modal {
       text: 'Поменять',
       variant: 'primary',
       class: 'w-full',
-      type: 'submit',
+      type: 'button',
       onClick: () => this.__handleApply(onApply),
     });
     const altButton = new Button({
@@ -35,7 +36,7 @@ export class UserAvatarModal extends Modal {
     });
 
     super({
-      ...{...props, avatarFile},
+      ...{ ...props, avatarFile },
       hide: false,
       title: 'Загрузите файл',
       body: modalBody,
@@ -57,20 +58,28 @@ export class UserAvatarModal extends Modal {
   private __handleApply(callback: VoidFunction) {
     const file = this.props.avatarFile as File | null;
     if (file) {
-
+      this.setProps({isLoading: true})
       const formData = new FormData();
       formData.append('avatar', file);
-      userController.updateUserAvatar(formData)
-      callback();
+      userController
+        .updateUserAvatar(formData)
+        .then(() => {
+          this.__resetModalBody();
+          this.setProps({isLoading: false})
+          callback();
+        })
+        .catch((error: Error) => {
+          this.setProps({isLoading: false})
+          alert(error.message);
+        });
+    } else {
+      alert('Прикрепите файл')
+      return
     }
-    // При закрытии модалки сбрасываем все примененые значения
-    this.__resetModalBody();
   }
 
   private __handleClose(callback: VoidFunction) {
-    callback();
-    // При закрытии модалки сбрасываем все примененые значения
     this.__resetModalBody();
+    callback();
   }
-
 }
