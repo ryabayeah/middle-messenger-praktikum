@@ -1,24 +1,23 @@
 import { FIELDS } from '../../../../shared/constants';
+import { store } from '../../../../shared/lib';
 import { Button, FormInput, Modal } from '../../../../shared/ui';
-import { loginValidator } from '../../../../shared/utils';
 import { chatController } from '../../controller';
 import './chat-delete-user-modal.scss';
 
 interface ChatDeleteUserModalProps extends CompileOptions {
-  chatId: number
   onClose: VoidFunction;
-  onApply: VoidFunction
+  onApply: VoidFunction;
 }
 
 // TODO: Выводить список пользователей чата и удалять из этого списка
 export class ChatDeleteUserModal extends Modal {
-  constructor({ chatId, onClose, onApply }: ChatDeleteUserModalProps) {
+  constructor({ onClose, onApply }: ChatDeleteUserModalProps) {
     const saveButton = new Button({
       text: 'Удалить',
       variant: 'primary',
       class: 'w-full',
       type: 'button',
-      onClick: () => this.__handleApply(chatId, onApply),
+      onClick: () => this.__handleApply(onApply),
     });
     const altButton = new Button({
       text: 'Отмена',
@@ -31,7 +30,6 @@ export class ChatDeleteUserModal extends Modal {
     const loginInput = new FormInput({
       ...FIELDS.login,
       validateOn: ['blur'],
-      validator: loginValidator,
     });
 
     super({
@@ -48,13 +46,29 @@ export class ChatDeleteUserModal extends Modal {
     input.setProps({ value: '', isInvalid: false });
   }
 
-  private __handleApply(dialogId: number, callback: VoidFunction) {
+  private async __handleApply(callback: VoidFunction) {
+    const state = store.getState();
     const target = this.element!.querySelector('form');
-    if (target){
-      const formData = new FormData(target)
-      const login = formData.get('login')?.toString()
-      if (!login) return
-      chatController.deleteUserFromChat(login, dialogId)
+    if (target) {
+      const formData = new FormData(target);
+      const login = formData.get('login')?.toString();
+      const chatId = state.selectedDialog?.id;
+      if (!login) {
+        alert('Логин не может быть пустым');
+        return;
+      }
+      if (!chatId) {
+        alert('Не удалось удалить пользователя');
+        return;
+      }
+      await chatController
+        .deleteUserFromChat(login, chatId)
+        .then(() => {
+          alert('Пользователь удален');
+        })
+        .catch((error: Error) => {
+          alert(error.message);
+        });
     }
 
     this.reset();

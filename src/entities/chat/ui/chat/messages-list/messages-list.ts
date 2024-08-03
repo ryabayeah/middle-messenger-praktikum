@@ -3,8 +3,8 @@ import { Block, store } from '../../../../../shared/lib';
 import { DIALOG_MESSAGE, Message } from '../../../lib';
 import { ChatErrorLayout } from '../../chat-error-layout';
 import { MessageBubble } from '../../message-bubble';
-import { getDayMonth, getMessageTime } from '../../../lib/utils';
 import { MessagesGroup } from '../../messages-group';
+import { getDayMonth, getMessageTime } from '../../../lib/utils';
 
 interface MessagesListProps extends CompileOptions {
   messages?: Message[];

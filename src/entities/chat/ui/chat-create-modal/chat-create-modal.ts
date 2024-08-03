@@ -3,7 +3,7 @@ import { chatController } from '../../controller';
 
 interface ChatCreateModalProps extends CompileOptions {
   onClose: VoidFunction;
-  onApply: VoidFunction
+  onApply: VoidFunction;
 }
 
 export class ChatCreateModal extends Modal {
@@ -28,7 +28,6 @@ export class ChatCreateModal extends Modal {
       name: 'dialog_name',
       placeholder: 'Введите название нового диалога',
       validateOn: ['blur'],
-      // validator: loginValidator,
     });
 
     super({
@@ -51,9 +50,19 @@ export class ChatCreateModal extends Modal {
     if (target) {
       const formData = new FormData(target);
       const title = formData.get('dialog_name')?.toString();
-      chatController.createChat(title || '');
+      if (!title) {
+        alert('Название чата не может быть пустым');
+        return;
+      }
+      chatController
+        .createChat(title || '')
+        .then(() => {
+          callback();
+        })
+        .catch((error: Error) => {
+          alert(error.message);
+        });
     }
-    callback();
   }
 
   private __handleClose(callback: VoidFunction) {

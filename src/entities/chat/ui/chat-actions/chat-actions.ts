@@ -7,13 +7,8 @@ import { ChatDeleteUserModal } from '../chat-delete-user-modal';
 import { ChatDeleteModal } from '../chat-delete-modal';
 import { ChatAddUserModal } from '../chat-add-user-modal';
 
-interface ChatActionsProps extends CompileOptions {
-  chatId: number;
-}
-
-// TODO: Сделать общим компонентом с DialogAttachments
 export class ChatActions extends Block {
-  constructor({ chatId }: ChatActionsProps) {
+  constructor() {
     const buttonAddUser = new Button({
       text: 'Добавить пользователя',
       variant: 'secondary',
@@ -34,21 +29,18 @@ export class ChatActions extends Block {
     });
 
     const deleteChatModal = new ChatDeleteModal({
-      chatId,
       onApply: () => this.__closeDelete(),
       onClose: () => this.__closeDelete(),
     });
     deleteChatModal.hide();
 
     const addUserModal = new ChatAddUserModal({
-      chatId,
       onApply: () => this.__closeAddUser(),
       onClose: () => this.__closeAddUser(),
     });
     addUserModal.hide();
 
     const deleteUserModal = new ChatDeleteUserModal({
-      chatId,
       onApply: () => this.__closeDeleteUser(),
       onClose: () => this.__closeDeleteUser(),
     });

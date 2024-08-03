@@ -10,7 +10,6 @@ function queryStringify(data: Record<string, unknown>) {
   }, '?');
 }
 
-
 enum METHODS {
   GET = 'GET',
   POST = 'POST',
@@ -60,22 +59,27 @@ export class HTTPTransport {
       }
       xhr.open(method, finalUrl);
 
-      Object.keys(headers).forEach(key => {
+      Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
       });
 
       xhr.onload = function () {
         const status = xhr.status || 0;
-        try {
-          if (status >= 200 && status < 300) {
-            resolve(
-              xhr.response === 'OK' ? xhr.response : JSON.parse(xhr.response),
+
+        if (status >= 200 && status < 300) {
+          resolve(
+            xhr.response === 'OK' ? xhr.response : JSON.parse(xhr.response),
+          );
+        } else {
+          try {
+            reject(
+              typeof xhr.response === 'object'
+                ? JSON.parse(xhr.response)
+                : xhr.response,
             );
-          } else {
-            reject(JSON.parse(xhr.response));
+          } catch (e) {
+            console.error(e);
           }
-        } catch (e) {
-          console.error(e);
         }
       };
 
