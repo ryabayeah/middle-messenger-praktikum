@@ -1,23 +1,8 @@
 import { yandexApi } from '../../../shared/api';
 import { BaseAPI } from '../../../shared/lib';
+import { User } from '../../user/model';
+import { Message } from '../lib';
 import { GetChatsParams } from '../model/api';
-
-type User = {
-  id: number;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  email: string;
-  phone: string;
-  avatar: string;
-};
-
-type Message = {
-  user: User;
-  time: string;
-  content: string;
-};
 
 export type Chat = {
   id: number;
@@ -32,6 +17,7 @@ enum CHAT_API_PATH {
   CHATS = '/chats',
   TOKEN = '/chats/token/',
   USERS = '/chats/users',
+  CHAT_USERS = '/users',
 }
 
 class ChatAPI extends BaseAPI {
@@ -46,6 +32,9 @@ class ChatAPI extends BaseAPI {
   }
   async getChatToken(id: number) {
     return yandexApi.post(`${CHAT_API_PATH.TOKEN}${id}`);
+  }
+  async getChatUsers(id: number): Promise<User[]> {
+    return yandexApi.get(`${CHAT_API_PATH.CHATS}/${id}${CHAT_API_PATH.CHAT_USERS}`);
   }
   async addUsers(ids: number[], chatId: number) {
     return yandexApi.put(`${CHAT_API_PATH.USERS}`, {

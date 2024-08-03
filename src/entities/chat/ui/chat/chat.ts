@@ -84,9 +84,7 @@ export class Chat extends Block {
     const noDialog = new ChatErrorLayout({
       message: DIALOG_MESSAGE.NO_DIALOG_SELECTED,
     });
-    const actions = new ChatActions({
-      chatId: id
-    });
+    const actions = new ChatActions();
     actions.hide();
 
     const MessagesListConnected = withMessages(MessagesList as typeof Block);

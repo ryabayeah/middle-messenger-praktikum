@@ -1,18 +1,18 @@
 import { FIELDS } from '../../../../shared/constants';
+import { store } from '../../../../shared/lib';
 import { Button, FormInput, Modal } from '../../../../shared/ui';
 import { loginValidator } from '../../../../shared/utils';
 import { chatController } from '../../controller';
 import './chat-add-user-modal.scss';
 
 interface DialogAddUserModalProps extends CompileOptions {
-  chatId: number
   onClose: VoidFunction;
   onApply: VoidFunction;
 }
 
 // Features
 export class ChatAddUserModal extends Modal {
-  constructor({ chatId, onClose, onApply }: DialogAddUserModalProps) {
+  constructor({ onClose, onApply }: DialogAddUserModalProps) {
     const saveButton = new Button({
       text: 'Добавить',
       variant: 'primary',
@@ -40,7 +40,7 @@ export class ChatAddUserModal extends Modal {
       body: loginInput,
       buttons: [saveButton, altButton],
       class: 'dialog-add-user-modal',
-      onSubmit: () => this.__handleApply(chatId, onApply)
+      onSubmit: () => this.__handleApply(onApply),
     });
   }
 
@@ -49,13 +49,29 @@ export class ChatAddUserModal extends Modal {
     input.setProps({ value: '', isInvalid: false });
   }
 
-  private __handleApply(chatId: number, callback: VoidFunction) {
+  private __handleApply(callback: VoidFunction) {
+    const state = store.getState();
     const target = this.element!.querySelector('form');
-    if (target){
-      const formData = new FormData(target)
-      const login = formData.get('login')?.toString()
-      if (!login) return
-      chatController.addUserToChat(login, chatId)
+    if (target) {
+      const formData = new FormData(target);
+      const login = formData.get('login')?.toString();
+      const chatId = state.selectedDialog?.id;
+      if (!login) {
+        alert('Логин не может быть пустым');
+        return;
+      }
+      if (!chatId) {
+        alert('Не удалось добавить пользователя');
+        return;
+      }
+      chatController
+        .addUserToChat(login, chatId)
+        .then(() => {
+          alert('Пользователь добавлен в чат');
+        })
+        .catch((error: Error) => {
+          alert(error.message);
+        });
     }
 
     this.reset();
