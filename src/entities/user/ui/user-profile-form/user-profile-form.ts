@@ -1,6 +1,4 @@
-import { RESOURCES_URL } from '../../../../shared/api';
 import { APP_PATH } from '../../../../shared/constants';
-import { withStore } from '../../../../shared/hoc';
 import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
@@ -87,7 +85,7 @@ export class UserProfileForm extends Block {
       type: 'button',
       class: 'p-0',
       onClick: () => {
-        this.setProps({ ...this.props, isEditable: true });
+        this.setProps({  isEditable: true });
       },
     });
 
@@ -150,15 +148,26 @@ export class UserProfileForm extends Block {
     _oldProps: InternalUserProfileFormProps,
     _newProps: InternalUserProfileFormProps,
   ): boolean {
-    if (JSON.parse(JSON.stringify(_oldProps.user || {})) !== JSON.parse(JSON.stringify(_newProps.user || {}))) {
+    // const isUserNotSame  = JSON.stringify(_oldProps.user || {}) !== JSON.stringify(_newProps.user || {})
+    const isEditableNotSame  = _newProps.isEditable !== _oldProps.isEditable
+    if (isEditableNotSame) {
       const { refs } = _oldProps;
-      Object.entries(PROFILE_FIELDS).forEach(([key, fieldValues]) => {
-        const field = refs[key as keyof typeof refs];
+      Object.entries(PROFILE_FIELDS).forEach(([key]) => {
+        const field = refs[key as keyof typeof refs] as FormInput;
         if (field) {
+          const isEditable = _newProps.isEditable
+          if (isEditable){
+            field.setProps({
+              isDisabled: !isEditable,
+            });
+
+          } else {
           field.setProps({
-            ...fieldValues,
-            isDisabled: !_newProps.isEditable,
+            isInvalid: false,
+            isDisabled: !isEditable,
           });
+          }
+          field.setValue((_newProps.user?.[key as keyof User] || '').toString())
         }
       });
 
@@ -180,8 +189,6 @@ export class UserProfileForm extends Block {
 
 
   private __handleSubmit(e: Event) {
-    console.log("-")
-
     const result: Record<string, string> = {};
     let isAnyInvalid = false;
 

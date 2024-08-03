@@ -24,7 +24,6 @@ export class Avatar extends Block {
     });
   }
   render() {
-    console.log(this.props.src, "-")
     return this.compile(template, { ...this.props });
   }
 }

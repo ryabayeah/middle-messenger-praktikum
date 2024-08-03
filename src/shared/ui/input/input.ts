@@ -39,13 +39,16 @@ export class Input extends Block {
     super({
       ...props,
       events: {
-        change: (e: Event) => onChange && onChange(e),
+        change: (e: Event) => {
+          onChange && onChange(e);
+        },
         blur: (e: Event) => {
           if (validateOn?.includes('blur') && validator) {
             const isValid = this.validate(
               validator,
               (e.target as HTMLInputElement).value,
-            );
+            );       
+
             onValidate && onValidate(isValid);
           }
           onBlur && onBlur(e);
@@ -58,7 +61,7 @@ export class Input extends Block {
     return this.props.value;
   }
 
-  validate(validator: (value: string) => boolean, value: string) {
+  validate(validator: InputDefaultValidator, value: string) {
     const isValid = validator(value);
     this.setProps({
       ...this.props,

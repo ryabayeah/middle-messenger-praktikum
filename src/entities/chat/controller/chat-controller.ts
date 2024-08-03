@@ -37,7 +37,7 @@ export class ChatController {
     return await chatApi
       .getChatUsers(chatId)
       .then((users) => {
-        console.log(users);
+        // console.log(users);
         store.set('dialogUsers', users);
         return users;
       })
