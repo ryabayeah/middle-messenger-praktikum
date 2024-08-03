@@ -61,7 +61,7 @@ export class UserSignInForm extends FormAuth {
     const target = e.target as HTMLFormElement;
 
     const formData = new FormData(target);
-    Object.values(SIGN_IN_FORM_FIELDS_NAME).forEach(key => {
+    Object.values(SIGN_IN_FORM_FIELDS_NAME).forEach((key) => {
       const value = (formData.get(key) || '')?.toString();
       const { validator } = SIGN_IN_FORM_FIELDS[key];
       const isInvalid =
@@ -81,7 +81,15 @@ export class UserSignInForm extends FormAuth {
 
     // Если все поля валидны, то выполняем вход
     if (!isAnyInvalid) {
-      authController.signIn(result as SignInData)
+      this.setProps({ isLoading: true });
+      authController
+        .signIn(result as SignInData)
+        .then(() => {
+          this.setProps({ isLoading: false });
+        })
+        .catch((error: Error) => {
+          alert(error.message);
+        });
     }
   }
 }

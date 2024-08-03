@@ -1,4 +1,3 @@
-import { ApiError } from '../../../shared/api';
 import { store } from '../../../shared/lib';
 import { apiBaseErrorHandler } from '../../../shared/utils';
 import { userApi } from '../api';
@@ -38,9 +37,7 @@ export class UserController {
   async updatePassword(data: UpdateUserPasswordData) {
     return await userApi
       .updateUserPassword(data)
-      .catch((error: ApiError) => {
-        throw new Error(error.reason);
-      });
+      .catch(apiBaseErrorHandler);
   }
 }
 
