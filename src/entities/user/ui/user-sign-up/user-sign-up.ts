@@ -123,6 +123,7 @@ export class UserSignUpForm extends FormAuth {
         })
         .catch((error: Error) => {
           alert(error.message);
+          this.setProps({ isLoading: false });
         });
     }
   }

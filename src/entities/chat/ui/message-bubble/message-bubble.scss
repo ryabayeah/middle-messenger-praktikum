@@ -5,6 +5,11 @@
   max-width: 30rem;
   margin: 0.125rem;
 
+  &_user-name{
+    font-weight: bold;
+    color: var(--blue);
+    padding-bottom: 8px;
+  }
   
   .message_send {
     padding-left: 15px;
@@ -81,28 +86,4 @@
     }
   
   }
-  // .message_send {
-  //   padding-left: 15px;
-  //   margin-top: 10px;
-  //   float: right;
-  //   line-height: 1;
-  //   // font-size: 12px;
-  //   -webkit-user-select: none;
-  //   -moz-user-select: none;
-  //   user-select: none;
-  //   vertical-align: middle;
-  //   pointer-events: none;
-  //   z-index: 1;
-  //   cursor: pointer;
-  //   margin-inline-start: 0.1875rem;
-  //   direction: ltr;
-
-  //   display: flex;
-  //   align-items: center;
-  //   gap: 4px;
-
-  //   .message_time {
-  //     font-size: 9px;
-  //   }
-  // }
 }

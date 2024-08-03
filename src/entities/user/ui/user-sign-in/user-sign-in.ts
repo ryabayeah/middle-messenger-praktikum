@@ -89,6 +89,7 @@ export class UserSignInForm extends FormAuth {
         })
         .catch((error: Error) => {
           alert(error.message);
+          this.setProps({ isLoading: false });
         });
     }
   }

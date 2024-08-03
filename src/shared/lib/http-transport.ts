@@ -73,11 +73,10 @@ export class HTTPTransport {
         } else {
           try {
             reject(
-              typeof xhr.response === 'object'
-                ? JSON.parse(xhr.response)
-                : xhr.response,
+              JSON.parse(xhr.response),
             );
           } catch (e) {
+            reject(xhr.response)
             console.error(e);
           }
         }
