@@ -337,7 +337,6 @@ export class Block {
 
   hide() {
     const element = this.getContent();
-    console.log(element, "--elem")
     if (element) {
       element.style.display = 'none';
     }
