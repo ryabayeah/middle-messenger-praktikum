@@ -28,9 +28,6 @@ export class FormInput extends Block {
         });
       },
       onChange: (e: Event) => {
-        // const value = (e.target as HTMLInputElement).value || ''
-        // console.log(value, "---")
-        // this.setProps({value})
         onChange(e)
       },
     });

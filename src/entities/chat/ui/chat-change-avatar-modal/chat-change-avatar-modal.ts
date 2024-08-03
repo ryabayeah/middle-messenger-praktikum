@@ -1,18 +1,18 @@
 import { Modal } from '../../../../shared/ui/modal/modal';
 import { Button } from '../../../../shared/ui/button';
 import { FileUpload } from '../../../../shared/ui/file-upload';
-import { userController } from '../../controller';
+import { chatController } from '../../controller';
+import { store } from '../../../../shared/lib';
 
-interface UserAvatarModalProps extends CompileOptions {
+interface ChatChangeAvatarModalProps extends CompileOptions {
   isInvalid?: boolean;
   isLoading?: boolean;
   onClose: VoidFunction;
   onApply: VoidFunction;
 }
 
-// TODO: Подумать над уровнями доступа методов
-export class UserAvatarModal extends Modal {
-  constructor({ onClose, onApply, ...props }: UserAvatarModalProps) {
+export class ChatChangeAvatarModal extends Modal {
+  constructor({ onClose, onApply, ...props }: ChatChangeAvatarModalProps) {
     const avatarFile: File | null = null;
     const saveButton = new Button({
       text: 'Поменять',
@@ -56,25 +56,34 @@ export class UserAvatarModal extends Modal {
   }
 
   private __handleApply(callback: VoidFunction) {
+    const state = store.getState();
+
     const file = this.props.avatarFile as File | null;
     if (file) {
       this.setProps({ isLoading: true });
       const formData = new FormData();
+
+      const chatId = state.selectedDialog?.id;
+      if (!chatId) {
+        alert('Не удалось изменить аватар');
+        return;
+      }
       formData.append('avatar', file);
-      userController
-        .updateUserAvatar(formData)
+      formData.append('chatId', chatId.toString());
+
+      chatController
+        .updateChatAvatar(formData)
         .then(() => {
           this.__resetModalBody();
           this.setProps({ isLoading: false });
           callback();
         })
         .catch((error: Error) => {
-          this.setProps({ isLoading: false });
           alert(error.message);
+          this.setProps({ isLoading: false });
         });
     } else {
       alert('Прикрепите файл');
-      return;
     }
   }
 

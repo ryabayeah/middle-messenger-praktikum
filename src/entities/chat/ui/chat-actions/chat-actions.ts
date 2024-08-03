@@ -6,25 +6,32 @@ import { DIALOG_ICONS } from '../../lib/constants';
 import { ChatDeleteUserModal } from '../chat-delete-user-modal';
 import { ChatDeleteModal } from '../chat-delete-modal';
 import { ChatAddUserModal } from '../chat-add-user-modal';
+import { ChatChangeAvatarModal } from '../chat-change-avatar-modal';
 
 export class ChatActions extends Block {
   constructor() {
+    const buttonChangeAvatar = new Button({
+      text: 'Изменить аватар чата',
+      variant: 'secondary',
+      // icon: DIALOG_ICONS.ACTION,
+      onClick: () => this.__openChangeAvatar(),
+    });
     const buttonAddUser = new Button({
       text: 'Добавить пользователя',
       variant: 'secondary',
-      icon: DIALOG_ICONS.ADD,
+      // icon: DIALOG_ICONS.ADD,
       onClick: () => this.__openAddUser(),
     });
     const buttonDeleteUser = new Button({
       text: 'Удалить пользователя',
       variant: 'secondary',
-      icon: DIALOG_ICONS.DELETE,
+      // icon: DIALOG_ICONS.DELETE,
       onClick: () => this.__openDeleteUser(),
     });
     const buttonDeleteDialog = new Button({
       text: 'Удалить диалог',
       variant: 'secondary',
-      icon: DIALOG_ICONS.DELETE,
+      // icon: DIALOG_ICONS.DELETE,
       onClick: () => this.__openDelete(),
     });
 
@@ -46,7 +53,17 @@ export class ChatActions extends Block {
     });
     deleteUserModal.hide();
 
+
+    const changeAvatarModal = new ChatChangeAvatarModal({
+      onApply: () => this.__closeChangeAvatar(),
+      onClose: () => this.__closeChangeAvatar(),
+    });
+    changeAvatarModal.hide();
+  
+
+    
     super({
+      buttonChangeAvatar,
       buttonAddUser,
       buttonDeleteUser,
       buttonDeleteDialog,
@@ -54,6 +71,7 @@ export class ChatActions extends Block {
       deleteChatModal,
       addUserModal,
       deleteUserModal,
+      changeAvatarModal,
     });
   }
 
@@ -89,6 +107,18 @@ export class ChatActions extends Block {
     const deleteChatModal = this.children
       .deleteChatModal as ChatDeleteUserModal;
     deleteChatModal.hide();
+  }
+
+  private __closeChangeAvatar() {
+    const changeAvatarModal = this.children
+      .changeAvatarModal as ChatDeleteUserModal;
+      changeAvatarModal.hide();
+  }
+
+  private __openChangeAvatar() {
+    const changeAvatarModal = this.children
+      .changeAvatarModal as ChatDeleteUserModal;
+      changeAvatarModal.show();
   }
 
   toggleVisibility() {

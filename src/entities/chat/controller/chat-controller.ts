@@ -83,6 +83,16 @@ export class ChatController {
       messageController.connectToChat(dialog.id);
     }
   }
+
+  async updateChatAvatar(data: FormData) {
+    return await chatApi
+      .updateChatAvatar(data)
+      .then((chat) => {
+        store.set('selectedDialog', chat);
+        this.getChats();
+      })
+      .catch(apiBaseErrorHandler);
+  }
 }
 
 export const chatController = new ChatController();

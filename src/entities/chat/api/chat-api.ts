@@ -1,7 +1,7 @@
 import { yandexApi } from '../../../shared/api';
 import { BaseAPI } from '../../../shared/lib';
 import { User } from '../../user/model';
-import { Message } from '../lib';
+import { ChatDialogShort, Message } from '../lib';
 import { GetChatsParams } from '../model/api';
 
 export type Chat = {
@@ -17,6 +17,7 @@ enum CHAT_API_PATH {
   CHATS = '/chats',
   TOKEN = '/chats/token/',
   USERS = '/chats/users',
+  AVATAR = '/chats/avatar',
   CHAT_USERS = '/users',
 }
 
@@ -44,6 +45,11 @@ class ChatAPI extends BaseAPI {
   async deleteUsers(ids: number[], chatId: number) {
     return yandexApi.delete(`${CHAT_API_PATH.USERS}`, {
       data: { users: ids, chatId },
+    });
+  }
+  async updateChatAvatar(data: FormData): Promise<ChatDialogShort> {
+    return yandexApi.put(CHAT_API_PATH.AVATAR, {
+      data,
     });
   }
 }
