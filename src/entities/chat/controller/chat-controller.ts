@@ -37,7 +37,7 @@ export class ChatController {
     return await chatApi
       .getChatUsers(chatId)
       .then((users) => {
-        console.log(users);
+        // console.log(users);
         store.set('dialogUsers', users);
         return users;
       })
@@ -82,6 +82,16 @@ export class ChatController {
       this.getChatUsers(dialog.id);
       messageController.connectToChat(dialog.id);
     }
+  }
+
+  async updateChatAvatar(data: FormData) {
+    return await chatApi
+      .updateChatAvatar(data)
+      .then((chat) => {
+        store.set('selectedDialog', chat);
+        this.getChats();
+      })
+      .catch(apiBaseErrorHandler);
   }
 }
 

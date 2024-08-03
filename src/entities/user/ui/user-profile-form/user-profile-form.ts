@@ -2,7 +2,7 @@ import { APP_PATH } from '../../../../shared/constants';
 import { Block, router } from '../../../../shared/lib';
 import { Ref } from '../../../../shared/model';
 import { Avatar, FormInput, Button } from '../../../../shared/ui';
-import { emptyValidator } from '../../../../shared/utils';
+import { emptyValidator, getResource } from '../../../../shared/utils';
 import { authController, userController } from '../../controller';
 import { PROFILE_FIELDS, PROFILE_FIELDS_NAME } from '../../lib/constants';
 import { User } from '../../model';
@@ -13,7 +13,7 @@ import './user-profile-form.scss';
 interface UserProfileFormProps extends CompileOptions {
   isEditable?: boolean;
   user?: User;
-  isLoadingUser?: boolean;
+  isLoading?: boolean;
 }
 
 // TODO: Подумать над уровнями доступа методов
@@ -27,7 +27,7 @@ interface InternalUserProfileFormProps extends UserProfileFormProps {
 }
 
 export class UserProfileForm extends Block {
-  constructor({ user, isLoadingUser = false, ...props }: UserProfileFormProps) {
+  constructor({ user, isLoading = false, ...props }: UserProfileFormProps) {
     const refs: Ref = {
       [PROFILE_FIELDS_NAME.EMAIL]: null,
       [PROFILE_FIELDS_NAME.LOGIN]: null,
@@ -50,12 +50,13 @@ export class UserProfileForm extends Block {
     });
 
     const userAvatarModal = new UserAvatarModal({
-      onApply: () => this.__handleAvatarModalClose(),
-      onClose: () => this.__handleAvatarModalClose(),
+      onApply: () => this.__handleAvatarClick(),
+      onClose: () => this.__handleAvatarClick(),
     });
     userAvatarModal.hide();
 
     const avatar = new Avatar({
+      isEditable: true,
       srcPath: user?.avatar,
       onClick: () => {
         this.__handleAvatarClick();
@@ -84,7 +85,7 @@ export class UserProfileForm extends Block {
       type: 'button',
       class: 'p-0',
       onClick: () => {
-        this.setProps({ ...this.props, isEditable: true });
+        this.setProps({  isEditable: true });
       },
     });
 
@@ -129,7 +130,8 @@ export class UserProfileForm extends Block {
       ...props,
       ...extraProps,
       ...buttons,
-      isLoadingUser,
+      user,
+      isLoading,
       avatar,
       formFields,
       userAvatarModal,
@@ -146,17 +148,35 @@ export class UserProfileForm extends Block {
     _oldProps: InternalUserProfileFormProps,
     _newProps: InternalUserProfileFormProps,
   ): boolean {
-    if (_oldProps.isEditable !== _newProps.isEditable) {
+    // const isUserNotSame  = JSON.stringify(_oldProps.user || {}) !== JSON.stringify(_newProps.user || {})
+    const isEditableNotSame  = _newProps.isEditable !== _oldProps.isEditable
+    if (isEditableNotSame) {
       const { refs } = _oldProps;
-      Object.entries(PROFILE_FIELDS).forEach(([key, fieldValues]) => {
-        const field = refs[key as keyof typeof refs];
+      Object.entries(PROFILE_FIELDS).forEach(([key]) => {
+        const field = refs[key as keyof typeof refs] as FormInput;
         if (field) {
+          const isEditable = _newProps.isEditable
+          if (isEditable){
+            field.setProps({
+              isDisabled: !isEditable,
+            });
+
+          } else {
           field.setProps({
-            ...fieldValues,
-            isDisabled: !_newProps.isEditable,
+            isInvalid: false,
+            isDisabled: !isEditable,
           });
+          }
+          field.setValue((_newProps.user?.[key as keyof User] || '').toString())
         }
       });
+
+    }
+
+    if (_oldProps.user?.avatar  !== _newProps.user?.avatar){
+      const avatar = this.children.avatar as Avatar
+      const newSrc = _newProps.user?.avatar 
+      avatar.setProps({src: getResource(newSrc)})
     }
     return true;
   }
@@ -164,14 +184,9 @@ export class UserProfileForm extends Block {
   private __handleAvatarClick() {
     const userAvatarModalChild = this.children
       .userAvatarModal as UserAvatarModal;
-    userAvatarModalChild.show();
+    userAvatarModalChild.toggleVisibility();
   }
 
-  private __handleAvatarModalClose() {
-    const userAvatarModalChild = this.children
-      .userAvatarModal as UserAvatarModal;
-    userAvatarModalChild.hide();
-  }
 
   private __handleSubmit(e: Event) {
     const result: Record<string, string> = {};
@@ -199,6 +214,7 @@ export class UserProfileForm extends Block {
     });
 
     if (!isAnyInvalid) {
+      this.setProps({ isLoading: true });
       userController
         .updateUser({
           first_name: result.first_name,
@@ -209,7 +225,11 @@ export class UserProfileForm extends Block {
           phone: result.phone,
         })
         .then(() => {
-          this.setProps({ isEditable: false });
+          this.setProps({ isLoading: false, isEditable: false });
+        })
+        .catch((error: Error) => {
+          this.setProps({isLoading: false})
+          alert(error.message);
         });
     }
   }

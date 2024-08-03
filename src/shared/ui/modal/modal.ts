@@ -9,6 +9,7 @@ export interface ModalProps extends CompileOptions {
   hide?: boolean;
   isInvalid?: boolean;
   class?: string;
+  isLoading?: boolean
   onSubmit?: (e: Event) => void
 }
 
@@ -23,6 +24,10 @@ export class Modal extends Block {
       }}
     });
   }
+  toggleVisibility() {
+    this.element?.style.display === 'none' ? this.show() : this.hide();
+  }
+
   render() {
     return this.compile(template, { ...this.props });
   }

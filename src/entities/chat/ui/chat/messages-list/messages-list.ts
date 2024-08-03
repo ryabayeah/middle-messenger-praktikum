@@ -44,19 +44,48 @@ export class MessagesList extends Block {
         message: DIALOG_MESSAGE.NO_DIALOG_MESSAGES,
       });
     }
+    const chatUsers = store.getState().dialogUsers
     const currUser = store.getState().user;
     const messagesByDate: Record<string, MessageBubble[]> = {};
 
     const isFirstMessages = messages.length <= 20
 
-    messages.forEach(({ id, type, content, time, is_read, user_id }, i) => {
+
+    let lastUserId: number | null = null;
+    let firstLastUserMessageId: number | null = null;
+    messages.forEach(({ id, type, content, time, is_read, user_id }, i, arrayMessages) => {
       const messageDate = new Date(time);
       const key = getDayMonth(messageDate);
-
+  
       const isLastMessage = 
       isFirstMessages && messages.length - 1 === i ||
       // TODO: плохое условие (элементов новых может быть меньше 20 и будет дергаться к старым элементам)
       !isFirstMessages && messages.length - 20 === i
+
+      // Проверка отвечающая за отображение за имя пользователя в  группы сообщений от одного пользователя
+      if (!lastUserId || lastUserId !== user_id ){
+        lastUserId = user_id
+        firstLastUserMessageId = id
+      }
+
+      const messageUser = chatUsers?.find((user)=>user.id === user_id)
+      let messageUserName: string | undefined = undefined
+      if (!messageUser){
+        messageUserName = 'Удаленный пользователь'
+      } else if (currUser && messageUser.id !== currUser.id) {
+
+     
+        const prevMessageDate =  i > 0? new Date(arrayMessages[i - 1].time): new Date();
+        const prevKey = getDayMonth(prevMessageDate);
+
+        // Если это последнее сообщение группы сообщений пользователя
+        // или это первое сообщение пользователя за день
+        // то выводим его имя
+        if (firstLastUserMessageId === id || (lastUserId === user_id && key !== prevKey)){
+          messageUserName = messageUser.display_name || messageUser.first_name
+        } 
+      }
+
 
       const messageComponent = new MessageBubble({
         id,
@@ -65,9 +94,12 @@ export class MessagesList extends Block {
         type,
         class: isLastMessage? 'last' : undefined,
         // attachment: attachment,
+        userName: messageUserName,
         isRead: is_read,
         isOuter: currUser ? currUser.id !== user_id : false,
       });
+
+
       if (Object.keys(messagesByDate).includes(key)) {
         messagesByDate[key].push(messageComponent);
       } else {

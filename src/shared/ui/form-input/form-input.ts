@@ -13,7 +13,7 @@ export interface FormInputProps extends InputProps {
 export class FormInput extends Block {
   constructor({
     feedbackErrorText,
-    onChange,
+    onChange= () => {},
     onBlur,
     ...props
   }: FormInputProps) {
@@ -27,7 +27,9 @@ export class FormInput extends Block {
           isInvalid: !isValid,
         });
       },
-      onChange: onChange,
+      onChange: (e: Event) => {
+        onChange(e)
+      },
     });
 
     const feedbackError = new Feedback({
@@ -47,13 +49,14 @@ export class FormInput extends Block {
   get inputValue(): string {
     return String((this.children.input as Input).value);
   }
+
   componentDidUpdate(
     _oldProps: FormInputProps,
     _newProps: FormInputProps,
   ): boolean {
     const { isInvalid, feedbackErrorText, isDisabled, value } = _newProps;
-    const inputChild = this.children.input as Block;
-    const feedbackChild = this.children.feedbackError as Block;
+    const inputChild = this.children.input as Input;
+    const feedbackChild = this.children.feedbackError as Feedback;
 
     if (_oldProps.isInvalid !== isInvalid) {
       feedbackChild.setProps({
@@ -61,29 +64,30 @@ export class FormInput extends Block {
         isInvalid: isInvalid,
         value: isInvalid && feedbackErrorText ? feedbackErrorText : '',
       });
-      return true;
     }
 
     if (_oldProps.isDisabled !== isDisabled) {
       inputChild.setProps({
         isDisabled,
       });
-      return true;
     }
+
 
     if (_oldProps.value !== value) {
       inputChild.setProps({
         value,
       });
-      return true;
     }
 
-    if (JSON.stringify(_oldProps) !== JSON.stringify(_newProps)) {
-      return true;
-    }
-    return false;
+    return true;
   }
 
+  setValue(value: string){
+    const inputChild = this.children.input as Input;
+    inputChild.setProps({
+      value,
+    });
+  }
   render() {
     return this.compile(template1, { ...this.props });
   }

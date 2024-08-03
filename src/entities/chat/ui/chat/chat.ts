@@ -14,6 +14,7 @@ import { getDayMonth, getMessageTime } from '../../lib/utils';
 import { ChatBody } from './body';
 import { withStore } from '../../../../shared/hoc';
 import { MessagesList } from './messages-list';
+import { getResource } from '../../../../shared/utils';
 
 interface ChatProps extends CompileOptions {
   selectedDialog?: Dialog;
@@ -39,7 +40,6 @@ export class Chat extends Block {
     // Header
     const dialogAvatar = new Avatar({
       srcPath: avatar,
-      // srcPath: selectedDialog?.avatar,
       class: 'user-avatar',
     });
 
@@ -109,6 +109,17 @@ export class Chat extends Block {
 
       noDialog,
     });
+  }
+
+  componentDidUpdate(oldProps: ChatProps, newProps: ChatProps): boolean {
+    if (oldProps.avatar !== newProps.avatar){
+      const avatar = this.children.avatar as Avatar
+      if (avatar){
+        console.log('--')
+        avatar.setProps({src: getResource(newProps.avatar)})
+      }
+    }
+    return true
   }
 
   private __handleChangeMessageInput(e: Event) {

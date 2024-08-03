@@ -1,6 +1,6 @@
 import template from './chat-list.hbs?raw';
 import './chat-list.scss';
-import { Block } from '../../../../shared/lib';
+import { Block, router } from '../../../../shared/lib';
 import { Dialog } from '../../lib';
 import { APP_PATH } from '../../../../shared/constants';
 import { ChatListCard } from '../chat-list-card';
@@ -29,8 +29,11 @@ export class ChatList extends Block {
   constructor({ dialogs = [], selectedDialog=undefined}: ChatListProps) {
     const linkProfile = new Link({
       text: 'Профиль  >',
-      href: APP_PATH.PROFILE,
+      // href: APP_PATH.PROFILE,
       class: 'text-secondary ',
+      onClick: ()=>{
+        router.go(APP_PATH.PROFILE)
+      }
     });
 
     const dialogSearch = new ChatSearchInput({

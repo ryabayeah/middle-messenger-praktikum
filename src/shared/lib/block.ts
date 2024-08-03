@@ -146,7 +146,7 @@ export class Block {
   }
 
 
-  setProps = (newProps: Props) => {
+  setProps = <T = Props >(newProps: T) => {
     if (!newProps) {
       return;
     }

@@ -115,7 +115,16 @@ export class UserSignUpForm extends FormAuth {
 
     // Если все поля валидны, то выходим из режима редактирования
     if (!isAnyInvalid) {
-      await authController.signUp(result);
+      this.setProps({ isLoading: true });
+      await authController
+        .signUp(result)
+        .then(() => {
+          this.setProps({ isLoading: false });
+        })
+        .catch((error: Error) => {
+          alert(error.message);
+          this.setProps({ isLoading: false });
+        });
     }
   }
 }

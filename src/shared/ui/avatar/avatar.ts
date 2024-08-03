@@ -1,32 +1,25 @@
 import template from './avatar.hbs?raw';
 import './avatar.scss';
 import { Block } from '../../lib';
-import { RESOURCES_URL } from '../../api';
+import { getResource } from '../../utils';
 
 interface AvatarProps extends CompileOptions {
   srcPath?: string;
   class?: string;
+  isEditable?: boolean;
   onClick?: (e: Event) => void;
 }
 
-const DEFAULT_AVATAR_SRC =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png';
-
 export class Avatar extends Block {
-  constructor({
-    srcPath,
-    onClick = () => {},
-    ...props
-  }: AvatarProps) {
-    let src = DEFAULT_AVATAR_SRC
-    if (srcPath){
-      src = `${RESOURCES_URL}${srcPath}`
-    }
+  constructor({ srcPath, isEditable=false, onClick = () => {}, ...props }: AvatarProps) {
     super({
       ...props,
-      src,
+      src: getResource(srcPath),
+      isEditable,
       events: {
-        click: onClick,
+        click: (e: Event) => {
+          isEditable && onClick(e);
+        },
       },
     });
   }

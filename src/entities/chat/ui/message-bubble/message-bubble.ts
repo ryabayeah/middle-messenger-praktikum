@@ -10,6 +10,7 @@ interface MessageBubbleProps extends CompileOptions {
   type: 'message' | 'object';
   isRead?: boolean;
   class?: string;
+  userName?: string;
 
   attachment?: { type: MessageAttachmentType; src: string };
   isOuter?: boolean;

@@ -5,3 +5,4 @@ export { Feedback } from './feedback';
 export { Avatar } from './avatar';
 export { Modal } from './modal';
 export { FormInput } from './form-input';
+export { FileUpload } from './file-upload';

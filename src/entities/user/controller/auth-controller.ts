@@ -1,6 +1,7 @@
 import { ApiError } from '../../../shared/api';
 import { APP_PATH } from '../../../shared/constants';
 import { router, store } from '../../../shared/lib';
+import { apiBaseErrorHandler } from '../../../shared/utils';
 import { authApi } from '../api';
 import { SignInData, SignUpData, User } from '../model';
 
@@ -13,30 +14,34 @@ export class AuthController {
         router.go(APP_PATH.CHATS);
       })
       .catch((error: ApiError) => {
+        let errorMessage = '';
         if (error.reason === 'User already in system') {
           router.go(APP_PATH.CHATS);
+          return;
         }
         if (error.reason === 'Login or password is incorrect') {
-          alert('Некорректный логин или пароль.')
+          errorMessage = 'Некорректный логин или пароль';
         }
-       
+
+        if (!errorMessage) {
+          apiBaseErrorHandler(error);
+          return;
+        } else {
+          throw new Error(errorMessage);
+        }
       });
   }
 
-  async getUser(): Promise<User> {
-    store.set('isLoadingUser', true);
+  async getUser(): Promise<User | null> {
     return await authApi
       .getCurrentUser()
       .then((user) => {
-        store.set('isLoadingUser', false);
-
         store.set('user', user);
         return user as User;
       })
       .catch((error: ApiError) => {
-        store.set('isLoadingUser', false);
-
         store.set('user', null);
+        // Обрабатывается в main.ts
         throw new Error(error.reason);
       });
   }
@@ -49,12 +54,21 @@ export class AuthController {
         router.go(APP_PATH.CHATS);
       })
       .catch((error: ApiError) => {
+        let errorMessage = '';
         if (error.reason === 'User already in system') {
           router.go(APP_PATH.CHATS);
+          return;
         }
 
         if (error.reason === 'Login already exists') {
-          alert('Пользователь с таким логином уже существует.');
+          errorMessage = 'Пользователь с таким логином уже существует';
+        }
+
+        if (!errorMessage) {
+          apiBaseErrorHandler(error);
+          return;
+        } else {
+          throw new Error(errorMessage);
         }
       });
   }
@@ -63,7 +77,7 @@ export class AuthController {
     await authApi
       .logout()
       .then(() => {
-        store.reset()
+        store.reset();
         // TODO: вырубить сокет
         router.go(APP_PATH.LOGIN);
       })

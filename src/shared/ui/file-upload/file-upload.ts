@@ -1,18 +1,18 @@
-import './user-avatar-upload.scss';
-import template from './user-avatar-upload.hbs?raw';
-import { Block } from '../../../../shared/lib';
-import { Link, Input } from '../../../../shared/ui';
+import './file-upload.scss';
+import template from './file-upload.hbs?raw';
+import { Block } from '../../lib';
+import { Link, Input } from '..';
 
-interface UserAvatarUploadProps extends CompileOptions {
-  onUploadAvatar: (f: File) => void;
+interface FileUploadProps extends CompileOptions {
+  accept?: string;
+  onUpload: (f: File) => void;
 }
 
-// TODO: Подумать над уровнями доступа методов
-export class UserAvatarUpload extends Block {
-  constructor({ onUploadAvatar }: UserAvatarUploadProps) {
+export class FileUpload extends Block {
+  constructor({ accept = 'image/jpeg, image/png', onUpload }: FileUploadProps) {
     const link = new Link({
       text: 'Выбрать файл на компьютере',
-      href: '#',
+      // href: '#',
       class: 'underline',
       onClick: () => {
         this.__handleClick();
@@ -32,19 +32,19 @@ export class UserAvatarUpload extends Block {
       id: 'hidden_input',
       name: 'avatar_data',
       multiple: false,
-      accept: 'image/jpeg, image/png',
-      onChange: (e: Event) => this.__handleAvatarUpload(e, onUploadAvatar),
+      accept,
+      onChange: (e: Event) => this.__handleUpload(e, onUpload),
     });
     hiddenInput.hide();
     uploadedFileLink.hide();
 
-    const avatarFile: File | null = null;
+    const uploadedFile: File | null = null;
     super({
       link,
       hiddenInput,
-      avatarFile,
+      uploadedFile,
       uploadedFileLink,
-      onUploadAvatar,
+      onUpload,
     });
   }
 
@@ -85,7 +85,7 @@ export class UserAvatarUpload extends Block {
     this._hideUploadedFileLinkRef();
   }
 
-  private __handleAvatarUpload(e: Event, callback: (f: File) => void) {
+  private __handleUpload(e: Event, callback: (f: File) => void) {
     const target = e.target as HTMLInputElement;
     const files = Array.from(target.files || []);
     if (files.length > 0) {
@@ -93,7 +93,7 @@ export class UserAvatarUpload extends Block {
       callback(file);
       this._showUploadedFileLinkRef(`Загружен файл ${file.name}`);
       this.__resetHiddenInputValue();
-      this.setProps({ avatarFile: file });
+      this.setProps({ uploadedFile: file });
     }
   }
 

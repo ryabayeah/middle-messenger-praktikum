@@ -11,16 +11,20 @@
         {{{formFields}}}
       </div>
 
-      <div class='form-profile__buttons'>
+      {{#if isLoading}}
+      <div class="loader"></div>
+      {{else}}
+      <div class='form-profile__buttons '>
         {{#if isEditable}}
-          {{{saveButton}}}
-          {{{altButton}}}
+        {{{saveButton}}}
+        {{{altButton}}}
         {{else}}
-          {{{editProfileButton}}}
-          {{{editPasswordButton}}}
-          {{{logOutButton}}}
+        {{{editProfileButton}}}
+        {{{editPasswordButton}}}
+        {{{logOutButton}}}
         {{/if}}
       </div>
+      {{/if}}
     </div>
   </form>
   {{{userAvatarModal}}}

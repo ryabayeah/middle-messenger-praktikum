@@ -1,4 +1,4 @@
-import { Block } from '../../shared/lib';
+import { Block, router } from '../../shared/lib';
 import { Button } from '../../shared/ui/button';
 import template from './profile-layout.hbs?raw';
 import './profile-layout.scss';
@@ -9,7 +9,7 @@ interface ProfileLayoutProps extends CompileOptions {
 }
 
 export class ProfileLayout extends Block {
-  constructor(props: ProfileLayoutProps) {
+  constructor({backPath, body}: ProfileLayoutProps) {
     const backButton = new Button({
       variant: 'secondary',
       text: 'Назад',
@@ -20,9 +20,12 @@ export class ProfileLayout extends Block {
             <rect x="13" y="6.7998" width="11" height="1.6" transform="rotate(-180 13 6.7998)" fill="#3369F3" />
             <path d="M6 11L2 6L6 1" stroke="#3369F3" stroke-width="1.6" />
         </svg>`,
+      onClick: () => {
+        router.go(backPath)
+      }
     });
     super({
-      ...props,
+      body,
       backButton,
     });
   }

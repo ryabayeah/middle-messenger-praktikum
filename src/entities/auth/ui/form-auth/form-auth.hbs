@@ -6,8 +6,13 @@
 
     {{{children}}}
   </div>
-  <div class='form-auth__buttons'>
-    {{{buttonSubmit}}}
-    {{{buttonAlt}}}
-  </div>
+
+  {{#if isLoading}}
+    <div class="loader"></div>
+  {{else}}
+    <div class='form-auth__buttons'>
+      {{{buttonSubmit}}}
+      {{{buttonAlt}}}
+    </div>
+  {{/if}}
 </form>
