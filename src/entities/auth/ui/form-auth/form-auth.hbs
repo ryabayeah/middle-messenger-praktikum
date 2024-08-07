@@ -1,0 +1,18 @@
+<form class='form-auth'>
+  <h2 class='form-auth__header'>
+    {{caption}}
+  </h2>
+  <div class='form-auth__content'>
+
+    {{{children}}}
+  </div>
+
+  {{#if isLoading}}
+    <div class="loader"></div>
+  {{else}}
+    <div class='form-auth__buttons'>
+      {{{buttonSubmit}}}
+      {{{buttonAlt}}}
+    </div>
+  {{/if}}
+</form>

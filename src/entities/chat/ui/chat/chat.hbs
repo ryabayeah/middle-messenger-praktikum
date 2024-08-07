@@ -1,0 +1,38 @@
+<section class="chat-body {{#if isLoadingOldMsg}}loader{{/if}}">
+  {{#if id}}
+  <div class='dialog'>
+    <div class='dialog__header'>
+      <div class='dialog__header-data'>
+        <div class='user'>
+          {{{avatar}}}
+          <span class='bold'>{{title}}</span>
+        </div>
+        <div class='actions'>
+          {{{actionsButton}}}
+          {{{actions}}}
+        </div>
+      </div>
+      <div class='dialog-separator'></div>
+    </div>
+
+    {{#if noMembersData}}
+      {{{noMembersData}}}
+    {{else}}
+      {{{body}}}
+      <div class='dialog__footer'>
+        <div class='dialog-separator'></div>
+        <div class='dialog__footer-data'>
+          <div class='attachments'>
+            {{{attachments}}}
+            {{{attachButton}}}
+          </div>
+          {{{messageInput}}}
+          {{{sendButton}}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+  {{else}}
+    {{{noDialog}}}
+  {{/if}}
+</section>
