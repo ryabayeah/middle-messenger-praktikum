@@ -49,3 +49,9 @@ npm run eslint
 ```bash
 npm run stylelint
 ```
+
+### Test
+
+```bash
+npm run stylelint
+```
