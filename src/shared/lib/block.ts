@@ -185,7 +185,7 @@ export class Block {
     });
   }
 
-  private _render() {
+  _render() {
     const block = this.render();
     if (!block?.firstElementChild) {
       throw new Error('No element available to render');
@@ -218,9 +218,9 @@ export class Block {
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (isBlock(value)) {
-        children[key] = value;
+        children[key] = value as Block;
       } else if (isArrayOfBlock(value)) {
-        children[key] = value;
+        children[key] = value as Block[];
       } else {
         props[key] = value;
       }
@@ -279,12 +279,12 @@ export class Block {
     Object.entries(this.children).forEach(([key, child]) => {
       if (isArrayOfBlock(child)) {
         propsAndStubs[key] = '';
-        child.forEach((c) => {
+        (child as Block[]).forEach((c: Block) => {
           const data = `<div data-id="${c._id}"></div>`;
           propsAndStubs[key] += data;
         });
       } else {
-        propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+        propsAndStubs[key] = `<div data-id="${(child as Block )._id}"></div>`;
       }
     });
 
@@ -300,7 +300,7 @@ export class Block {
           'template',
         ) as HTMLTemplateElement;
 
-        child.forEach((c) => {
+        (child as Block[]).forEach((c) => {
           if (c instanceof Block) {
             const content = c.getContent();
             if (content) {
@@ -316,9 +316,9 @@ export class Block {
         });
       } else {
         const stub = fragment.content.querySelector<HTMLElement>(
-          `[data-id="${child._id}"]`,
+          `[data-id="${(child as Block)._id}"]`,
         );
-        const content = child.getContent();
+        const content = (child as Block).getContent();
         if (stub !== null && content !== null) {
           stub.replaceWith(content);
         }

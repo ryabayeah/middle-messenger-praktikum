@@ -2,9 +2,17 @@ import { expect } from 'chai';
 import { router } from './router';
 import { Block } from './block';
 
+const testTemplate = `
+    <div data-name="test-block">{{text}}</div>
+`;
+
+
 class PageOne extends Block {
   constructor() {
     super({});
+  }
+  render() {
+    return this.compile(testTemplate, this.props);
   }
 }
 
@@ -12,11 +20,17 @@ class PageTwo extends Block {
   constructor() {
     super({});
   }
+  render() {
+    return this.compile(testTemplate, this.props);
+  }
 }
 
 class PageThree extends Block {
   constructor() {
     super({});
+  }
+  render() {
+    return this.compile(testTemplate, this.props);
   }
 }
 enum TestRoutePaths {
