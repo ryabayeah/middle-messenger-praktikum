@@ -43,27 +43,7 @@ export class Router {
     this._onRoute(window.location.pathname);
   }
 
-
-  // init = async (pathname: string) => {
-  //   // const currPath = router.getCurrentRoutePath()
-  //   return await authController
-  //     .getUser()
-  //     .then(() => {
-  //       if ([APP_PATH.LOGIN, APP_PATH.REGISTER].includes(pathname as APP_PATH)){
-  //         this.go(APP_PATH.CHATS);
-  //       }
-
-  //     })
-  //     .catch(() => {
-  //       if (pathname !== APP_PATH.LOGIN) {
-  //         this.go(APP_PATH.LOGIN);
-  //       }
-  //     });
-  // };
-
-  async _onRoute(pathname: string) {
-    // this.init(pathname)
-  
+  async _onRoute(pathname: string) {  
     const route = this.getRoute(pathname);
 
     if (!route) {
