@@ -2,7 +2,7 @@ import {JSDOM} from 'jsdom';
 
 const jsdom = new JSDOM('<body></body>', { url: 'https://localhost:3000/' });
 
-global.window = jsdom.window;
-global.document = jsdom.window.document;
-global.Node = jsdom.window.Node;
-global.MouseEvent = jsdom.window.MouseEvent;
+globalThis.window = jsdom.window;
+globalThis.document = jsdom.window.document;
+globalThis.Node = jsdom.window.Node;
+globalThis.MouseEvent = jsdom.window.MouseEvent;
