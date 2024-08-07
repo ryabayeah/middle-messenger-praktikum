@@ -15,7 +15,9 @@
     "prettier": "prettier ./src/*/*.ts --check",
     "prettier:fix": "prettier ./src/*/*.ts --write",
     "check-types": "tsc",
-    "test": "mocha --es-module-specifier-resolution=node"
+    "test": "mocha --es-module-specifier-resolution=node",
+    "prepare": "husky install",
+    "pre-commit": "npm run lint && npm run test"
   },
   "devDependencies": {
     "@types/chai": "^4.3.17",
@@ -42,7 +44,8 @@
     "stylelint-scss": "^6.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "express": "^4.18.2",
